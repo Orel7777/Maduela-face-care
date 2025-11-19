@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { FaWaze, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import { RiMenuUnfoldFill } from "react-icons/ri";
-import Form from './Form';
-import Button from './Button';
+import Form from '../components/Form';
+import Button from '../components/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { useLocation, Link } from 'react-router-dom';
 
 const StyledMenuItem = styled(motion.a)`
-  border: 2px solid rgba(131, 139, 112, 0.3);
-  background: linear-gradient(135deg, rgba(241, 230, 226, 0.9), rgba(241, 230, 226, 0.7));
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 2px solid #ddc1a7;
+  background: linear-gradient(135deg, #fffcf0, #efe3b8);
+  box-shadow: 0 5px 15px rgba(91, 79, 71, 0.12);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
@@ -41,13 +41,14 @@ const StyledMenuItem = styled(motion.a)`
 
 const StyledMenu = styled.div`
   .menu-item {
-    color: #838b70;
+    color: #5b4f47;
     font-weight: 700;
     position: relative;
     z-index: 1;
+    white-space: nowrap;
     
     &:hover {
-      color: #d8b477;
+      color: #695125;
       scale: 1.05;
       background: rgba(241, 230, 226, 0.95);
       box-shadow: 0 8px 20px rgba(216, 180, 119, 0.2);
@@ -60,11 +61,11 @@ const StyledSocialIcon = styled(motion.a)`
   justify-content: center;
   align-items: center;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 252, 240, 0.9);
   border-radius: 50%;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(91, 79, 71, 0.18);
   margin: 0 5px;
   
   &::before {
@@ -73,7 +74,7 @@ const StyledSocialIcon = styled(motion.a)`
     inset: 0;
     border-radius: 50%;
     padding: 3px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
+    background: linear-gradient(135deg, rgba(255, 252, 240, 0.9), rgba(221, 193, 167, 0.7));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -202,8 +203,8 @@ const Header = () => {
         <div
           className="navbar-bg"
           style={{
-            background: 'rgba(216, 180, 119, 0.95)',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+            background: '#efe3b8',
+            boxShadow: '0 2px 6px rgba(91, 79, 71, 0.15)',
           }}
         >
           <div
@@ -222,196 +223,238 @@ const Header = () => {
                 gap: '32px',
               }}
             >
-              {/* Left: Social + CTA */}
-              <div
-                className="desktop-social"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px',
-                }}
-              >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 500, 
-                    damping: 15,
-                    delay: 0.9
-                  }}
-                >
-                  <Button onClick={handleOpenForm}>קביעת תור</Button>
-                </motion.div>
-
+              <div className="hidden w-full md:flex items-center justify-between gap-8">
+                {/* Left: Social + CTA */}
                 <div
-                  className="desktop-social-icons"
+                  className="desktop-social"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '12px',
+                    gap: '16px',
                   }}
                 >
-                  <StyledSocialIcon 
-                    href="https://www.facebook.com/profile.php?id=100058313266229" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="facebook"
+                  <motion.div
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.8 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 500, 
+                      damping: 15,
+                      delay: 0.9
+                    }}
                   >
-                    <FaFacebook className="w-5 h-5" />
-                  </StyledSocialIcon>
+                    <Button onClick={handleOpenForm}>קביעת תור</Button>
+                  </motion.div>
 
-                  <StyledSocialIcon 
-                    href="https://www.instagram.com/dikla_maduel?utm_source=qr&igsh=MWRiM2JkcWowbGxh" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="instagram"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.7 }}
+                  <div
+                    className="desktop-social-icons"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                    }}
                   >
-                    <FaInstagram className="w-5 h-5" />
-                  </StyledSocialIcon>
+                    <StyledSocialIcon 
+                      href="https://www.facebook.com/profile.php?id=100058313266229" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="facebook"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.8 }}
+                    >
+                      <FaFacebook className="w-5 h-5" />
+                    </StyledSocialIcon>
 
-                  <StyledSocialIcon 
-                    href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="whatsapp"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.6 }}
-                  >
-                    <FaWhatsapp className="w-5 h-5" />
-                  </StyledSocialIcon>
+                    <StyledSocialIcon 
+                      href="https://www.instagram.com/dikla_maduel?utm_source=qr&igsh=MWRiM2JkcWowbGxh" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="instagram"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.7 }}
+                    >
+                      <FaInstagram className="w-5 h-5" />
+                    </StyledSocialIcon>
 
-                  <StyledSocialIcon 
-                    href="https://waze.com/ul?q=נס ציונה, ישראל" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="waze"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.5 }}
+                    <StyledSocialIcon 
+                      href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="whatsapp"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.6 }}
+                    >
+                      <FaWhatsapp className="w-5 h-5" />
+                    </StyledSocialIcon>
+
+                    <StyledSocialIcon 
+                      href="https://waze.com/ul?q=נס ציונה, ישראל" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="waze"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.5 }}
+                    >
+                      <FaWaze className="w-5 h-5" />
+                    </StyledSocialIcon>
+                  </div>
+                </div>
+
+                {/* Center: Desktop Menu */}
+                <div
+                  className="desktop-menu"
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '56px',
+                    fontSize: '18px',
+                  }}
+                >
+                  {[ 
+                    { name: "שירותים", anchor: "services" },
+                    { name: "המלצות", anchor: "testimonials" },
+                    { name: "שיטת\u00a0הטיפול", anchor: "methodology" },
+                    { name: "אודות", anchor: "stats" }
+                  ].map((item, index) => (
+                    <motion.a 
+                      key={item.name}
+                      href={getNavigationPath(item.anchor)}
+                      className="relative text-lg font-medium text-[#5b4f47]"
+                      style={{ whiteSpace: 'nowrap' }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 * index }}
+                      whileHover="hover"
+                    >
+                      {item.name}
+                      <motion.span 
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-white to-[#695125] rounded-full"
+                        initial={{ width: 0 }}
+                        variants={{
+                          hover: { width: "100%" }
+                        }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.a>
+                  ))}
+                </div>
+
+                {/* Right: Logo */}
+                <LogoContainer 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                >
+                  <Link to="/">
+                    <motion.div
+                      className="relative"
+                      whileHover={{ rotate: [0, -5, 5, -5, 0] }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <LogoImage 
+                        src="/לוגו/לוגו_גדול.jpeg" 
+                        alt="דקלה מדואלה" 
+                        className="logo-desktop"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ 
+                          scale: 1, 
+                          opacity: 1,
+                          transition: { 
+                            type: "spring", 
+                            stiffness: 300, 
+                            damping: 15,
+                            delay: 0.2
+                          }
+                        }}
+                        whileHover={{ 
+                          scale: 1.15,
+                          boxShadow: "0 0 25px rgba(255, 255, 255, 0.5)"
+                        }}
+                        style={{
+                          boxShadow: '0 8px 25px rgba(91, 79, 71, 0.3)',
+                          border: '3px solid #fffcf0',
+                          background: 'linear-gradient(135deg, #ddc1a7, #efe3b8)'
+                        }}
+                      />
+                      <motion.div 
+                        className="absolute top-0 left-0 right-0 bottom-0 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ 
+                          opacity: [0.5, 0.8, 0.5], 
+                          scale: [0.9, 1.05, 0.9],
+                          transition: { 
+                            repeat: Infinity,
+                            duration: 3,
+                            ease: "easeInOut"
+                          }
+                        }}
+                        style={{
+                          background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
+                          transform: 'translate(-5%, -5%)',
+                          width: '110%',
+                          height: '110%'
+                        }}
+                      />
+                    </motion.div>
+                  </Link>
+                  <motion.span 
+                    className="mt-1 text-sm font-semibold text-[#5b4f47]"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                    style={{
+                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                      whiteSpace: 'nowrap'
+                    }}
                   >
-                    <FaWaze className="w-5 h-5" />
-                  </StyledSocialIcon>
+                    נעים מאוד - מדואלה דקלה שליט
+                  </motion.span>
+                </LogoContainer>
+              </div>
+
+              {/* Mobile top bar */}
+              <div className="relative flex w-full items-center md:hidden" style={{ minHeight: '72px' }}>
+                <motion.button
+                  onClick={() => setIsMenuOpen(true)}
+                  className="p-2 ml-2 rounded-full text-[#5b4f47] z-10"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    background: 'linear-gradient(135deg, #ddc1a7, #695125)',
+                    boxShadow: '0 4px 12px rgba(91, 79, 71, 0.3)',
+                    border: '1px solid #5b4f47'
+                  }}
+                >
+                  <RiMenuUnfoldFill className="w-7 h-7 text-[#ffffff]" />
+                </motion.button>
+
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <Link to="/" className="pointer-events-auto">
+                    <img
+                      src="/לוגו/לוגו_גדול.jpeg"
+                      alt="דקלה מדואלה"
+                      className="w-16 h-16 rounded-full object-cover"
+                      style={{
+                        boxShadow: '0 6px 18px rgba(91, 79, 71, 0.25)',
+                        border: '3px solid #ddc1a7',
+                        background: 'linear-gradient(135deg, #fffcf0, #efe3b8)'
+                      }}
+                    />
+                  </Link>
+                  <span
+                    className="mt-1 text-xs font-semibold text-[#5b4f47]"
+                    style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
+                  >
+                    נעים מאוד - מדואלה דקלה שליט
+                  </span>
                 </div>
               </div>
-
-              {/* Center: Desktop Menu */}
-              <div
-                className="desktop-menu"
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '56px',
-                  fontSize: '18px',
-                }}
-              >
-                {[ 
-                  { name: "שירותים", anchor: "services" },
-                  { name: "המלצות", anchor: "testimonials" },
-                  { name: "שיטת הטיפול", anchor: "methodology" },
-                  { name: "אודות", anchor: "stats" }
-                ].map((item, index) => (
-                  <motion.a 
-                    key={item.name}
-                    href={getNavigationPath(item.anchor)}
-                    className="relative text-lg font-medium text-white"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.1 * index }}
-                    whileHover="hover"
-                  >
-                    {item.name}
-                    <motion.span 
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-white to-[#d8b477] rounded-full"
-                      initial={{ width: 0 }}
-                      variants={{
-                        hover: { width: "100%" }
-                      }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.a>
-                ))}
-              </div>
-
-              {/* Right: Logo */}
-              <LogoContainer 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-              >
-                <Link to="/">
-                  <motion.div
-                    className="relative"
-                    whileHover={{ rotate: [0, -5, 5, -5, 0] }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <LogoImage 
-                      src="/לוגו/לוגו_גדול.jpeg" 
-                      alt="דקלה מדואלה" 
-                      className="logo-desktop"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ 
-                        scale: 1, 
-                        opacity: 1,
-                        transition: { 
-                          type: "spring", 
-                          stiffness: 300, 
-                          damping: 15,
-                          delay: 0.2
-                        }
-                      }}
-                      whileHover={{ 
-                        scale: 1.15,
-                        boxShadow: "0 0 25px rgba(255, 255, 255, 0.5)"
-                      }}
-                      style={{
-                        boxShadow: '0 8px 25px rgba(216, 180, 119, 0.4)',
-                        border: '3px solid rgba(255, 255, 255, 0.8)',
-                        background: 'linear-gradient(135deg, rgba(216, 180, 119, 0.9), rgba(216, 180, 119, 0.8))'
-                      }}
-                    />
-                    <motion.div 
-                      className="absolute top-0 left-0 right-0 bottom-0 rounded-full -z-10"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ 
-                        opacity: [0.5, 0.8, 0.5], 
-                        scale: [0.9, 1.05, 0.9],
-                        transition: { 
-                          repeat: Infinity,
-                          duration: 3,
-                          ease: "easeInOut"
-                        }
-                      }}
-                      style={{
-                        background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
-                        transform: 'translate(-5%, -5%)',
-                        width: '110%',
-                        height: '110%'
-                      }}
-                    />
-                  </motion.div>
-                </Link>
-                <motion.span 
-                  className="mt-1 text-sm font-semibold text-white"
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  style={{
-                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
-                  }}
-                >
-                  נעים מאוד - מדואלה דקלה שליט
-                </motion.span>
-              </LogoContainer>
             </nav>
           </div>
         </div>
@@ -426,11 +469,12 @@ const Header = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               style={{
-                background: 'linear-gradient(135deg, rgba(241, 230, 226, 0.98), rgba(241, 230, 226, 0.95))'
+                background: 'linear-gradient(135deg, #efe3b8, #ddc1a7)',
+                overflowY: 'auto'
               }}
             >
               <motion.div 
-                className="flex flex-col justify-center items-center px-4 py-2 min-h-screen"
+                className="flex flex-col items-center px-4 py-6 min-h-screen"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -439,21 +483,21 @@ const Header = () => {
                 <motion.div 
                   className="relative p-6 space-y-5 w-full max-w-md text-center rounded-2xl"
                   style={{
-                    background: 'linear-gradient(to bottom, rgba(241, 230, 226, 0.8), rgba(241, 230, 226, 0.6))',
-                    boxShadow: '0 20px 50px rgba(131, 139, 112, 0.2), inset 0 0 30px rgba(216, 180, 119, 0.2)',
-                    border: '2px solid rgba(131, 139, 112, 0.3)',
+                    background: 'linear-gradient(to bottom, #fffcf0, #efe3b8)',
+                    boxShadow: '0 20px 50px rgba(91, 79, 71, 0.2), inset 0 0 30px rgba(221, 193, 167, 0.4)',
+                    border: '2px solid #ddc1a7',
                     backdropFilter: 'blur(10px)'
                   }}
                 >
                   <motion.button
                     onClick={() => setIsMenuOpen(false)}
-                    className="absolute top-3 right-3 p-2 text-[#838b70] rounded-full shadow-lg"
+                    className="absolute top-3 right-3 p-2 text-[#5b4f47] rounded-full shadow-lg"
                     whileHover={{ scale: 1.1, rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                     style={{
-                      background: 'linear-gradient(135deg, rgba(241, 230, 226, 0.95), rgba(241, 230, 226, 0.85))',
-                      boxShadow: '0 4px 12px rgba(131, 139, 112, 0.2)',
-                      border: '1px solid rgba(216, 180, 119, 0.5)'
+                      background: 'linear-gradient(135deg, #ddc1a7, #695125)',
+                      boxShadow: '0 4px 12px rgba(91, 79, 71, 0.3)',
+                      border: '1px solid #5b4f47'
                     }}
                   >
                     <svg 
@@ -479,13 +523,13 @@ const Header = () => {
                         className="p-1 w-24 h-24 rounded-full"
                         whileHover={{ scale: 1.05, rotate: 5 }}
                         style={{
-                          boxShadow: '0 8px 25px rgba(216, 180, 119, 0.4)',
-                          border: '3px solid rgba(216, 180, 119, 0.8)',
-                          background: 'linear-gradient(135deg, rgba(241, 230, 226, 0.9), rgba(241, 230, 226, 0.8))'
+                          boxShadow: '0 8px 25px rgba(91, 79, 71, 0.25)',
+                          border: '3px solid #ddc1a7',
+                          background: 'linear-gradient(135deg, #fffcf0, #efe3b8)'
                         }}
                       />
                     </Link>
-                    <span className="mt-3 text-lg font-semibold text-[#838b70]">
+                    <span className="mt-3 text-lg font-semibold text-[#5b4f47]">
                       נעים מאוד - מדואלה דקלה שליט
                     </span>
                   </div>
@@ -496,13 +540,13 @@ const Header = () => {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <RiMenuUnfoldFill className="w-6 h-6 text-[#d8b477]" />
+                      <RiMenuUnfoldFill className="w-6 h-6 text-[#695125]" />
                     </motion.div>
                     <div
-                      className="text-2xl font-bold text-[#838b70]"
+                      className="text-2xl font-bold text-[#5b4f47]"
                       style={{ 
-                        textShadow: '0 2px 10px rgba(216, 180, 119, 0.2)',
-                        background: 'linear-gradient(90deg, #838b70, #d8b477, #838b70)',
+                        textShadow: '0 2px 10px rgba(91, 79, 71, 0.2)',
+                        background: 'linear-gradient(90deg, #5b4f47, #695125, #5b4f47)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundSize: '200% auto',
@@ -516,7 +560,7 @@ const Header = () => {
                       animate={{ rotate: -360 }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <RiMenuUnfoldFill className="w-6 h-6 text-[#d8b477]" />
+                      <RiMenuUnfoldFill className="w-6 h-6 text-[#695125]" />
                     </motion.div>
                   </div>
 
@@ -524,13 +568,13 @@ const Header = () => {
                     {[
                       { name: "שירותים", anchor: "services" },
                       { name: "המלצות", anchor: "testimonials" },
-                      { name: "שיטת הטיפול", anchor: "methodology" },
+                      { name: "שיטת\u00a0הטיפול", anchor: "methodology" },
                       { name: "אודות", anchor: "stats" }
                     ].map((item, index) => (
                       <StyledMenuItem 
                         key={item.name}
                         href={getNavigationPath(item.anchor)} 
-                        className="block text-xl font-semibold transition-all text-white py-2.5 px-4 rounded-xl menu-item"
+                        className="block text-xl font-semibold transition-all text-[#5b4f47] py-2.5 px-4 rounded-xl menu-item"
                         onClick={() => setIsMenuOpen(false)}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -608,11 +652,11 @@ const Header = () => {
                       whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(131, 139, 112, 0.3)' }}
                       whileTap={{ scale: 0.95 }}
                       style={{ 
-                        background: 'linear-gradient(45deg, #838b70, #d8b477, #838b70)',
+                        background: 'linear-gradient(45deg, #695125, #ddc1a7, #695125)',
                         backgroundSize: '200% auto',
                         animation: 'gradient 4s ease infinite',
-                        border: '2px solid rgba(241, 230, 226, 0.8)',
-                        boxShadow: '0 5px 15px rgba(131, 139, 112, 0.2)'
+                        border: '2px solid #fffcf0',
+                        boxShadow: '0 5px 15px rgba(91, 79, 71, 0.25)'
                       }}
                     >
                       קביעת תור
