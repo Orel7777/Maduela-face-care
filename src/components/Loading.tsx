@@ -91,7 +91,8 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
           <div className="h-2 rounded-full bg-[#fffcf0]/70 overflow-hidden shadow-inner">
             <div
               ref={progressBarRef}
-              className="progress-bar h-full rounded-full bg-gradient-to-r from-[#695125] via-[#ddc1a7] to-[#efe3b8]"
+              className="progress-bar h-full rounded-full"
+              style={{ backgroundColor: '#5b4f47' }}
             />
           </div>
         </div>

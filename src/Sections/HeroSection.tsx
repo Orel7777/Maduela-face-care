@@ -5,14 +5,17 @@ const stories = [
   {
     label: 'את',
     src: '/תמונות/טיפולי פנים/video/3.mp4',
+    thumb: '/תמונות/טיפולי פנים/picture/14.jpeg',
   },
   {
     label: 'לקוחה',
     src: '/תמונות/טיפולי פנים/video/4.mp4',
+    thumb: '/תמונות/טיפולי פנים/picture/15.jpeg',
   },
   {
     label: 'תוצאה',
     src: '/תמונות/טיפולי פנים/video/4.mp4',
+    thumb: '/תמונות/טיפולי פנים/picture/5.jpeg',
   },
 ];
 
@@ -37,10 +40,10 @@ const HeroSection: React.FC = () => {
     setActiveStory((prev) => (prev === null ? null : (prev - 1 + stories.length) % stories.length));
   };
   return (
-    <section className="max-w-7xl mx-auto sm:px-6 sm:mt-16 mt-10 px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <section className="w-full sm:mt-32 mt-28 px-4 sm:px-10 lg:px-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 xl:gap-24 items-center">
         <motion.div
-          className="order-1 lg:order-2 lg:col-span-7 text-right"
+          className="order-1 lg:order-2 lg:col-span-6 text-right lg:ml-auto"
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, ease: 'easeOut' }}
@@ -154,7 +157,7 @@ const HeroSection: React.FC = () => {
                 <p className="text-xs text-[#5b4f47]/70 mt-0.5">אווירה ביתית, חמה ומרגיעה</p>
               </div>
             </div>
-            <div className="flex flex-row-reverse items-start gap-3 border-t border-white/10 pt-4">
+            <div className="flex flex-row-reverse items-start gap-3 border-t border-[#ddc1a7] pt-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -217,14 +220,14 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, x: -60, rotateY: 8 }}
           animate={{ opacity: 1, x: 0, rotateY: 0 }}
           transition={{ duration: 0.9, delay: 0.25, ease: 'easeOut' }}
-          whileHover={{ rotateY: 12, rotateX: 6, rotateZ: 2, y: -8, boxShadow: '0 28px 70px rgba(0,0,0,0.55)' }}
+          whileHover={{ rotateY: 12, rotateX: 6, rotateZ: 2, y: -8 }}
           style={{
             transformStyle: 'preserve-3d',
             perspective: 1200,
           }}
         >
           <motion.div
-            className="relative aspect-[4/5] sm:aspect-[5/6] overflow-hidden shadow-[0_8px_30px_rgba(91,79,71,0.25)] bg-[#0b0b0f] rounded-3xl border border-[#ddc1a7]"
+            className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden shadow-[0_8px_30px_rgba(91,79,71,0.25)] bg-[#0b0b0f] rounded-3xl border border-[#ddc1a7] max-w-md mx-auto lg:mx-0"
             animate={{
               y: [0, -4, 0],
             }}
@@ -244,11 +247,11 @@ const HeroSection: React.FC = () => {
                     onClick={() => handleOpenStory(idx)}
                     className="flex flex-col items-center text-center text-[10px] text-white/80 focus:outline-none cursor-pointer active:scale-95"
                   >
-                    <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#ddc1a7] via-[#efe3b8] to-[#695125] shadow-[0_0_0_1px_rgba(255,255,255,0.4)] transition-transform duration-200 ease-out hover:scale-105 hover:shadow-[0_0_0_2px_rgba(255,255,255,0.7)]">
-                      <div className="w-full h-full rounded-full bg-black/60 overflow-hidden flex items-center justify-center">
+                    <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full p-[2.5px] bg-[conic-gradient(from_210deg,_#f58529,_#dd2a7b,_#8134af,_#515bd4,_#f58529)] shadow-[0_0_0_1px_rgba(255,255,255,0.35)] transition-transform duration-200 ease-out hover:scale-105 hover:shadow-[0_0_0_3px_rgba(255,255,255,0.8)]">
+                      <div className="w-full h-full rounded-full bg-[#5b4f47] overflow-hidden flex items-center justify-center">
                         <img
-                          src="/לוגו/לוגו_גדול.jpeg"
-                          alt="סטורי דקלה"
+                          src={story.thumb}
+                          alt={story.label}
                           className="w-full h-full object-cover opacity-90"
                         />
                       </div>
@@ -274,22 +277,22 @@ const HeroSection: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
               >
-                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
+                  <div className="flex flex-row-reverse items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-[#695125]" />
                     <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">+10</div>
                   </div>
                   <p className="text-[11px] text-[#5b4f47]/80">שנות ניסיון</p>
                 </div>
-                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
+                  <div className="flex flex-row-reverse items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-[#695125]" />
                     <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">+500</div>
                   </div>
                   <p className="text-[11px] text-[#5b4f47]/80">לקוחות מרוצות</p>
                 </div>
-                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
+                  <div className="flex flex-row-reverse items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-[#695125]" />
                     <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">100%</div>
                   </div>
