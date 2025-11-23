@@ -434,25 +434,27 @@ const Header = () => {
                   <RiMenuUnfoldFill className="w-7 h-7 text-[#ffffff]" />
                 </motion.button>
 
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <Link to="/" className="pointer-events-auto">
-                    <img
-                      src="/לוגו/לוגו_גדול.jpeg"
-                      alt="דקלה מדואלה"
-                      className="w-16 h-16 rounded-full object-cover"
-                      style={{
-                        boxShadow: '0 6px 18px rgba(91, 79, 71, 0.25)',
-                        border: '3px solid #ddc1a7',
-                        background: 'linear-gradient(135deg, #fffcf0, #efe3b8)'
-                      }}
-                    />
-                  </Link>
-                  <span
-                    className="mt-1 text-xs font-semibold text-[#5b4f47]"
-                    style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
-                  >
-                    נעים מאוד - מדואלה דקלה שליט
-                  </span>
+                <div className="absolute inset-0 flex items-center justify-end pr-0 pointer-events-none">
+                  <div className="flex flex-col items-center pointer-events-auto" style={{ transform: 'translateX(10px)' }}>
+                    <Link to="/">
+                      <img
+                        src="/לוגו/לוגו_גדול.jpeg"
+                        alt="דקלה מדואלה"
+                        className="w-16 h-16 rounded-full object-cover"
+                        style={{
+                          boxShadow: '0 6px 18px rgba(91, 79, 71, 0.25)',
+                          border: '3px solid #ddc1a7',
+                          background: 'linear-gradient(135deg, #fffcf0, #efe3b8)'
+                        }}
+                      />
+                    </Link>
+                    <span
+                      className="mt-1 text-xs font-semibold text-[#5b4f47] text-center"
+                      style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
+                    >
+                      נעים מאוד - מדואלה דקלה שליט
+                    </span>
+                  </div>
                 </div>
               </div>
             </nav>

@@ -40,7 +40,7 @@ const HeroSection: React.FC = () => {
     setActiveStory((prev) => (prev === null ? null : (prev - 1 + stories.length) % stories.length));
   };
   return (
-    <section className="w-full sm:mt-32 mt-28 px-4 sm:px-10 lg:px-20">
+    <section className="w-full sm:mt-32 mt-16 px-4 sm:px-10 lg:px-20">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 xl:gap-24 items-center">
         <motion.div
           className="order-1 lg:order-2 lg:col-span-6 text-right lg:ml-auto"
@@ -135,7 +135,7 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.5, ease: 'easeOut' }}
           >
-            <div className="flex flex-row-reverse items-start gap-3 border-t border-[#ddc1a7] pt-4">
+            <div className="flex flex-row-reverse items-start gap-3 sm:border-t sm:border-[#ddc1a7] sm:pt-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -152,12 +152,12 @@ const HeroSection: React.FC = () => {
                 <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              <div className="text-right">
+              <div className="text-right border-b border-[#ddc1a7] pb-4 sm:border-none sm:pb-0">
                 <p className="text-sm font-medium tracking-tight text-[#5b4f47]">קליניקת בוטיק בנס ציונה</p>
                 <p className="text-xs text-[#5b4f47]/70 mt-0.5">אווירה ביתית, חמה ומרגיעה</p>
               </div>
             </div>
-            <div className="flex flex-row-reverse items-start gap-3 border-t border-[#ddc1a7] pt-4">
+            <div className="flex flex-row-reverse items-start gap-3 sm:border-t sm:border-[#ddc1a7] sm:pt-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -186,12 +186,12 @@ const HeroSection: React.FC = () => {
                 <rect x="4" y="4" width="16" height="16" rx="2" />
                 <rect x="8" y="8" width="8" height="8" rx="1" />
               </svg>
-              <div>
+              <div className="text-right border-b border-[#ddc1a7] pb-4 sm:border-none sm:pb-0">
                 <p className="text-sm font-medium tracking-tight text-[#5b4f47]">התאמה אישית לכל עור</p>
                 <p className="text-xs text-[#5b4f47]/70 mt-0.5">טיפול רגיש, מדויק וללא פשרות</p>
               </div>
             </div>
-            <div className="flex flex-row-reverse items-start gap-3 border-t border-white/10 pt-4">
+            <div className="flex flex-row-reverse items-start gap-3 sm:border-t sm:border-[#ddc1a7] sm:pt-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -207,7 +207,7 @@ const HeroSection: React.FC = () => {
               >
                 <path d="M20 6 9 17l-5-5" />
               </svg>
-              <div className="text-right">
+              <div className="text-right border-b border-[#ddc1a7] pb-4 sm:border-none sm:pb-0">
                 <p className="text-sm font-medium tracking-tight text-[#5b4f47]">זמינות לקביעת תורים</p>
                 <p className="text-xs text-[#5b4f47]/70 mt-0.5">ניתן לתאם בקלות בוואטסאפ</p>
               </div>

@@ -31,7 +31,7 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
 
     tl.to(progressBar, {
       width: '100%',
-      duration: 3,
+      duration: 0.7,
       ease: 'power2.out',
     })
       .to(
@@ -39,13 +39,13 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
         {
           opacity: 0,
           scale: 0.9,
-          duration: 1,
+          duration: 0.3,
           ease: 'power3.inOut',
           onComplete: () => {
             (preloader as HTMLDivElement).style.display = 'none';
           },
         },
-        '>-0.4'
+        '>-0.15'
       );
 
     return () => {
@@ -87,7 +87,7 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
         </div>
 
         {/* Progress bar */}
-        <div className="w-full mt-2">
+        <div className="w-2/3 max-w-xs mx-auto mt-2">
           <div className="h-2 rounded-full bg-[#fffcf0]/70 overflow-hidden shadow-inner">
             <div
               ref={progressBarRef}
