@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 const stories = [
   {
@@ -19,7 +19,58 @@ const stories = [
   },
 ];
 
-const HeroSection: React.FC = () => {
+interface AnimatedNumberProps {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  duration?: number;
+}
+
+const AnimatedNumber: React.FC<AnimatedNumberProps> = ({ value, prefix = '', suffix = '', duration = 3000 }) => {
+  const [displayValue, setDisplayValue] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const inView = useInView(ref, { once: true, amount: 0.7 });
+
+  useEffect(() => {
+    if (!inView || hasAnimated) return;
+
+    let start: number | null = null;
+    const startValue = 0;
+    const endValue = value;
+
+    const animate = (timestamp: number) => {
+      if (start === null) {
+        start = timestamp;
+      }
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const current = Math.round(startValue + (endValue - startValue) * progress);
+      setDisplayValue(current);
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setHasAnimated(true);
+      }
+    };
+
+    const frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [inView, hasAnimated, value, duration]);
+
+  return (
+    <span ref={ref}>
+      {prefix}
+      {displayValue}
+      {suffix}
+    </span>
+  );
+};
+
+interface HeroSectionProps {
+  onOpenContact?: () => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const [activeStory, setActiveStory] = useState<number | null>(null);
 
   const handleOpenStory = (index: number) => {
@@ -40,7 +91,7 @@ const HeroSection: React.FC = () => {
     setActiveStory((prev) => (prev === null ? null : (prev - 1 + stories.length) % stories.length));
   };
   return (
-    <section className="w-full sm:mt-32 mt-16 px-4 sm:px-10 lg:px-20">
+    <section className="w-full sm:mt-24 mt-12 px-4 sm:px-10 lg:px-20">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 xl:gap-24 items-center">
         <motion.div
           className="order-1 lg:order-2 lg:col-span-6 text-right lg:ml-auto"
@@ -105,8 +156,9 @@ const HeroSection: React.FC = () => {
               </svg>
               <span>הכירי את הטיפולים</span>
             </a>
-            <a
-              href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+            <button
+              type="button"
+              onClick={() => onOpenContact && onOpenContact()}
               className="inline-flex items-center justify-center gap-2 hover:bg-[#ddc1a7]/30 text-sm font-medium tracking-tight text-[#5b4f47] bg-[#ddc1a7]/20 border border-[#ddc1a7] rounded-full pt-3 pr-5 pb-3 pl-5 shadow-sm backdrop-blur"
             >
               <svg
@@ -126,7 +178,7 @@ const HeroSection: React.FC = () => {
                 <rect x="2" y="4" width="20" height="16" rx="2" />
               </svg>
               <span>שיחת וואטסאפ מהירה</span>
-            </a>
+            </button>
           </motion.div>
 
           <motion.div
@@ -280,21 +332,27 @@ const HeroSection: React.FC = () => {
                 <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
                   <div className="flex flex-row-reverse items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-[#695125]" />
-                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">+10</div>
+                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">
+                      <AnimatedNumber value={10} prefix="+" />
+                    </div>
                   </div>
                   <p className="text-[11px] text-[#5b4f47]/80">שנות ניסיון</p>
                 </div>
                 <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
                   <div className="flex flex-row-reverse items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-[#695125]" />
-                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">+500</div>
+                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">
+                      <AnimatedNumber value={500} prefix="+" />
+                    </div>
                   </div>
                   <p className="text-[11px] text-[#5b4f47]/80">לקוחות מרוצות</p>
                 </div>
                 <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
                   <div className="flex flex-row-reverse items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-[#695125]" />
-                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">100%</div>
+                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">
+                      <AnimatedNumber value={100} suffix="%" />
+                    </div>
                   </div>
                   <p className="text-[11px] text-[#5b4f47]/80">התאמה אישית</p>
                 </div>
