@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# Large video files
+*.MOV
+*.mov
+*.mp4
+*.MP4
+
+# OS files
+.DS_Store
+Thumbs.db
