@@ -190,8 +190,11 @@ const Header = () => {
 
   return (
     <>
-      <header
+      <motion.header
         className="navbar-root"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{
           position: 'fixed',
           top: 0,
@@ -669,7 +672,7 @@ const Header = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </header>
+      </motion.header>
       <Form isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     </>
   );

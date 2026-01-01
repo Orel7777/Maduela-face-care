@@ -1,199 +1,225 @@
 import { motion } from 'framer-motion';
-import { SlidUp } from '../components/Motion';
+import { SlidUpLeft, SlidUpRight } from '../components/Motion';
+import { useState } from 'react';
 
-const testimonialCards = [
+const testimonials = [
   {
     id: 1,
-    name: 'שירן',
-    title: 'טיפול ניקוי עמוק וזוהר',
-    subtitle: 'באה עם עור עייף ומגורה – יצאה עם עור רגוע ובהיר',
-    quote:
-      'כבר אחרי הטיפול הראשון הרגשתי שהעור נושם. האדמומיות נרגעה, המרקם התעדן והתחושה הייתה של ניקיון עמוק אבל עדין. סוף סוף מישהי שמסבירה כל שלב ונותנת תחושה שיש על מי לסמוך.',
+    name: 'שירן כהן',
+    treatment: 'טיפול ניקוי עמוק',
+    rating: 5,
+    quote: 'כבר אחרי הטיפול הראשון הרגשתי שהעור נושם. האדמומיות נרגעה, המרקם התעדן והתחושה הייתה של ניקיון עמוק אבל עדין. דקלה מסבירה כל שלב ונותנת תחושה שיש על מי לסמוך. לא ידעתי שטיפול פנים יכול להיות כל כך מקצועי ונעים בו זמנית.',
     city: 'נס ציונה',
-    bgImage: '/תמונות/המלצות/images/parallax-bg-1.jpg',
-    avatarMain: '/תמונות/המלצות/images/client-1.jpg',
+    image: '/תמונות/טיפולי פנים/picture/3.jpeg',
+    avatar: '/תמונות/המלצות/images/client-1.jpg',
+    highlight: 'עור נושם ורענן',
   },
   {
     id: 2,
-    name: 'טליה',
-    title: 'טיפול הרגעה לעור רגיש',
-    subtitle: 'מטיפול פחדתי – היום זה הזמן הכי רגוע בשבוע שלי',
-    quote:
-      'העור שלי היה אדמומי ומגורה מכל דבר. דקלה בנתה לי תהליך עדין, בלי לחץ ובלי כאב, ופתאום המראה במראה מרגיע במקום לתסכל. מרגישה שסוף סוף מישהו באמת רואה את העור שלי.',
+    name: 'טליה לוי',
+    treatment: 'טיפול לעור רגיש',
+    rating: 5,
+    quote: 'העור שלי היה אדמומי ומגורה מכל דבר. דקלה בנתה לי תהליך עדין, בלי לחץ ובלי כאב. המראה במראה עכשיו מרגיע במקום לתסכל. מרגישה שסוף סוף מישהי באמת רואה את העור שלי ויודעת איך לטפל בו. הטיפולים אצלה הפכו להיות הזמן הכי רגוע בשבוע.',
     city: 'רחובות',
-    bgImage: '/תמונות/המלצות/images/parallax-bg-2.jpg',
-    avatarMain: '/תמונות/המלצות/images/client-2.jpg',
+    image: '/תמונות/טיפולי פנים/picture/5.jpeg',
+    avatar: '/תמונות/המלצות/images/client-2.jpg',
+    highlight: 'עור רגוע ומאוזן',
   },
   {
     id: 3,
-    name: 'הילה',
-    title: 'טיפול זוהר לפני אירוע',
-    subtitle: 'הגעתי לפני צילומים – וקיבלתי מחמאות בלי סוף',
-    quote:
-      'רציתי שהעור יראה טוב בערב חשוב. יצאתי עם זוהר טבעי, איפור שישב מושלם והרגשה שדואגים לי באמת. מאז, לפני כל אירוע גדול אני חוזרת רק לכאן.',
+    name: 'הילה אברהם',
+    treatment: 'טיפול זוהר לאירוע',
+    rating: 5,
+    quote: 'הגעתי לפני צילומים של אירוע חשוב. יצאתי עם זוהר טבעי, האיפור ישב מושלם והרגשה שדואגים לי באמת. קיבלתי מחמאות בלי סוף! מאז, לפני כל אירוע גדול אני חוזרת רק לדקלה. היא פשוט יודעת להכין את העור בצורה מושלמת.',
     city: 'ראשון לציון',
-    bgImage: '/תמונות/המלצות/images/parallax-bg-3.jpg',
-    avatarMain: '/תמונות/המלצות/images/client-3.jpg',
+    image: '/תמונות/טיפולי פנים/picture/8.jpeg',
+    avatar: '/תמונות/המלצות/images/client-3.jpg',
+    highlight: 'זוהר טבעי מושלם',
+  },
+  {
+    id: 4,
+    name: 'מיכל דוד',
+    treatment: 'סדרת טיפולים',
+    rating: 5,
+    quote: 'אחרי שנים של ניסיונות עם קוסמטיקאיות שונות, סוף סוף מצאתי את דקלה. היא לא רק מטפלת מקצועית, אלא גם מלווה אותי בין הטיפולים עם המלצות מדויקות. העור שלי השתנה לחלוטין – יותר נקי, יותר מאוזן ויותר זוהר. ממליצה בחום!',
+    city: 'תל אביב',
+    image: '/תמונות/טיפולי פנים/picture/14.jpeg',
+    avatar: '/תמונות/המלצות/images/client-1.jpg',
+    highlight: 'שינוי מדהים בעור',
   },
 ];
 
 const TestimonialsSection: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
-    <section
-      id="testimonials"
-      className="w-full py-16 sm:py-20 px-4 sm:px-10 lg:px-20 bg-[#fffcf0]"
-    >
-      <div className="max-w-6xl mx-auto" dir="rtl">
+    <section id="testimonials" className="relative w-full py-20 sm:py-28 lg:py-32 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#fffcf0] via-[#f9f0dd]/50 to-[#fffcf0]" />
+      
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 w-80 h-80 bg-[#ddc1a7]/15 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#e5b78a]/10 rounded-full blur-3xl" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20" dir="rtl">
+        {/* Section header */}
         <motion.div
-          variants={SlidUp(0.1)}
+          variants={SlidUpRight(0.1)}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-          className="text-center mb-10 sm:mb-14 max-w-3xl mx-auto"
+          viewport={{ once: true, amount: 0.3 }}
+          className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
         >
-          <p className="text-xs tracking-[0.25em] uppercase text-[#b59b86] mb-2">
-            המלצות מלקוחות
-          </p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-[#5b4f47]">
-            מה לקוחות מספרות אחרי טיפול פנים
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#5b4f47]/10 border border-[#ddc1a7]/50 text-sm font-medium text-[#5b4f47] mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+            מה אומרות הלקוחות
+          </span>
+          
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#5b4f47] leading-tight mb-6">
+            המילים של הלקוחות
+            <span className="block text-[#a06c3b]">מדברות בעד עצמן</span>
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-[#5b4f47]/80">
-            מילים אמיתיות מנשים שהגיעו עייפות מהעור – ויצאו קלילות, זוהרות ורגועות יותר. זו ההוכחה הכי טובה
-            למה שמתרחש בחדר הטיפולים.
+          
+          <p className="text-base sm:text-lg text-[#5b4f47]/80 leading-relaxed">
+            מאות נשים כבר חוו את השינוי בעור ובתחושה.
+            <span className="font-medium text-[#5b4f47]"> קראי מה הן מספרות על החוויה בקליניקה.</span>
           </p>
         </motion.div>
 
-        <div className="flex flex-col items-center justify-center">
-          {/* במובייל: גלילה אופקית, בדסקטופ: שלושה טורים */}
-          <div className="w-full overflow-x-auto pb-4 sm:pb-6">
-            <div className="flex sm:grid sm:grid-cols-3 gap-4 sm:gap-5 min-w-[240px] sm:min-w-0 justify-center px-2">
-              {testimonialCards.map((card, index) => (
-                <motion.div
-                  key={card.id}
-                  variants={SlidUp(0.15 * index)}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  className="relative w-[240px] sm:w-full sm:max-w-[280px] shrink-0 group"
-                  style={{ perspective: 1000 }}
-                >
-                  {/* מסגרת אייפון */}
-                  <div className="relative bg-[#2c2c2e] rounded-[36px] p-2 shadow-[0_15px_45px_rgba(0,0,0,0.3)] transition-shadow duration-300 group-hover:shadow-[0_20px_55px_rgba(0,0,0,0.4)]">
-                    {/* notch */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#2c2c2e] rounded-b-2xl z-20" />
-                    
-                    {/* מסך הטלפון */}
-                    <div className="relative bg-[#fffcf0] rounded-[30px] overflow-hidden shadow-inner" style={{ aspectRatio: '9/19.5' }}>
-                  {/* רקע מטושטש עדין */}
-                  <div className="absolute inset-0 opacity-60">
-                    <img
-                      src={card.bgImage}
-                      alt={`תוצאה אחרי טיפול פנים - ${card.name}`}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#fffcf0]/40 via-[#fffcf0]/85 to-[#fffcf0]" />
-                  </div>
+        {/* Main testimonial display */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-12">
+          {/* Featured testimonial */}
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="order-2 lg:order-1"
+          >
+            <div className="relative p-8 sm:p-10 rounded-3xl bg-white shadow-xl border border-[#ddc1a7]/30">
+              {/* Quote icon */}
+              <div className="absolute -top-5 right-8 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ddc1a7] to-[#a06c3b] flex items-center justify-center shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                  <path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.956.76-3.022.66-1.065 1.515-1.867 2.558-2.403L9.373 5c-.8.396-1.56.898-2.26 1.505-.71.607-1.34 1.305-1.9 2.094s-.98 1.68-1.25 2.69-.346 2.04-.217 3.1c.168 1.4.62 2.52 1.356 3.35.735.84 1.652 1.26 2.748 1.26.965 0 1.766-.29 2.4-.878.628-.576.94-1.365.94-2.368l.002.003zm9.124 0c0-.88-.23-1.618-.69-2.217-.326-.42-.768-.695-1.327-.825-.55-.13-1.07-.14-1.54-.03-.16-.94.09-1.95.75-3.02.66-1.06 1.514-1.86 2.557-2.4L18.49 5c-.8.396-1.555.898-2.26 1.505-.708.607-1.34 1.305-1.894 2.094-.556.79-.97 1.68-1.24 2.69-.273 1-.345 2.04-.217 3.1.168 1.4.62 2.52 1.356 3.35.735.84 1.652 1.26 2.748 1.26.965 0 1.766-.29 2.4-.878.628-.576.94-1.365.94-2.368l.002.003z"/>
+                </svg>
+              </div>
 
-                      {/* תוכן "מסך" הטלפון */}
-                      <div className="relative z-10 px-3 pt-7 pb-3 h-full flex flex-col">
-                        {/* "סטטוס בר" קטן */}
-                        <div className="flex items-center justify-between text-[8px] text-[#5b4f47]/70 mb-3">
-                          <span>21:30</span>
-                          <div className="flex items-center gap-1 text-[#5b4f47]/60">
-                            <span className="w-1 h-1 rounded-full bg-[#5b4f47]/60" />
-                            <span className="w-2 h-0.5 rounded bg-[#5b4f47]/40" />
-                            <span className="w-3 h-0.5 rounded bg-[#5b4f47]/40" />
-                          </div>
-                        </div>
+              {/* Rating */}
+              <div className="flex items-center gap-1 mb-6">
+                {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
+                  <svg key={i} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#f59e0b">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                ))}
+              </div>
 
-                        {/* ראש הכרטיס */}
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2 flex-row-reverse">
-                            <div className="h-7 w-7 rounded-full overflow-hidden border border-[#ddc1a7]/80 shadow-sm">
-                              <img
-                                src={card.avatarMain}
-                                alt={card.name}
-                                className="w-full h-full object-cover"
-                                loading="lazy"
-                              />
-                            </div>
-                            <div className="text-right">
-                              <p className="text-[10px] font-semibold text-[#5b4f47] leading-tight">
-                                {card.name} • {card.title}
-                              </p>
-                              <p className="text-[8px] text-[#5b4f47]/70 leading-tight">{card.subtitle}</p>
-                            </div>
-                          </div>
+              {/* Quote */}
+              <blockquote className="text-lg sm:text-xl text-[#5b4f47] leading-relaxed mb-8">
+                "{testimonials[activeIndex].quote}"
+              </blockquote>
 
-                          <div className="flex flex-col items-end text-[8px] text-[#5b4f47]">
-                            <div className="flex items-center gap-0.5">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                className="w-3 h-3 text-[#d8a85e]"
-                              >
-                                <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 0 0 .95.69h4.178c.969 0 1.371 1.24.588 1.81l-3.383 2.459a1 1 0 0 0-.364 1.118l1.293 3.985c.3.922-.755 1.688-1.54 1.118l-3.39-2.455a1 1 0 0 0-1.175 0L7.44 18.99c-.784.57-1.838-.196-1.54-1.118l1.293-3.985a1 1 0 0 0-.364-1.118L3.446 9.394c-.783-.57-.38-1.81.588-1.81h4.178a1 1 0 0 0 .95-.69z" />
-                              </svg>
-                              <span className="font-semibold text-[9px]">4.9</span>
-                            </div>
-                            <span className="text-[7px] text-[#5b4f47]/70">עשרות טיפולים</span>
-                          </div>
-                        </div>
+              {/* Author */}
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#ddc1a7]">
+                  <img
+                    src={testimonials[activeIndex].avatar}
+                    alt={testimonials[activeIndex].name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="font-bold text-[#5b4f47]">{testimonials[activeIndex].name}</p>
+                  <p className="text-sm text-[#a06c3b]">{testimonials[activeIndex].treatment}</p>
+                  <p className="text-xs text-[#5b4f47]/60">{testimonials[activeIndex].city}</p>
+                </div>
+              </div>
 
-                        {/* ציטוט */}
-                        <div className="flex-1 mb-2">
-                          <div className="rounded-xl bg-white/90 border border-[#ddc1a7]/70 px-2.5 py-2 text-right shadow-sm h-full flex flex-col">
-                            <p className="text-[9px] leading-relaxed text-[#5b4f47]/90 flex-1">
-                              "{card.quote}"
-                            </p>
-                            <p className="mt-1.5 text-[8px] font-medium text-[#5b4f47]">
-                              {card.name}, {card.city}
-                            </p>
-                          </div>
-                        </div>
+              {/* Highlight badge */}
+              <div className="absolute bottom-6 left-6 px-4 py-2 rounded-full bg-gradient-to-r from-[#f9f0dd] to-[#ddc1a7]/30 border border-[#ddc1a7]/50 text-sm font-medium text-[#5b4f47]">
+                ✨ {testimonials[activeIndex].highlight}
+              </div>
+            </div>
+          </motion.div>
 
-                        {/* social proof קטן בתחתית */}
-                        <div className="flex items-center justify-between gap-1.5">
-                          <div className="flex items-center gap-1.5 flex-row-reverse">
-                            <div className="flex -space-x-1.5 rtl:space-x-reverse">
-                              <img
-                                src="/תמונות/המלצות/images/client-2.jpg"
-                                alt="לקוחה מרוצה"
-                                className="w-5 h-5 rounded-full border border-white object-cover"
-                              />
-                              <img
-                                src="/תמונות/המלצות/images/client-3.jpg"
-                                alt="לקוחה מרוצה"
-                                className="w-5 h-5 rounded-full border border-white object-cover"
-                              />
-                              <div className="w-5 h-5 rounded-full border border-white bg-[#5b4f47] text-[#fffcf0] flex items-center justify-center text-[7px] font-medium">
-                                +עוד
-                              </div>
-                            </div>
-                            <div className="text-[8px] text-[#5b4f47]/80 text-right">
-                              <p className="font-medium leading-tight">מאות לקוחות</p>
-                              <p className="text-[7px] text-[#5b4f47]/70 leading-tight">חוזרות</p>
-                            </div>
-                          </div>
+          {/* Image */}
+          <motion.div
+            key={`img-${activeIndex}`}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="order-1 lg:order-2"
+          >
+            <div className="relative aspect-[4/5] sm:aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
+              <img
+                src={testimonials[activeIndex].image}
+                alt="תוצאת טיפול"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/50 via-transparent to-transparent" />
+            </div>
+          </motion.div>
+        </div>
 
-                          <div className="text-[7px] text-[#5b4f47]/70 text-left max-w-[80px]">
-                            <p className="leading-tight">
-                              הצטרפי לטיפול –
-                              <span className="font-medium text-[#5b4f47]"> בעור רגוע</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+        {/* Testimonial navigation */}
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+          {testimonials.map((testimonial, index) => (
+            <motion.button
+              key={testimonial.id}
+              onClick={() => setActiveIndex(index)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center gap-3 px-4 sm:px-6 py-3 rounded-2xl transition-all duration-300 ${
+                activeIndex === index
+                  ? 'bg-[#5b4f47] text-white shadow-lg'
+                  : 'bg-white text-[#5b4f47] border border-[#ddc1a7]/50 hover:border-[#5b4f47]/30'
+              }`}
+            >
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-current/20">
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-semibold">{testimonial.name}</p>
+                <p className={`text-xs ${activeIndex === index ? 'text-white/70' : 'text-[#5b4f47]/60'}`}>
+                  {testimonial.treatment}
+                </p>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Stats bar */}
+        <motion.div
+          variants={SlidUpLeft(0.2)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mt-16 sm:mt-20"
+        >
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 p-6 sm:p-8 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#ddc1a7]/30 shadow-xl">
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-[#5b4f47]">+500</div>
+              <div className="text-sm text-[#5b4f47]/70 mt-1">לקוחות מרוצות</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-[#5b4f47]">4.9</div>
+              <div className="text-sm text-[#5b4f47]/70 mt-1">דירוג ממוצע</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-[#5b4f47]">98%</div>
+              <div className="text-sm text-[#5b4f47]/70 mt-1">חוזרות לטיפול</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-[#5b4f47]">+10</div>
+              <div className="text-sm text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

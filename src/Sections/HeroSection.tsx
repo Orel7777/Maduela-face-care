@@ -1,482 +1,240 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-
-const stories = [
-  {
-    label: 'את',
-    src: '/תמונות/טיפולי פנים/video/3.mp4',
-    thumb: '/תמונות/טיפולי פנים/picture/14.jpeg',
-  },
-  {
-    label: 'לקוחה',
-    src: '/תמונות/טיפולי פנים/video/4.mp4',
-    thumb: '/תמונות/טיפולי פנים/picture/15.jpeg',
-  },
-  {
-    label: 'תוצאה',
-    src: '/תמונות/טיפולי פנים/video/4.mp4',
-    thumb: '/תמונות/טיפולי פנים/picture/5.jpeg',
-  },
-];
-
-interface AnimatedNumberProps {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  duration?: number;
-}
-
-const AnimatedNumber: React.FC<AnimatedNumberProps> = ({ value, prefix = '', suffix = '', duration = 3000 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const ref = useRef<HTMLSpanElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.7 });
-
-  useEffect(() => {
-    if (!inView || hasAnimated) return;
-
-    let start: number | null = null;
-    const startValue = 0;
-    const endValue = value;
-
-    const animate = (timestamp: number) => {
-      if (start === null) {
-        start = timestamp;
-      }
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const current = Math.round(startValue + (endValue - startValue) * progress);
-      setDisplayValue(current);
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setHasAnimated(true);
-      }
-    };
-
-    const frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [inView, hasAnimated, value, duration]);
-
-  return (
-    <span ref={ref}>
-      {prefix}
-      {displayValue}
-      {suffix}
-    </span>
-  );
-};
+import React from 'react';
+import { motion } from 'framer-motion';
 
 interface HeroSectionProps {
   onOpenContact?: () => void;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
-  const [activeStory, setActiveStory] = useState<number | null>(null);
-
-  const handleOpenStory = (index: number) => {
-    setActiveStory(index);
-  };
-
-  const handleCloseStory = () => {
-    setActiveStory(null);
-  };
-
-  const handleNextStory = () => {
-    if (activeStory === null) return;
-    setActiveStory((prev) => (prev === null ? null : (prev + 1) % stories.length));
-  };
-
-  const handlePrevStory = () => {
-    if (activeStory === null) return;
-    setActiveStory((prev) => (prev === null ? null : (prev - 1 + stories.length) % stories.length));
-  };
   return (
-    <section className="w-full sm:mt-24 mt-12 px-4 sm:px-10 lg:px-20">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 xl:gap-24 items-center">
+    <section className="relative w-full min-h-[90vh] lg:min-h-screen overflow-hidden">
+      {/* Background with gradient overlay */}
+      <div className="absolute inset-0">
+        <img
+          src="/תמונות/טיפולי פנים/picture/13.jpeg"
+          alt="טיפול פנים מקצועי"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-l from-[#fffcf0]/98 via-[#fffcf0]/85 to-[#fffcf0]/40" />
         <motion.div
-          className="order-1 lg:order-2 lg:col-span-6 text-right lg:ml-auto"
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.9, ease: 'easeOut' }}
-        >
-          <h1 className="leading-none tracking-tight text-[#5b4f47]">
-            <span className="block text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7vw] font-semibold">
-              <span
-                data-letter=""
-                style={{ display: 'inline-block', transform: 'translateY(0px)', opacity: 1 }}
-                className="tracking-tighter"
-              >
-                דקלה
-              </span>
-              <span className="block" />
-              <span
-                data-letter=""
-                style={{ display: 'inline-block', transform: 'translateY(0px)', opacity: 1 }}
-                className="tracking-tighter"
-              >
-                מדואלה
-              </span>
-            </span>
-          </h1>
-          <motion.p
-            className="sm:mt-5 sm:text-2xl leading-relaxed max-w-2xl text-base tracking-tight mt-4 text-[#5b4f47]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-          >
-            טיפולי פנים מעמיקים, עדינים ומדויקים – עם ניסיון, ידע ואהבה גדולה לעור. יחד נתאים עבורך שגרת טיפול
-            אישית שתעניק לעור שלך איזון, זוהר ושקט.
-          </motion.p>
-
-          <motion.div
-            className="mt-6 flex flex-col sm:flex-row gap-3 justify-end"
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: 'easeOut' }}
-          >
-            <a
-              href="#services"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium tracking-tight text-[#5b4f47] bg-[#fffcf0] hover:bg-[#fffcf0]/90 border border-[#ddc1a7] shadow-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                data-lucide="arrow-right"
-                className="lucide lucide-arrow-right w-4 h-4"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-              <span>הכירי את הטיפולים</span>
-            </a>
-            <button
-              type="button"
-              onClick={() => onOpenContact && onOpenContact()}
-              className="inline-flex items-center justify-center gap-2 hover:bg-[#ddc1a7]/30 text-sm font-medium tracking-tight text-[#5b4f47] bg-[#ddc1a7]/20 border border-[#ddc1a7] rounded-full pt-3 pr-5 pb-3 pl-5 shadow-sm backdrop-blur"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                data-lucide="mail"
-                className="lucide lucide-mail w-4 h-4"
-              >
-                <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-              </svg>
-              <span>שיחת וואטסאפ מהירה</span>
-            </button>
-          </motion.div>
-
-          <motion.div
-            className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-right"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: 'easeOut' }}
-          >
-            <div className="flex flex-row-reverse items-start gap-3 sm:border-t sm:border-[#ddc1a7] sm:pt-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                data-lucide="map-pin"
-                className="lucide lucide-map-pin w-[18px] h-[18px] text-white/50 mt-0.5"
-              >
-                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <div className="text-right border-b border-[#ddc1a7] pb-4 sm:border-none sm:pb-0">
-                <p className="text-sm font-medium tracking-tight text-[#5b4f47]">קליניקת בוטיק בנס ציונה</p>
-                <p className="text-xs text-[#5b4f47]/70 mt-0.5">אווירה ביתית, חמה ומרגיעה</p>
-              </div>
-            </div>
-            <div className="flex flex-row-reverse items-start gap-3 sm:border-t sm:border-[#ddc1a7] sm:pt-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                data-lucide="cpu"
-                className="lucide lucide-cpu w-[18px] h-[18px] text-white/50 mt-0.5"
-              >
-                <path d="M12 20v2" />
-                <path d="M12 2v2" />
-                <path d="M17 20v2" />
-                <path d="M17 2v2" />
-                <path d="M2 12h2" />
-                <path d="M2 17h2" />
-                <path d="M2 7h2" />
-                <path d="M20 12h2" />
-                <path d="M20 17h2" />
-                <path d="M20 7h2" />
-                <path d="M7 20v2" />
-                <path d="M7 2v2" />
-                <rect x="4" y="4" width="16" height="16" rx="2" />
-                <rect x="8" y="8" width="8" height="8" rx="1" />
-              </svg>
-              <div className="text-right border-b border-[#ddc1a7] pb-4 sm:border-none sm:pb-0">
-                <p className="text-sm font-medium tracking-tight text-[#5b4f47]">התאמה אישית לכל עור</p>
-                <p className="text-xs text-[#5b4f47]/70 mt-0.5">טיפול רגיש, מדויק וללא פשרות</p>
-              </div>
-            </div>
-            <div className="flex flex-row-reverse items-start gap-3 sm:border-t sm:border-[#ddc1a7] sm:pt-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                data-lucide="check"
-                className="lucide lucide-check w-[18px] h-[18px] text-white/50 mt-0.5"
-              >
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-              <div className="text-right border-b border-[#ddc1a7] pb-4 sm:border-none sm:pb-0">
-                <p className="text-sm font-medium tracking-tight text-[#5b4f47]">זמינות לקביעת תורים</p>
-                <p className="text-xs text-[#5b4f47]/70 mt-0.5">ניתן לתאם בקלות בוואטסאפ</p>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          className="order-2 lg:order-1 lg:col-span-5"
-          initial={{ opacity: 0, x: -60, rotateY: 8 }}
-          animate={{ opacity: 1, x: 0, rotateY: 0 }}
-          transition={{ duration: 0.9, delay: 0.25, ease: 'easeOut' }}
-          whileHover={{ rotateY: 12, rotateX: 6, rotateZ: 2, y: -8 }}
-          style={{
-            transformStyle: 'preserve-3d',
-            perspective: 1200,
-          }}
-        >
-          <motion.div
-            className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden shadow-[0_8px_30px_rgba(91,79,71,0.25)] bg-[#0b0b0f] rounded-3xl border border-[#ddc1a7] max-w-md mx-auto lg:mx-0"
-            animate={{
-              y: [0, -4, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            {/* top "stories" bar */}
-            <div className="absolute top-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-b from-[#5b4f47] via-[#5b4f47]/95 to-[#5b4f47]/80 px-4 pt-3 flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                {stories.map((story, idx) => (
-                  <button
-                    key={story.label}
-                    type="button"
-                    onClick={() => handleOpenStory(idx)}
-                    className="flex flex-col items-center text-center text-[10px] text-white/80 focus:outline-none cursor-pointer active:scale-95"
-                  >
-                    <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full p-[2.5px] bg-[conic-gradient(from_210deg,_#f58529,_#dd2a7b,_#8134af,_#515bd4,_#f58529)] shadow-[0_0_0_1px_rgba(255,255,255,0.35)] transition-transform duration-200 ease-out hover:scale-105 hover:shadow-[0_0_0_3px_rgba(255,255,255,0.8)]">
-                      <div className="w-full h-full rounded-full bg-[#5b4f47] overflow-hidden flex items-center justify-center">
-                        <img
-                          src={story.thumb}
-                          alt={story.label}
-                          className="w-full h-full object-cover opacity-90"
-                        />
-                      </div>
-                    </div>
-                    <span className="mt-1 truncate max-w-[56px]">{story.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* main image area */}
-            <div className="absolute inset-x-0 top-16 sm:top-20 bottom-0">
-              <img
-                src="/תמונות/טיפולי פנים/picture/15.jpeg"
-                alt="טיפול פנים בקליניקה של דקלה מדואלה"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#695125]/40 via-transparent to-transparent" />
-
-              <motion.div
-                className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-3"
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-              >
-                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
-                  <div className="flex flex-row-reverse items-center gap-2 mb-1">
-                    <div className="w-2 h-2 rounded-full bg-[#695125]" />
-                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">
-                      <AnimatedNumber value={10} prefix="+" />
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-[#5b4f47]/80">שנות ניסיון</p>
-                </div>
-                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
-                  <div className="flex flex-row-reverse items-center gap-2 mb-1">
-                    <div className="w-2 h-2 rounded-full bg-[#695125]" />
-                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">
-                      <AnimatedNumber value={500} prefix="+" />
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-[#5b4f47]/80">לקוחות מרוצות</p>
-                </div>
-                <div className="rounded-xl bg-[#fffcf0]/90 backdrop-blur-md border border-[#ddc1a7] p-3 shadow-lg text-right">
-                  <div className="flex flex-row-reverse items-center gap-2 mb-1">
-                    <div className="w-2 h-2 rounded-full bg-[#695125]" />
-                    <div className="text-lg font-semibold tracking-tight text-[#5b4f47]">
-                      <AnimatedNumber value={100} suffix="%" />
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-[#5b4f47]/80">התאמה אישית</p>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </motion.div>
+          className="absolute inset-0 bg-gradient-to-t from-[#fffcf0] via-transparent to-[#fffcf0]/30"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.8, ease: 'easeOut' }}
+        />
       </div>
-      <AnimatePresence>
-        {activeStory !== null && (
+
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-[#ddc1a7]/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#e5b78a]/15 rounded-full blur-3xl" />
+
+      {/* Main content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 pt-32 sm:pt-36 lg:pt-40 pb-16 sm:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          
+          {/* Text content - Right side for RTL - enters from right */}
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            className="order-1 lg:order-2 text-right"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
           >
-            <div
-              className="absolute inset-0 bg-black/60"
-              onClick={handleCloseStory}
-            />
-
+            {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="relative w-full max-w-md sm:max-w-lg bg-[#0b0b0f] rounded-3xl border border-[#ddc1a7] shadow-[0_18px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-[#5b4f47]/10 border border-[#ddc1a7]/50 backdrop-blur-sm"
             >
-              {/* top bar */}
-              <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-black via-black/90 to-black/80 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full overflow-hidden border border-[#ddc1a7]">
-                    <img
-                      src="/לוגו/לוגו_גדול.jpeg"
-                      alt="לוגו דקלה"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex flex-col text-xs text-white/80">
-                    <span className="font-semibold text-sm">סטורי קליניקה</span>
-                    <span className="text-[11px] text-white/60">{stories[activeStory].label}</span>
-                  </div>
-                </div>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs sm:text-sm font-medium text-[#5b4f47]">קליניקת בוטיק בנס ציונה • זמינה לתורים</span>
+            </motion.div>
 
-                <button
-                  type="button"
-                  onClick={handleCloseStory}
-                  className="text-white/70 hover:text-white rounded-full p-1.5 transition-colors"
-                >
-                  <span className="sr-only">סגירה</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.8}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            {/* Main heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mb-6"
+            >
+              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-bold text-[#5b4f47] leading-tight tracking-tight">
+                דקלה מדואלה
+              </span>
+              <span className="block mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-medium text-[#a06c3b]">
+                קוסמטיקאית רפואית
+              </span>
+            </motion.h1>
+
+            {/* Subheading */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-base sm:text-lg md:text-xl text-[#5b4f47]/85 leading-relaxed mb-8 max-w-xl mr-0 ml-auto"
+            >
+              <strong className="text-[#5b4f47]">יותר מ-10 שנות ניסיון</strong> בטיפולי פנים מעמיקים ומדויקים.
+              כל טיפול נבנה במיוחד עבורך – להחזיר לעור את הזוהר הטבעי, האיזון והביטחון.
+              <span className="block mt-3 text-[#a06c3b] font-medium">הגיע הזמן שהעור שלך יקבל את הטיפול שמגיע לו.</span>
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4 justify-end mb-10"
+            >
+              <button
+                type="button"
+                onClick={() => onOpenContact && onOpenContact()}
+                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-white bg-gradient-to-br from-[#5b4f47] via-[#695125] to-[#5b4f47] shadow-[0_8px_30px_rgba(91,79,71,0.4)] hover:shadow-[0_12px_40px_rgba(91,79,71,0.5)] transition-all duration-300 hover:-translate-y-1"
+              >
+                <span className="relative z-10">קביעת תור עכשיו</span>
+                <span className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
                   </svg>
-                </button>
+                </span>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#695125] to-[#5b4f47] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </button>
+
+              <a
+                href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-[#5b4f47] bg-white/80 backdrop-blur-sm border-2 border-[#ddc1a7] hover:bg-white hover:border-[#a06c3b] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#25D366">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                <span>שיחה בוואטסאפ</span>
+              </a>
+            </motion.div>
+
+            {/* Trust indicators */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="grid grid-cols-3 gap-4 sm:gap-6"
+            >
+              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+10</div>
+                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
               </div>
-
-              {/* video area */}
-              <div className="relative bg-black flex-1 flex items-center justify-center">
-                <video
-                  key={stories[activeStory].src}
-                  src={stories[activeStory].src}
-                  className="w-full h-full max-h-[60vh] object-cover"
-                  autoPlay
-                  muted
-                  controls
-                />
-
-                {/* nav arrows */}
-                <button
-                  type="button"
-                  onClick={handlePrevStory}
-                  className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 hover:bg-black/70 text-white p-2 backdrop-blur-sm"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.6}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextStory}
-                  className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 hover:bg-black/70 text-white p-2 backdrop-blur-sm"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.6}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+500</div>
+                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">לקוחות מרוצות</div>
               </div>
-
-              {/* bottom indicator */}
-              <div className="flex items-center justify-center gap-1.5 py-3 bg-black/80 border-t border-white/10">
-                {stories.map((_, index) => (
-                  <span
-                    key={index}
-                    className={`h-1.5 rounded-full transition-all duration-200 ${
-                      activeStory === index ? 'w-6 bg-[#ddc1a7]' : 'w-2 bg-white/30'
-                    }`}
-                  />
-                ))}
+              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">100%</div>
+                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">התאמה אישית</div>
               </div>
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
+
+          {/* Image card - Left side for RTL - enters from left */}
+          <motion.div
+            className="order-2 lg:order-1 flex justify-center lg:justify-start"
+            initial={{ opacity: 0, x: -100, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 1.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <div className="relative">
+              {/* Main image container */}
+              <motion.div
+                className="relative w-[280px] sm:w-[340px] md:w-[380px] lg:w-[420px] aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-2xl"
+                whileHover={{ y: -8, rotateY: 5 }}
+                transition={{ duration: 0.4 }}
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+                <img
+                  src="/תמונות/טיפולי פנים/picture/5.jpeg"
+                  alt="תוצאה אחרי טיפול פנים"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/60 via-transparent to-transparent" />
+                
+                {/* Floating badge on image */}
+                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#ddc1a7]/50 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ddc1a7] to-[#a06c3b] flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                      </svg>
+                    </div>
+                    <div className="text-right flex-1">
+                      <p className="text-sm font-semibold text-[#5b4f47]">תוצאות מוכחות</p>
+                      <p className="text-xs text-[#5b4f47]/70">עור זוהר כבר מהטיפול הראשון</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Floating elements */}
+              <motion.div
+                className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shadow-xl border-4 border-white"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <img
+                  src="/תמונות/טיפולי פנים/picture/3.jpeg"
+                  alt="טיפול פנים"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              <motion.div
+                className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-xl border-4 border-white"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
+                <img
+                  src="/תמונות/טיפולי פנים/picture/8.jpeg"
+                  alt="תוצאה טיפול"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              {/* Rating badge */}
+              <motion.div
+                className="absolute top-8 -left-2 sm:-left-4 px-4 py-2 rounded-full bg-white shadow-lg border border-[#ddc1a7]/50 flex items-center gap-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+              >
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-sm font-semibold text-[#5b4f47]">4.9</span>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          <span className="text-xs text-[#5b4f47]/60">גלי למטה</span>
+          <motion.div
+            className="w-6 h-10 rounded-full border-2 border-[#5b4f47]/30 flex justify-center pt-2"
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <div className="w-1.5 h-3 rounded-full bg-[#5b4f47]/40" />
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 };

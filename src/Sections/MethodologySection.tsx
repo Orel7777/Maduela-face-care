@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { SlidUpLeft, SlidUpRight } from '../components/Motion';
 
 const steps = [
   {
@@ -27,10 +28,10 @@ const MethodologySection: React.FC = () => {
     >
       <div className="max-w-5xl mx-auto text-right">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={SlidUpRight(0.1)}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
           className="mb-10 sm:mb-14"
         >
           <p className="text-xs tracking-[0.2em] uppercase text-[#b59b86] mb-2 text-right">
@@ -49,10 +50,10 @@ const MethodologySection: React.FC = () => {
           {steps.map((step, index) => (
             <motion.div
               key={step.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={SlidUpLeft(0.1 + index * 0.08)}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.17, 0.67, 0.3, 0.97] }}
               className="relative rounded-3xl bg-[#fffcf0] border border-[#ddc1a7]/70 shadow-[0_8px_24px_rgba(91,79,71,0.12)] px-5 py-5 sm:px-6 sm:py-6 text-right overflow-hidden"
             >
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#ddc1a7] to-[#695125]" />

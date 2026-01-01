@@ -23,14 +23,7 @@ function App() {
       {!isLoading && (
         <>
           <Header />
-          <main
-            style={{
-              paddingTop: '100px',
-              minHeight: '100vh',
-              backgroundColor: '#fffcf0', // Off White, שונה מהרקע של ה-navbar
-              color: '#5b4f47',
-            }}
-          >
+          <main className="min-h-screen pt-24 bg-brand-bg text-brand-inkMuted">
             <HeroSection onOpenContact={() => setIsContactOpen(true)} />
             <ServicesSection onOpenContact={() => setIsContactOpen(true)} />
             <MethodologySection />

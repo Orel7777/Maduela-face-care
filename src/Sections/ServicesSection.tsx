@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { SlidUp, SlidUpLeft, SlidUpRight } from '../components/Motion';
+import { SlidUpLeft, SlidUpRight } from '../components/Motion';
 
 interface ServicesSectionProps {
   onOpenContact?: () => void;
@@ -8,155 +8,209 @@ interface ServicesSectionProps {
 const services = [
   {
     id: 1,
-    title: 'טיפול פנים ניקוי עמוק',
-    description:
-      'טיפול יסודי המסייע בניקוי נקבוביות, איזון העור והחזרת תחושת הרעננות והקלילות.',
+    title: 'טיפול ניקוי עמוק',
+    subtitle: 'הבסיס לעור בריא',
+    description: 'טיפול יסודי ומקיף שמנקה את העור לעומק, מאזן את הפרשת השומן, מטפל בראשים שחורים ומחזיר לעור את הנשימה והרעננות. מושלם לעור שמן, מעורב או עור עם נטייה לפצעונים.',
+    benefits: ['ניקוי נקבוביות יסודי', 'איזון הפרשת שומן', 'מראה נקי ורענן'],
     image: '/תמונות/טיפולי פנים/picture/3.jpeg',
     duration: '75 דקות',
+    price: '₪350',
+    popular: false,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+        <path d="M8 12s1.5 2 4 2 4-2 4-2"/>
+        <line x1="9" x2="9.01" y1="9" y2="9"/>
+        <line x1="15" x2="15.01" y1="9" y2="9"/>
+      </svg>
+    ),
   },
   {
     id: 2,
     title: 'טיפול זוהר לאירוע',
-    description:
-      'טיפול מפנק לפני אירועים חשובים, המעניק לעור מראה זוהר, חי ובריא לצילומים.',
+    subtitle: 'להיראות מושלמת ביום הגדול',
+    description: 'טיפול פרימיום שמכין את העור לאירוע חשוב – חתונה, צילומים, מפגש מיוחד. משלב הזנה עמוקה, הבהרה עדינה ומתיחה קלה לעור זוהר, רענן ומוכן לכל תקריב.',
+    benefits: ['זוהר מיידי', 'עור מוכן לאיפור', 'תוצאה שנשארת'],
     image: '/תמונות/טיפולי פנים/picture/5.jpeg',
     duration: '60 דקות',
+    price: '₪400',
+    popular: true,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 3l1.912 5.813a2 2 0 001.272 1.272L21 12l-5.813 1.912a2 2 0 00-1.272 1.272L12 21l-1.912-5.813a2 2 0 00-1.272-1.272L3 12l5.813-1.912a2 2 0 001.272-1.272L12 3z"/>
+      </svg>
+    ),
   },
   {
     id: 3,
     title: 'טיפול הרגעה לעור רגיש',
-    description:
-      'טיפול עדין ומדויק לעור רגיש או מגורה, להרגעת אדמומיות והחזרת תחושת הנינוחות.',
+    subtitle: 'מענה לעור שדורש עדינות',
+    description: 'טיפול מותאם במיוחד לעור רגיש, מגורה או עם נטייה לאדמומיות. משלב מוצרים מרגיעים, טכניקות עדינות וחומרים טבעיים שמחזקים את מחסום העור ומשאירים תחושת נוחות ורוגע.',
+    benefits: ['הרגעת אדמומיות', 'חיזוק מחסום העור', 'תחושת נוחות מתמשכת'],
     image: '/תמונות/טיפולי פנים/picture/8.jpeg',
     duration: '70 דקות',
+    price: '₪380',
+    popular: false,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      </svg>
+    ),
   },
 ];
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
   return (
-    <section
-      id="services"
-      className="w-full py-16 sm:py-20 px-4 sm:px-10 lg:px-20 bg-[#fffcf0]"
-    >
-      <div className="max-w-6xl mx-auto" dir="rtl">
-        {/* כותרת מרכזית של הסקשן */}
-        <motion.div
-          variants={SlidUp(0.1)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-          className="text-center max-w-3xl mx-auto mb-10 sm:mb-12"
-        >
-          <p className="text-xs tracking-[0.25em] uppercase text-[#b59b86] mb-2">
-            טיפולי פנים מותאמים
-          </p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-[#5b4f47]">
-            בחרי את הטיפול שהעור שלך צריך עכשיו
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-[#5b4f47]/80">
-            טיפולי ניקוי עמוק, זוהר לאירוע והרגעה לעור רגיש – כולם נבנים אישית לפי מצב העור, הקצב שלך
-            ומה שיגרום לך להרגיש הכי טוב במראה ובתחושה.
-          </p>
-        </motion.div>
+    <section id="services" className="relative w-full py-20 sm:py-28 lg:py-32 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#fffcf0] via-[#f9f0dd] to-[#fffcf0]" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ddc1a7] to-transparent" />
+      
+      {/* Decorative elements */}
+      <div className="absolute top-40 right-0 w-96 h-96 bg-[#ddc1a7]/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-40 left-0 w-80 h-80 bg-[#e5b78a]/10 rounded-full blur-3xl" />
 
-        {/* מסגרת כהה עם כותרת פנימית וכרטיסי שירותים */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20" dir="rtl">
+        {/* Section header */}
         <motion.div
-          variants={SlidUp(0.2)}
+          variants={SlidUpRight(0.1)}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="relative overflow-hidden rounded-[32px] border border-[#ddc1a7]/80 bg-[#f9f0dd] shadow-[0_0_0_1px_rgba(91,79,71,0.08),0_18px_45px_rgba(91,79,71,0.28)] px-5 py-6 sm:px-7 sm:py-7"
+          className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
         >
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-transparent" />
-          </div>
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#5b4f47]/10 border border-[#ddc1a7]/50 text-sm font-medium text-[#5b4f47] mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.912 5.813a2 2 0 001.272 1.272L21 12l-5.813 1.912a2 2 0 00-1.272 1.272L12 21l-1.912-5.813a2 2 0 00-1.272-1.272L3 12l5.813-1.912a2 2 0 001.272-1.272L12 3z"/>
+            </svg>
+            טיפולי פנים מקצועיים
+          </span>
+          
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#5b4f47] leading-tight mb-6">
+            הטיפול המושלם
+            <span className="block text-[#a06c3b]">לכל סוג עור</span>
+          </h2>
+          
+          <p className="text-base sm:text-lg text-[#5b4f47]/80 leading-relaxed">
+            כל טיפול נבנה במיוחד עבורך – לפי מצב העור, הצרכים האישיים והמטרות שלך.
+            <span className="font-medium text-[#5b4f47]"> בואי נמצא יחד את הטיפול שיעשה לך את השינוי.</span>
+          </p>
+        </motion.div>
 
-          <div className="relative flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 mb-6">
+        {/* Services grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {services.map((service, index) => (
+            <motion.article
+              key={service.id}
+              variants={SlidUpLeft(0.1 + index * 0.1)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              className={`group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 ${
+                service.popular ? 'ring-2 ring-[#a06c3b] ring-offset-4 ring-offset-[#f9f0dd]' : 'border border-[#ddc1a7]/50'
+              }`}
+            >
+              {/* Popular badge */}
+              {service.popular && (
+                <div className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#a06c3b] to-[#695125] text-white text-xs font-semibold shadow-lg">
+                  ⭐ הכי מבוקש
+                </div>
+              )}
+
+              {/* Image */}
+              <div className="relative h-52 sm:h-56 overflow-hidden">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/80 via-[#5b4f47]/20 to-transparent" />
+                
+                {/* Duration & Price overlay */}
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                  <span className="px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm text-sm font-semibold text-[#5b4f47] shadow-md">
+                    {service.price}
+                  </span>
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-sm text-xs font-medium text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    {service.duration}
+                  </span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 text-right">
+                {/* Icon & Title */}
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#f9f0dd] to-[#ddc1a7]/50 flex items-center justify-center text-[#5b4f47] shrink-0">
+                    {service.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#5b4f47] mb-1">{service.title}</h3>
+                    <p className="text-sm text-[#a06c3b] font-medium">{service.subtitle}</p>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-[#5b4f47]/75 leading-relaxed mb-5">
+                  {service.description}
+                </p>
+
+                {/* Benefits */}
+                <div className="space-y-2 mb-6">
+                  {service.benefits.map((benefit, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-[#5b4f47]/80">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 6 9 17l-5-5"/>
+                      </svg>
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <a
+                  href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-[#5b4f47] to-[#695125] text-white font-semibold text-sm hover:from-[#695125] hover:to-[#5b4f47] transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  <span>לקביעת תור</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14"/>
+                    <path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          variants={SlidUpRight(0.3)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mt-16 sm:mt-20 text-center"
+        >
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-8 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#ddc1a7]/50 shadow-xl">
             <div className="text-right sm:text-right">
-              <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-[#5b4f47]">
-                טיפולי הדגל בקליניקה
-              </h3>
-              <p className="text-xs sm:text-sm text-[#5b4f47]/80 mt-1">
-                שלושה טיפולים מרכזיים שיכולים להיות נקודת ההתחלה המושלמת עבורך.
-              </p>
+              <h3 className="text-lg sm:text-xl font-bold text-[#5b4f47] mb-1">לא בטוחה מה מתאים לך?</h3>
+              <p className="text-sm text-[#5b4f47]/70">נשמח לעזור לך לבחור את הטיפול המושלם – ללא התחייבות</p>
             </div>
-
             <button
               type="button"
               onClick={() => onOpenContact && onOpenContact()}
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-[#5b4f47] bg-[#fffcf0] hover:bg-white rounded-full px-4 py-2 border border-[#ddc1a7]/80 transition-colors"
+              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ddc1a7]/30 hover:bg-[#ddc1a7]/50 border border-[#ddc1a7] text-[#5b4f47] font-semibold transition-colors"
             >
-              <span>לא בטוחה מה לבחור? השאירי פרטים</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-4 h-4"
-              >
-                <path d="M7 7h10v10" />
-                <path d="M7 17 17 7" />
+              <span>ייעוץ חינם</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/>
               </svg>
             </button>
-          </div>
-
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-            {services.map((service, index) => (
-              <motion.article
-                key={service.id}
-                variants={(index % 2 === 0 ? SlidUpRight : SlidUpLeft)(0.15 + index * 0.05)}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.4 }}
-                className="group overflow-hidden rounded-2xl bg-[#fffcf0] border border-[#ddc1a7]/80 shadow-[0_10px_30px_rgba(91,79,71,0.16)] flex flex-col"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <motion.img
-                    src={service.image}
-                    alt={service.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/65 via-transparent to-transparent" />
-                  <div className="absolute top-3 right-3 flex items-center gap-2 text-[11px] font-medium text-[#fffcf0]">
-                    <span className="px-2.5 py-1 rounded-full bg-[#00000040] backdrop-blur-sm border border-white/40">
-                      {service.duration}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="relative p-4 flex-1 flex flex-col text-right">
-                  <h3 className="text-base sm:text-lg font-semibold tracking-tight text-[#5b4f47]">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-[#5b4f47]/80 leading-relaxed flex-1">
-                    {service.description}
-                  </p>
-                  <div className="mt-4 flex items-center justify-between gap-2">
-                    <button
-                      type="button"
-                      className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium tracking-tight text-[#5b4f47]/80 bg-[#ddc1a7]/20 rounded-full px-3 py-1 border border-[#ddc1a7]/70"
-                    >
-                      <span>למי מתאים?</span>
-                    </button>
-                    <a
-                      href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
-                      className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium tracking-tight text-white bg-[#695125] hover:bg-[#5b4f47] rounded-full px-3 py-1.5 border border-[#5b4f47]/80 transition-colors"
-                    >
-                      <span className='text-white'>לתיאום ייעוץ קצר</span>
-                      <span className="text-sm leading-none">
-                        ↗
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
           </div>
         </motion.div>
       </div>
