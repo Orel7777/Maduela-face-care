@@ -41,6 +41,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const [isStoryPaused, setIsStoryPaused] = useState(false);
   const storyVideoRef = useRef<HTMLVideoElement | null>(null);
 
+  const trustGridRef = useRef<HTMLDivElement | null>(null);
+  const trustHasAnimatedRef = useRef(false);
+  const [trustYears, setTrustYears] = useState(0);
+  const [trustGoogleScore, setTrustGoogleScore] = useState(0);
+  const [trustPersonal, setTrustPersonal] = useState(0);
+
   const openStory = useCallback(
     (index: number) => {
       setActiveStoryIndex(index);
@@ -99,6 +105,43 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
       document.body.style.overflow = previousOverflow;
     };
   }, [isStoryOpen]);
+
+  useEffect(() => {
+    const el = trustGridRef.current;
+    if (!el) return;
+
+    const runCounter = (setValue: (v: number) => void, target: number, duration = 1400) => {
+      let startTime: number | null = null;
+      const step = (timestamp: number) => {
+        if (startTime === null) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const val = target * ease;
+        setValue(val);
+        if (progress < 1) window.requestAnimationFrame(step);
+        else setValue(target);
+      };
+      window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          if (trustHasAnimatedRef.current) return;
+          trustHasAnimatedRef.current = true;
+
+          runCounter(setTrustYears, 10, 5200);
+          runCounter(setTrustGoogleScore, 5, 4800);
+          runCounter(setTrustPersonal, 100, 5600);
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isStoryOpen) return;
@@ -323,7 +366,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               </button>
 
               <a
-                href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+                href="https://wa.me/972533353203"
                 className="inline-flex items-center justify-center gap-3 px-5 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold text-[#5b4f47] bg-white/80 backdrop-blur-sm border-2 border-[#ddc1a7] hover:bg-white hover:border-[#a06c3b] shadow-md sm:shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
@@ -339,17 +382,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
               className="grid grid-cols-3 gap-4 sm:gap-6"
+              ref={trustGridRef}
             >
               <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+10</div>
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+{Math.round(trustYears)}</div>
                 <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
               </div>
               <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">5/5</div>
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">{Math.round(trustGoogleScore)}/5</div>
                 <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">בגוגל עסקים</div>
               </div>
               <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">100%</div>
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">{Math.round(trustPersonal)}%</div>
                 <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">התאמה אישית</div>
               </div>
             </motion.div>

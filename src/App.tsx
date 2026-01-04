@@ -12,6 +12,7 @@ import ContactCtaSection from './Sections/ContactCtaSection'
 import ContactFormSection from './Sections/ContactFormSection'
 import FooterSection from './Sections/FooterSection'
 import Loading from './components/Loading'
+import FloatingActionButtons from './components/FloatingActionButtons'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -36,6 +37,7 @@ function App() {
           </main>
           <FooterSection />
           <ContactFormSection isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+          <FloatingActionButtons onOpenContact={() => setIsContactOpen(true)} />
         </>
       )}
     </>

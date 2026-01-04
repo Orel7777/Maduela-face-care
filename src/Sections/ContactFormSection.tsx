@@ -140,7 +140,7 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                 <div className="mt-6 flex items-center justify-center gap-4">
                   <span className="text-sm text-[#5b4f47]/60">או פני אליי ישירות:</span>
                   <a
-                    href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+                    href="https://wa.me/972533353203"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white text-sm font-medium hover:bg-[#20bd5a] transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

@@ -175,7 +175,7 @@ const FaqSection: React.FC = () => {
                   אם לא מצאת את התשובה שחיפשת, אני כאן בשבילך. מוזמנת לפנות אליי ישירות ואשמח לעזור.
                 </p>
                 <a
-                  href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+                  href="https://wa.me/972533353203"
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-[#5b4f47] font-semibold text-sm hover:bg-[#ddc1a7] transition-colors w-full justify-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#25D366">

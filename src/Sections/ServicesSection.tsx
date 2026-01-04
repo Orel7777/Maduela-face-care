@@ -14,7 +14,7 @@ const services = [
     benefits: ['ניקוי נקבוביות יסודי', 'איזון הפרשת שומן', 'מראה נקי ורענן'],
     image: '/תמונות/טיפולי פנים/picture/3.jpeg',
     duration: '75 דקות',
-    price: '₪350',
+    price: '350',
     popular: false,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +33,7 @@ const services = [
     benefits: ['זוהר מיידי', 'עור מוכן לאיפור', 'תוצאה שנשארת'],
     image: '/תמונות/טיפולי פנים/picture/5.jpeg',
     duration: '60 דקות',
-    price: '₪400',
+    price: '400',
     popular: true,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -49,7 +49,7 @@ const services = [
     benefits: ['הרגעת אדמומיות', 'חיזוק מחסום העור', 'תחושת נוחות מתמשכת'],
     image: '/תמונות/טיפולי פנים/picture/8.jpeg',
     duration: '70 דקות',
-    price: '₪380',
+    price: '380',
     popular: false,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -174,8 +174,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
 
                 {/* CTA */}
                 <a
-                  href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
-                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-[#5b4f47] to-[#695125] text-white font-semibold text-sm hover:from-[#695125] hover:to-[#5b4f47] transition-all duration-300 shadow-lg hover:shadow-xl"
+                  href="https://wa.me/972533353203"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-[#5b4f47] to-[#695125] text-[#f8efdf] font-semibold text-sm hover:from-[#695125] hover:to-[#5b4f47] transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <span>לקביעת תור</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

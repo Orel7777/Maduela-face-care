@@ -282,7 +282,7 @@ const Header = () => {
                     </StyledSocialIcon>
 
                     <StyledSocialIcon 
-                      href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0" 
+                      href="https://wa.me/972533353203" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="whatsapp"
@@ -606,7 +606,7 @@ const Header = () => {
                     </StyledSocialIcon>
                     
                     <StyledSocialIcon 
-                      href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0" 
+                      href="https://wa.me/972533353203" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="whatsapp"

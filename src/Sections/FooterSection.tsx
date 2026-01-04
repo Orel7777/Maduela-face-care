@@ -30,7 +30,7 @@ const FooterSection: React.FC = () => {
               {/* Social links */}
               <div className="flex items-center gap-3">
                 <a
-                  href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
+                  href="https://wa.me/972533353203"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#25D366] flex items-center justify-center text-white transition-colors"
                   aria-label="WhatsApp"
                 >
