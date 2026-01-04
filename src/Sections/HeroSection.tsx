@@ -6,14 +6,21 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
+  const stories = [
+    { src: '/תמונות/טיפולי פנים/picture/1.jpeg', label: 'תוצאות', active: true },
+    { src: '/תמונות/טיפולי פנים/picture/6.jpeg', label: 'טיפים', active: true },
+    { src: '/תמונות/טיפולי פנים/picture/10.jpeg', label: 'שגרה', active: false },
+    { src: '/תמונות/טיפולי פנים/picture/14.jpeg', label: 'שאלות', active: false },
+  ];
+
   return (
     <section className="relative w-full min-h-[90vh] lg:min-h-screen overflow-hidden">
       {/* Background with gradient overlay */}
       <div className="absolute inset-0">
         <img
-          src="/תמונות/טיפולי פנים/picture/13.jpeg"
+          src="/תמונות/דקלה/ראשית%20דקלה.jpeg"
           alt="טיפול פנים מקצועי"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-l from-[#fffcf0]/98 via-[#fffcf0]/85 to-[#fffcf0]/40" />
         <motion.div
@@ -122,13 +129,51 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
               </div>
               <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+500</div>
-                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">לקוחות מרוצות</div>
+                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">5/5</div>
+                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">בגוגל עסקים</div>
               </div>
               <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
                 <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">100%</div>
                 <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">התאמה אישית</div>
               </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="mt-6 flex items-center justify-end gap-3"
+            >
+              <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
+
+              <motion.a
+                href="https://www.google.com/search?kgmid=/g/11m6qsnxhr&hl=iw-IL&q=%D7%9E%D7%93%D7%95%D7%90%D7%9C%D7%94+%D7%A7%D7%9C%D7%99%D7%A0%D7%99%D7%A7+-+%D7%93%D7%A7%D7%9C%D7%94+%D7%A9%D7%9C%D7%99%D7%98&shndl=30&shem=lcuae,shrtsdl&source=sh/x/loc/osrp/m1/4&kgs=851252971ce84175&utm_source=lcuae,shrtsdl,sh/x/loc/osrp/m1/4"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-[#ddc1a7]/60 shadow-sm hover:bg-white/90 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a06c3b]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffaf2]"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                  <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                  <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                  <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                  <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                </svg>
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-sm font-semibold text-[#5b4f47]">5.0</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#5b4f47]/70 group-hover:text-[#5b4f47] transition-colors">
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                </svg>
+              </motion.a>
             </motion.div>
           </motion.div>
 
@@ -141,79 +186,94 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
           >
             <div className="relative">
               {/* Main image container */}
+              <div className="absolute inset-0 bg-[#ddc1a7]/25 blur-[80px] rounded-full transform translate-x-10 translate-y-10" />
               <motion.div
-                className="relative w-[280px] sm:w-[340px] md:w-[380px] lg:w-[420px] aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-2xl"
+                className="relative z-10 w-[92vw] max-w-[380px] sm:w-[340px] sm:max-w-none md:w-[380px] lg:w-[420px] rounded-[3rem] bg-[#5b4f47]/10 backdrop-blur-sm border-[3px] border-[#ddc1a7]/70 shadow-[0_0_60px_-15px_rgba(160,108,59,0.35),inset_0_0_40px_rgba(221,193,167,0.25)] overflow-hidden flex flex-col"
                 whileHover={{ y: -8, rotateY: 5 }}
                 transition={{ duration: 0.4 }}
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <img
-                  src="/תמונות/טיפולי פנים/picture/5.jpeg"
-                  alt="תוצאה אחרי טיפול פנים"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/60 via-transparent to-transparent" />
-                
-                {/* Floating badge on image */}
-                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#ddc1a7]/50 shadow-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ddc1a7] to-[#a06c3b] flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-                        <path d="m9 12 2 2 4-4"/>
-                      </svg>
-                    </div>
-                    <div className="text-right flex-1">
-                      <p className="text-sm font-semibold text-[#5b4f47]">תוצאות מוכחות</p>
-                      <p className="text-xs text-[#5b4f47]/70">עור זוהר כבר מהטיפול הראשון</p>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#2a2421] rounded-b-2xl z-40" />
+                <div className="w-full px-6 pt-12 pb-4 bg-transparent">
+                  <div className="flex gap-4 overflow-x-auto no-scrollbar">
+                    {stories.map((story) => (
+                      <div key={story.label} className="flex flex-col items-center gap-1 min-w-[64px]">
+                        <div
+                          className={
+                            story.active
+                              ? 'p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500'
+                              : 'p-[2px] rounded-full bg-[#5b4f47]/25'
+                          }
+                        >
+                          <div className="p-0.5 bg-white rounded-full">
+                            <img
+                              src={story.src}
+                              alt={story.label}
+                              className={
+                                story.active
+                                  ? 'w-14 h-14 rounded-full object-cover'
+                                  : 'w-14 h-14 rounded-full object-cover opacity-60'
+                              }
+                            />
+                          </div>
+                        </div>
+                        <span className={story.active ? 'text-xs text-[#5b4f47]' : 'text-xs text-[#5b4f47]/55'}>
+                          {story.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative w-full aspect-[3/4] ring-1 ring-inset ring-[#ddc1a7]/60">
+                  <img
+                    src="/תמונות/דקלה/ראשית%20דקלה.jpeg"
+                    alt="תוצאה אחרי טיפול פנים"
+                    className="w-full h-full object-cover object-center"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/60 via-transparent to-transparent" />
+                  
+                  {/* Floating badge on image */}
+                  <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#ddc1a7]/50 shadow-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ddc1a7] to-[#a06c3b] flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                          <path d="m9 12 2 2 4-4"/>
+                        </svg>
+                      </div>
+                      <div className="text-right flex-1">
+                        <p className="text-sm font-semibold text-[#5b4f47]">תוצאות מוכחות</p>
+                        <p className="text-xs text-[#5b4f47]/70">עור זוהר כבר מהטיפול הראשון</p>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Rating badge */}
+                  <motion.div
+                    className="hidden absolute top-6 right-6 px-4 py-2 rounded-full bg-white shadow-lg border border-[#ddc1a7]/50 flex items-center gap-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.7 2.1-2.6 3.6-5.5 3.6a6.3 6.3 0 0 1 0-12.6c1.7 0 3.2.7 4.3 1.8l2.7-2.7A10.1 10.1 0 0 0 12 2a10 10 0 1 0 0 20c5.8 0 9.7-4.1 9.7-9.9 0-.7-.1-1.2-.2-1.9H12z" />
+                      <path fill="#34A853" d="M3.6 7.3l3.2 2.3A6.3 6.3 0 0 1 12 5.1c1.7 0 3.2.7 4.3 1.8l2.7-2.7A10.1 10.1 0 0 0 12 2c-3.9 0-7.3 2.2-9.1 5.3z" opacity=".001" />
+                    </svg>
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="text-sm font-semibold text-[#5b4f47]">5.0</span>
+                  </motion.div>
                 </div>
               </motion.div>
 
               {/* Floating elements */}
-              <motion.div
-                className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shadow-xl border-4 border-white"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-              >
-                <img
-                  src="/תמונות/טיפולי פנים/picture/3.jpeg"
-                  alt="טיפול פנים"
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-
-              <motion.div
-                className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-xl border-4 border-white"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-              >
-                <img
-                  src="/תמונות/טיפולי פנים/picture/8.jpeg"
-                  alt="תוצאה טיפול"
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-
-              {/* Rating badge */}
-              <motion.div
-                className="absolute top-8 -left-2 sm:-left-4 px-4 py-2 rounded-full bg-white shadow-lg border border-[#ddc1a7]/50 flex items-center gap-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-              >
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-sm font-semibold text-[#5b4f47]">4.9</span>
-              </motion.div>
             </div>
           </motion.div>
         </div>
