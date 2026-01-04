@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface HeroSectionProps {
@@ -6,15 +6,231 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
-  const stories = [
-    { src: '/תמונות/טיפולי פנים/picture/1.jpeg', label: 'תוצאות', active: true },
-    { src: '/תמונות/טיפולי פנים/picture/6.jpeg', label: 'טיפים', active: true },
-    { src: '/תמונות/טיפולי פנים/picture/10.jpeg', label: 'שגרה', active: false },
-    { src: '/תמונות/טיפולי פנים/picture/14.jpeg', label: 'שאלות', active: false },
-  ];
+  const stories = useMemo(
+    () => [
+      {
+        thumbSrc: '/תמונות/טיפולי פנים/picture/1.jpeg',
+        label: 'תוצאות',
+        active: true,
+        videoSrc: '/תמונות/דקלה/video_2.mp4',
+      },
+      {
+        thumbSrc: '/תמונות/טיפולי פנים/picture/6.jpeg',
+        label: 'טיפים',
+        active: true,
+        videoSrc: '/תמונות/דקלה/video_9.mp4',
+      },
+      {
+        thumbSrc: '/תמונות/טיפולי פנים/picture/10.jpeg',
+        label: 'שגרה',
+        active: false,
+        videoSrc: '/תמונות/דקלה/video_24.mp4',
+      },
+      {
+        thumbSrc: '/תמונות/טיפולי פנים/picture/14.jpeg',
+        label: 'שאלות',
+        active: false,
+        videoSrc: '/תמונות/דקלה/WhatsApp%20Video%202025-04-11%20at%2021.20.32.mp4',
+      },
+    ],
+    []
+  );
+
+  const [isStoryOpen, setIsStoryOpen] = useState(false);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const [isStoryPaused, setIsStoryPaused] = useState(false);
+  const storyVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  const openStory = useCallback(
+    (index: number) => {
+      setActiveStoryIndex(index);
+      setIsStoryPaused(false);
+      setIsStoryOpen(true);
+    },
+    [setActiveStoryIndex, setIsStoryPaused, setIsStoryOpen]
+  );
+
+  const closeStory = useCallback(() => {
+    setIsStoryOpen(false);
+    setIsStoryPaused(false);
+  }, []);
+
+  const goPrevStory = useCallback(() => {
+    setActiveStoryIndex((prev) => (prev - 1 + stories.length) % stories.length);
+    setIsStoryPaused(false);
+  }, [stories.length]);
+
+  const goNextStory = useCallback(() => {
+    setActiveStoryIndex((prev) => (prev + 1) % stories.length);
+    setIsStoryPaused(false);
+  }, [stories.length]);
+
+  useEffect(() => {
+    if (!isStoryOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeStory();
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        goPrevStory();
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        goNextStory();
+        return;
+      }
+      if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        setIsStoryPaused((p) => !p);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [closeStory, goNextStory, goPrevStory, isStoryOpen]);
+
+  useEffect(() => {
+    if (!isStoryOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isStoryOpen]);
+
+  useEffect(() => {
+    if (!isStoryOpen) return;
+    const el = storyVideoRef.current;
+    if (!el) return;
+
+    if (isStoryPaused) {
+      el.pause();
+      return;
+    }
+
+    const p = el.play();
+    if (p && typeof (p as Promise<void>).catch === 'function') {
+      (p as Promise<void>).catch(() => undefined);
+    }
+  }, [isStoryOpen, isStoryPaused, activeStoryIndex]);
 
   return (
     <section className="relative w-full min-h-[90vh] lg:min-h-screen overflow-hidden">
+      {isStoryOpen && (
+        <motion.div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) closeStory();
+          }}
+        >
+          <motion.div
+            className="relative w-[92vw] max-w-[420px] rounded-[3rem] bg-[#2a2421]/90 border-[3px] border-white/10 shadow-[0_30px_120px_rgba(0,0,0,0.65)] overflow-hidden"
+            initial={{ scale: 0.96, y: 18 }}
+            animate={{ scale: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black/60 rounded-b-2xl z-40" />
+
+            <button
+              type="button"
+              onClick={closeStory}
+              className="absolute top-6 right-6 z-50 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+              aria-label="סגירה"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+
+            <div className="relative w-full aspect-[9/16] bg-black">
+              <video
+                key={stories[activeStoryIndex]?.videoSrc}
+                ref={storyVideoRef}
+                src={stories[activeStoryIndex]?.videoSrc}
+                className="absolute inset-0 w-full h-full object-cover"
+                autoPlay
+                muted
+                playsInline
+                controls={false}
+                onEnded={goNextStory}
+              />
+
+              <div className="absolute top-0 left-0 right-0 p-4 pt-10 z-20">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500">
+                      <div className="p-0.5 bg-black rounded-full">
+                        <img
+                          src={stories[activeStoryIndex]?.thumbSrc}
+                          alt={stories[activeStoryIndex]?.label}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-semibold text-white">{stories[activeStoryIndex]?.label}</div>
+                      <div className="text-xs text-white/70">סטורי וידאו</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
+                <div className="flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={goPrevStory}
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                    aria-label="סטורי קודם"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                      <path d="m15 18-6-6 6-6" />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsStoryPaused((p) => !p)}
+                    className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/15 hover:bg-white/25 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                    aria-label={isStoryPaused ? 'המשך ניגון' : 'עצירה'}
+                  >
+                    {isStoryPaused ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="text-white">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="text-white">
+                        <path d="M6 5h4v14H6z" />
+                        <path d="M14 5h4v14h-4z" />
+                      </svg>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={goNextStory}
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                    aria-label="סטורי הבא"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/45 via-transparent to-black/25" />
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       {/* Background with gradient overlay */}
       <div className="absolute inset-0">
         <img
@@ -89,28 +305,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-end mb-10"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end justify-end mb-10"
             >
               <button
                 type="button"
                 onClick={() => onOpenContact && onOpenContact()}
-                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-white bg-gradient-to-br from-[#5b4f47] via-[#695125] to-[#5b4f47] shadow-[0_8px_30px_rgba(91,79,71,0.4)] hover:shadow-[0_12px_40px_rgba(91,79,71,0.5)] transition-all duration-300 hover:-translate-y-1"
+                className="group relative inline-flex items-center justify-center gap-3 px-5 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold text-white bg-gradient-to-br from-[#5b4f47] via-[#695125] to-[#5b4f47] shadow-[0_8px_30px_rgba(91,79,71,0.35)] hover:shadow-[0_12px_40px_rgba(91,79,71,0.5)] transition-all duration-300 hover:-translate-y-1"
               >
                 <span className="relative z-10">קביעת תור עכשיו</span>
-                <span className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <span className="relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14" />
                     <path d="m12 5 7 7-7 7" />
                   </svg>
                 </span>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#695125] to-[#5b4f47] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#695125] to-[#5b4f47] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </button>
 
               <a
                 href="https://api.whatsapp.com/message/MATPQKJZYWELF1?autoload=1&app_absent=0"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-[#5b4f47] bg-white/80 backdrop-blur-sm border-2 border-[#ddc1a7] hover:bg-white hover:border-[#a06c3b] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="inline-flex items-center justify-center gap-3 px-5 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold text-[#5b4f47] bg-white/80 backdrop-blur-sm border-2 border-[#ddc1a7] hover:bg-white hover:border-[#a06c3b] shadow-md sm:shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#25D366">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
                 <span>שיחה בוואטסאפ</span>
@@ -196,31 +412,43 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#2a2421] rounded-b-2xl z-40" />
                 <div className="w-full px-6 pt-12 pb-4 bg-transparent">
                   <div className="flex gap-4 overflow-x-auto no-scrollbar">
-                    {stories.map((story) => (
-                      <div key={story.label} className="flex flex-col items-center gap-1 min-w-[64px]">
+                    {stories.map((story, index) => (
+                      <button
+                        key={story.label}
+                        type="button"
+                        onClick={() => openStory(index)}
+                        className="group flex flex-col items-center gap-1 min-w-[64px] focus:outline-none cursor-pointer"
+                        aria-label={`פתיחת סטורי: ${story.label}`}
+                      >
                         <div
                           className={
                             story.active
-                              ? 'p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500'
-                              : 'p-[2px] rounded-full bg-[#5b4f47]/25'
+                              ? 'p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500 transition-transform duration-300 group-hover:scale-[1.06] group-active:scale-[0.98] group-focus-visible:scale-[1.06]'
+                              : 'p-[2px] rounded-full bg-[#5b4f47]/25 transition-transform duration-300 group-hover:scale-[1.06] group-active:scale-[0.98] group-focus-visible:scale-[1.06]'
                           }
                         >
-                          <div className="p-0.5 bg-white rounded-full">
+                          <div className="p-0.5 bg-white rounded-full ring-0 ring-[#a06c3b]/0 group-hover:ring-2 group-hover:ring-[#a06c3b]/35 group-focus-visible:ring-2 group-focus-visible:ring-[#a06c3b]/45 transition-all">
                             <img
-                              src={story.src}
+                              src={story.thumbSrc}
                               alt={story.label}
                               className={
                                 story.active
-                                  ? 'w-14 h-14 rounded-full object-cover'
-                                  : 'w-14 h-14 rounded-full object-cover opacity-60'
+                                  ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
+                                  : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
                               }
                             />
                           </div>
                         </div>
-                        <span className={story.active ? 'text-xs text-[#5b4f47]' : 'text-xs text-[#5b4f47]/55'}>
+                        <span
+                          className={
+                            story.active
+                              ? 'text-xs text-[#5b4f47] transition-colors group-hover:text-[#a06c3b]'
+                              : 'text-xs text-[#5b4f47]/55 transition-colors group-hover:text-[#5b4f47]'
+                          }
+                        >
                           {story.label}
                         </span>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
