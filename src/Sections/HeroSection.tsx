@@ -41,7 +41,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const [isStoryPaused, setIsStoryPaused] = useState(false);
   const storyVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  const trustGridRef = useRef<HTMLDivElement | null>(null);
+  const trustGridDesktopRef = useRef<HTMLDivElement | null>(null);
+  const trustGridMobileRef = useRef<HTMLDivElement | null>(null);
   const trustHasAnimatedRef = useRef(false);
   const [trustYears, setTrustYears] = useState(0);
   const [trustGoogleScore, setTrustGoogleScore] = useState(0);
@@ -107,8 +108,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   }, [isStoryOpen]);
 
   useEffect(() => {
-    const el = trustGridRef.current;
-    if (!el) return;
+    const desktopEl = trustGridDesktopRef.current;
+    const mobileEl = trustGridMobileRef.current;
+    if (!desktopEl && !mobileEl) return;
 
     const runCounter = (setValue: (v: number) => void, target: number, duration = 1400) => {
       let startTime: number | null = null;
@@ -139,7 +141,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
       { threshold: 0.35 }
     );
 
-    observer.observe(el);
+    if (desktopEl) observer.observe(desktopEl);
+    if (mobileEl) observer.observe(mobileEl);
     return () => observer.disconnect();
   }, []);
 
@@ -160,7 +163,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   }, [isStoryOpen, isStoryPaused, activeStoryIndex]);
 
   return (
-    <section className="relative w-full min-h-[90vh] lg:min-h-screen overflow-hidden">
+    <section className="relative w-full -mt-24 min-h-[90vh] lg:min-h-screen overflow-hidden">
       {isStoryOpen && (
         <motion.div
           className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
@@ -279,7 +282,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
         <img
           src="/תמונות/דקלה/ראשית%20דקלה.jpeg"
           alt="טיפול פנים מקצועי"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-contain object-center sm:object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-l from-[#fffcf0]/98 via-[#fffcf0]/85 to-[#fffcf0]/40" />
         <motion.div
@@ -296,6 +299,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
 
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 pt-32 sm:pt-36 lg:pt-40 pb-16 sm:pb-20">
+        <div className="sm:hidden pointer-events-none absolute inset-x-0 top-0 h-[520px] -z-10 bg-gradient-to-b from-[#ddc1a7]/55 via-[#fffcf0]/90 to-transparent rounded-b-[3rem]" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           
           {/* Text content - Right side for RTL - enters from right */}
@@ -355,13 +359,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 onClick={() => onOpenContact && onOpenContact()}
                 className="group relative inline-flex items-center justify-center gap-3 px-5 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base font-semibold text-white bg-gradient-to-br from-[#5b4f47] via-[#695125] to-[#5b4f47] shadow-[0_8px_30px_rgba(91,79,71,0.35)] hover:shadow-[0_12px_40px_rgba(91,79,71,0.5)] transition-all duration-300 hover:-translate-y-1"
               >
-                <span className="relative z-10">קביעת תור עכשיו</span>
                 <span className="relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
+                    <path d="M19 12H5" />
+                    <path d="m12 19-7-7 7-7" />
                   </svg>
                 </span>
+                <span className="relative z-10">קביעת תור עכשיו</span>
                 <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#695125] to-[#5b4f47] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </button>
 
@@ -377,64 +381,66 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
             </motion.div>
 
             {/* Trust indicators */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="grid grid-cols-3 gap-4 sm:gap-6"
-              ref={trustGridRef}
-            >
-              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+{Math.round(trustYears)}</div>
-                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
-              </div>
-              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">{Math.round(trustGoogleScore)}/5</div>
-                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">בגוגל עסקים</div>
-              </div>
-              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
-                <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">{Math.round(trustPersonal)}%</div>
-                <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">התאמה אישית</div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="mt-6 flex items-center justify-end gap-3"
-            >
-              <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
-
-              <motion.a
-                href="https://www.google.com/search?kgmid=/g/11m6qsnxhr&hl=iw-IL&q=%D7%9E%D7%93%D7%95%D7%90%D7%9C%D7%94+%D7%A7%D7%9C%D7%99%D7%A0%D7%99%D7%A7+-+%D7%93%D7%A7%D7%9C%D7%94+%D7%A9%D7%9C%D7%99%D7%98&shndl=30&shem=lcuae,shrtsdl&source=sh/x/loc/osrp/m1/4&kgs=851252971ce84175&utm_source=lcuae,shrtsdl,sh/x/loc/osrp/m1/4"
-                target="_blank"
-                rel="noreferrer"
-                className="group inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-[#ddc1a7]/60 shadow-sm hover:bg-white/90 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a06c3b]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffaf2]"
+            <div className="hidden sm:block">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="grid grid-cols-3 gap-4 sm:gap-6"
+                ref={trustGridDesktopRef}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
-                  <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-                  <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
-                  <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
-                  <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
-                </svg>
-                <div className="flex items-center gap-2">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-sm font-semibold text-[#5b4f47]">5.0</span>
+                <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                  <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">+{Math.round(trustYears)}</div>
+                  <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#5b4f47]/70 group-hover:text-[#5b4f47] transition-colors">
-                  <path d="M15 3h6v6" />
-                  <path d="M10 14 21 3" />
-                  <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
-                </svg>
-              </motion.a>
-            </motion.div>
+                <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                  <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">{Math.round(trustGoogleScore)}/5</div>
+                  <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">בגוגל עסקים</div>
+                </div>
+                <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                  <div className="text-2xl sm:text-3xl font-bold text-[#5b4f47]">{Math.round(trustPersonal)}%</div>
+                  <div className="text-xs sm:text-sm text-[#5b4f47]/70 mt-1">התאמה אישית</div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.55 }}
+                className="mt-6 flex items-center justify-end gap-3"
+              >
+                <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
+
+                <motion.a
+                  href="https://www.google.com/search?kgmid=/g/11m6qsnxhr&hl=iw-IL&q=%D7%9E%D7%93%D7%95%D7%90%D7%9C%D7%94+%D7%A7%D7%9C%D7%99%D7%A0%D7%99%D7%A7+-+%D7%93%D7%A7%D7%9C%D7%94+%D7%A9%D7%9C%D7%99%D7%98&shndl=30&shem=lcuae,shrtsdl&source=sh/x/loc/osrp/m1/4&kgs=851252971ce84175&utm_source=lcuae,shrtsdl,sh/x/loc/osrp/m1/4"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-[#ddc1a7]/60 shadow-sm hover:bg-white/90 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a06c3b]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffaf2]"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                  </svg>
+                  <div className="flex items-center gap-2">
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="text-sm font-semibold text-[#5b4f47]">5.0</span>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#5b4f47]/70 group-hover:text-[#5b4f47] transition-colors">
+                    <path d="M15 3h6v6" />
+                    <path d="M10 14 21 3" />
+                    <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                  </svg>
+                </motion.a>
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Image card - Left side for RTL - enters from left */}
@@ -548,6 +554,67 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               {/* Floating elements */}
             </div>
           </motion.div>
+
+          <div className="sm:hidden order-3 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="grid grid-cols-3 gap-4"
+              ref={trustGridMobileRef}
+            >
+              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                <div className="text-2xl font-bold text-[#5b4f47]">+{Math.round(trustYears)}</div>
+                <div className="text-xs text-[#5b4f47]/70 mt-1">שנות ניסיון</div>
+              </div>
+              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                <div className="text-2xl font-bold text-[#5b4f47]">{Math.round(trustGoogleScore)}/5</div>
+                <div className="text-xs text-[#5b4f47]/70 mt-1">בגוגל עסקים</div>
+              </div>
+              <div className="text-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-[#ddc1a7]/40 hover:bg-white/80 transition-colors">
+                <div className="text-2xl font-bold text-[#5b4f47]">{Math.round(trustPersonal)}%</div>
+                <div className="text-xs text-[#5b4f47]/70 mt-1">התאמה אישית</div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="mt-6 flex items-center justify-end gap-3"
+            >
+              <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
+
+              <motion.a
+                href="https://www.google.com/search?kgmid=/g/11m6qsnxhr&hl=iw-IL&q=%D7%9E%D7%93%D7%95%D7%90%D7%9C%D7%94+%D7%A7%D7%9C%D7%99%D7%A0%D7%99%D7%A7+-+%D7%93%D7%A7%D7%9C%D7%94+%D7%A9%D7%9C%D7%99%D7%98&shndl=30&shem=lcuae,shrtsdl&source=sh/x/loc/osrp/m1/4&kgs=851252971ce84175&utm_source=lcuae,shrtsdl,sh/x/loc/osrp/m1/4"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-[#ddc1a7]/60 shadow-sm hover:bg-white/90 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a06c3b]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffaf2]"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                  <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                  <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                  <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                  <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                </svg>
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" className="w-3.5 h-3.5">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-sm font-semibold text-[#5b4f47]">5.0</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#5b4f47]/70 group-hover:text-[#5b4f47] transition-colors">
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                </svg>
+              </motion.a>
+            </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator */}

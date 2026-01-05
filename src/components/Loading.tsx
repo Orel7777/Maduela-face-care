@@ -61,8 +61,7 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
       className="preloader fixed inset-0 z-50 flex flex-col items-center justify-center px-6"
       style={{
         background:
-          'radial-gradient(circle at top, rgba(255,252,240,0.95) 0%, #efe3b8 40%, #ddc1a7 100%)',
-        backdropFilter: 'blur(8px)',
+          'radial-gradient(circle at top, #fffcf0 0%, #efe3b8 40%, #ddc1a7 100%)',
       }}
     >
       <div className="max-w-sm w-full flex flex-col items-center gap-6">

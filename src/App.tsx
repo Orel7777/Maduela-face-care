@@ -24,7 +24,7 @@ function App() {
       {!isLoading && (
         <>
           <Header />
-          <main className="min-h-screen pt-24 bg-brand-bg text-brand-inkMuted">
+          <main className="min-h-screen pt-24 text-brand-inkMuted">
             <HeroSection onOpenContact={() => setIsContactOpen(true)} />
             <ServicesSection onOpenContact={() => setIsContactOpen(true)} />
             <MethodologySection />
