@@ -13,6 +13,7 @@ import ContactCtaSection from './Sections/ContactCtaSection'
 import ContactFormSection from './Sections/ContactFormSection'
 import FooterSection from './Sections/FooterSection'
 import Loading from './components/Loading'
+import MassagePromo from './components/MassagePromo'
 import FloatingActionButtons from './components/FloatingActionButtons'
 import PrivacyPolicy from './Pages/PrivacyPolicy'
 
@@ -51,6 +52,7 @@ function App() {
                   <StatsSection />
                   <FaqSection />
                   <ContactCtaSection onOpenContact={() => setIsContactOpen(true)} />
+                  <MassagePromo className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 pb-10" />
                 </main>
                 <FooterSection />
                 <ContactFormSection isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />

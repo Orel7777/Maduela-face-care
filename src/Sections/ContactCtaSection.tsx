@@ -75,6 +75,8 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
               
               <a
                 href="https://wa.me/972533353203"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold bg-[#25D366] text-white shadow-xl hover:bg-[#20bd5a] transition-all duration-300 hover:-translate-y-1"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">

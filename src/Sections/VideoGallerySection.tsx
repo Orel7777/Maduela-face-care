@@ -190,7 +190,7 @@ const VideoGallerySection: React.FC = () => {
               <span className="font-semibold">רוצה לראות עוד?</span> יש לנו עוד המון תוכן באינסטגרם
             </p>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/dikla_maduel?utm_source=qr&igsh=MWRiM2JkcWowbGxh"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-[#5b4f47] font-semibold text-sm hover:bg-[#ddc1a7] transition-colors"

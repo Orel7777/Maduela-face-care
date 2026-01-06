@@ -176,6 +176,8 @@ const FaqSection: React.FC = () => {
                 </p>
                 <a
                   href="https://wa.me/972533353203"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-[#5b4f47] font-semibold text-sm hover:bg-[#ddc1a7] transition-colors w-full justify-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#25D366">

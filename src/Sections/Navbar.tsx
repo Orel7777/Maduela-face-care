@@ -343,7 +343,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                     </StyledSocialIcon>
 
                     <StyledSocialIcon 
-                      href="https://waze.com/ul?q=נס ציונה, ישראל" 
+                      href="https://waze.com/ul?q=%D7%94%D7%91%D7%A0%D7%99%D7%9D%2050%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94&navigate=yes" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="waze"
@@ -651,7 +651,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                   {/* Mobile Social Icons */}
                   <div className="flex justify-center mb-8 space-x-8 rtl:space-x-reverse">
                     <StyledSocialIcon 
-                      href="https://waze.com/ul?q=נס ציונה, ישראל" 
+                      href="https://waze.com/ul?q=%D7%94%D7%91%D7%A0%D7%99%D7%9D%2050%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94&navigate=yes" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="waze"

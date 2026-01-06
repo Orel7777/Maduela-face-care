@@ -162,6 +162,8 @@ const FooterSection: React.FC = () => {
               <div className="flex items-center gap-3">
                 <StyledSocialIcon 
                   href="https://wa.me/972533353203"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="whatsapp"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -195,7 +197,7 @@ const FooterSection: React.FC = () => {
                   <FaFacebook className="w-5 h-5" />
                 </StyledSocialIcon>
                 <StyledSocialIcon 
-                  href="https://waze.com/ul?q=נס ציונה, ישראל"
+                  href="https://waze.com/ul?q=%D7%94%D7%91%D7%A0%D7%99%D7%9D%2050%2C%20%D7%A0%D7%A1%20%D7%A6%D7%99%D7%95%D7%A0%D7%94&navigate=yes"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="waze"
