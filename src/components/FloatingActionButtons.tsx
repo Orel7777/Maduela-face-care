@@ -62,13 +62,13 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({ onOpenCon
         href="https://wa.me/972533353203"
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed bottom-8 right-8 z-[60] items-center justify-center w-16 h-16 rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
+        className="hidden md:flex fixed bottom-8 right-8 z-[60] items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#695125] to-[#ddc1a7] text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1.2, type: "spring", stiffness: 260, damping: 20 }}
         aria-label="WhatsApp"
       >
-        <FaWhatsapp className="w-9 h-9" />
+        <FaWhatsapp className="w-9 h-9 text-white" />
       </motion.a>
 
       {/* Mobile Floating Buttons */}
@@ -93,13 +93,13 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({ onOpenCon
           href="https://wa.me/972533353203"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-xl active:scale-95 transition-all"
+          className="pointer-events-auto flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-[#695125] to-[#ddc1a7] text-white shadow-lg hover:shadow-xl active:scale-95 transition-all"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
           aria-label="WhatsApp"
         >
-          <FaWhatsapp className="w-8 h-8" />
+          <FaWhatsapp className="w-8 h-8 text-white" />
         </motion.a>
       </div>
     </>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
+import { Link } from 'react-router-dom';
 
 const FooterSection: React.FC = () => {
   const year = new Date().getFullYear();
@@ -138,9 +139,15 @@ const FooterSection: React.FC = () => {
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/50">
             <p>© {year} דקלה מדואלה. כל הזכויות שמורות.</p>
-            <p className="text-xs">
-              עוצב ופותח עם 💜 
-            </p>
+            <div className="flex items-center gap-4">
+              <Link
+                to="/privacy-policy"
+                className="text-xs text-white/60 hover:text-[#ddc1a7] transition-colors underline underline-offset-4"
+              >
+                מדיניות הפרטיות
+              </Link>
+              <p className="text-xs">עוצב ופותח עם 💜</p>
+            </div>
           </div>
         </div>
       </div>
