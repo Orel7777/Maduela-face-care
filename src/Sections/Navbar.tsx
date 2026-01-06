@@ -486,14 +486,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                   <RiMenuUnfoldFill className="w-7 h-7 text-[#ffffff]" />
                 </motion.button>
 
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="pointer-events-none inline-flex items-center gap-2 rounded-full bg-[#fffcf0]/85 border border-[#ddc1a7]/60 px-3 py-1 text-xs font-bold text-[#5b4f47] shadow-sm">
-                    <span className={`h-2 w-2 rounded-full ${statusDotClass}`} />
-                    {statusLabel}
-                    <span className="text-[#5b4f47]/70 font-semibold">({israelTimeLabel})</span>
-                  </div>
-                </div>
-
+                
                 <div className="absolute inset-0 flex items-center justify-end pr-0 pointer-events-none">
                   <div className="flex flex-col items-center pointer-events-auto" style={{ transform: 'translateX(10px)' }}>
                     <Link to="/">

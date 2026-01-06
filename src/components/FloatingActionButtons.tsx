@@ -76,13 +76,13 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({ onOpenCon
         {/* Left: Book Appointment */}
         <motion.button
           onClick={onOpenContact}
-          className="pointer-events-auto flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#5b4f47] to-[#695125] text-[#f8efdf] font-bold shadow-lg border border-[#ddc1a7]/30 hover:shadow-xl active:scale-95 transition-all"
+          className="pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#5b4f47] to-[#695125] text-[#f8efdf] font-bold text-sm shadow-lg border border-[#ddc1a7]/30 hover:shadow-xl active:scale-95 transition-all"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
           <span>קביעת תור</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
              <path d="M5 12h14" />
              <path d="m12 5 7 7-7 7" />
            </svg>
