@@ -58,10 +58,12 @@ const shortVideos = [
 
 const MethodologySection: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [mobileIndex, setMobileIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [scrollKey, setScrollKey] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const mobileItemRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   const baseVideos = shortVideos.slice(0, 5);
   // Duplicate twice for seamless loop
@@ -87,6 +89,12 @@ const MethodologySection: React.FC = () => {
       if (prev === null) return 0;
       return (prev - 1 + baseVideos.length) % baseVideos.length;
     });
+  };
+
+  const scrollToMobileIndex = (index: number) => {
+    const el = mobileItemRefs.current[index];
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   };
 
   const selectedVideo = selectedIndex === null ? null : baseVideos[selectedIndex];
@@ -159,8 +167,76 @@ const MethodologySection: React.FC = () => {
             </h3>
           </motion.div>
 
+          <div className="sm:hidden">
+            <div
+              className="relative overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-5 py-4 px-1"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
+              {baseVideos.map((video, index) => (
+                <div
+                  key={video.title}
+                  ref={(el) => {
+                    mobileItemRefs.current[index] = el;
+                  }}
+                  onClick={() => handleCardClick(index)}
+                  className="snap-center group/card relative shrink-0 w-[78%] max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
+                >
+                  <img
+                    src={video.thumbnailSrc}
+                    alt={video.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
+
+                  <div className="absolute inset-0 flex items-center justify-center z-10">
+                    <div className="w-14 h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
+                      <SiYoutubeshorts className="w-8 h-8 text-[#fe0034]" />
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-center z-20" dir="rtl">
+                    <h4 className="text-lg font-bold text-white tracking-tight drop-shadow-md">
+                      {video.title}
+                    </h4>
+                    <p className="text-white/80 text-sm mt-1 font-medium">
+                      {video.subtitle}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-center gap-4 mt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const next = (mobileIndex - 1 + baseVideos.length) % baseVideos.length;
+                  setMobileIndex(next);
+                  scrollToMobileIndex(next);
+                }}
+                className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 active:scale-95"
+                aria-label="הבא"
+              >
+                <IoChevronForward className="w-6 h-6 text-[#5b4f47]" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const prev = (mobileIndex + 1) % baseVideos.length;
+                  setMobileIndex(prev);
+                  scrollToMobileIndex(prev);
+                }}
+                className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 active:scale-95"
+                aria-label="הקודם"
+              >
+                <IoChevronBack className="w-6 h-6 text-[#5b4f47]" />
+              </button>
+            </div>
+          </div>
+
           <motion.div 
-            className="relative w-full overflow-hidden"
+            className="relative w-full overflow-hidden hidden sm:block"
             viewport={{ once: false, amount: 0.1 }}
             onViewportEnter={() => {
               setHasStarted(true);
