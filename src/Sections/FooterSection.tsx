@@ -226,10 +226,10 @@ const FooterSection: React.FC = () => {
                   { label: 'המלצות', href: '#testimonials' },
                   { label: 'שאלות נפוצות', href: '#faq' },
                 ].map((link) => (
-                  <li key={link.href}>
+                  <li key={link.href} className="text-[#ddc1a7]">
                     <a
                       href={link.href}
-                      className="text-white/70 hover:text-[#ddc1a7] text-sm transition-colors"
+                      className="hover:text-white/70 text-sm transition-colors"
                     >
                       {link.label}
                     </a>
@@ -288,21 +288,21 @@ const FooterSection: React.FC = () => {
                 </li>
 
                 {/* Email - NEW */}
-                <li className="flex items-center gap-3 text-sm">
+                <li className="flex items-center gap-3 text-sm text-[#ddc1a7]">
                   <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                     <CiMail className="text-[#ddc1a7] text-lg" />
                   </div>
-                  <a href="mailto:dikla.spa@gmail.com" className="text-white/70 hover:text-[#ddc1a7] transition-colors">
+                  <a href="mailto:dikla.spa@gmail.com" className="hover:text-white/70 transition-colors">
                     dikla.spa@gmail.com
                   </a>
                 </li>
 
                 {/* Phone - NEW */}
-                <li className="flex items-center gap-3 text-sm">
+                <li className="flex items-center gap-3 text-sm text-[#ddc1a7]">
                   <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                     <CiPhone className="text-[#ddc1a7] text-lg" />
                   </div>
-                  <a href="tel:0533353203" className="text-white/70 hover:text-[#ddc1a7] transition-colors">
+                  <a href="tel:0533353203" className="hover:text-white/70 transition-colors">
                     053-3353203
                   </a>
                 </li>
@@ -329,6 +329,7 @@ const FooterSection: React.FC = () => {
       </div>
     </footer>
   );
+  // 
 };
 
 export default FooterSection;
