@@ -106,7 +106,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              className={`group relative overflow-hidden rounded-3xl border border-[#5b4f47]/10 bg-white/55 backdrop-blur-sm hover:border-[#a06c3b]/35 transition ${
+              className={`group relative overflow-hidden rounded-3xl border border-[#5b4f47]/10 bg-white/55 backdrop-blur-sm hover:border-[#a06c3b]/35 transition flex flex-col h-full ${
                 service.popular ? 'ring-1 ring-[#a06c3b]/35' : ''
               }`}
             >
@@ -123,21 +123,23 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
               </div>
 
               {/* Content */}
-              <div className="p-5 text-right">
+              <div className="p-5 text-right flex flex-col flex-1">
                 <h4 className="text-lg md:text-xl font-semibold tracking-tight text-[#5b4f47]">{service.title}</h4>
                 <p className="mt-1 text-sm text-[#a06c3b] font-medium">{service.subtitle}</p>
                 <p className="mt-2 text-sm text-[#5b4f47]/75 leading-relaxed">{service.description}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-sm font-semibold text-[#5b4f47]">{service.price}</span>
-                  <span className="text-xs text-[#5b4f47]/70">{service.duration}</span>
+                <div className="mt-auto">
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-[#5b4f47]">{service.price}</span>
+                    <span className="text-xs text-[#5b4f47]/70">{service.duration}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onOpenContact && onOpenContact()}
+                    className="mt-4 inline-flex items-center justify-center w-full py-3 rounded-xl bg-[#5b4f47]/90 text-[#fffcf0] font-semibold text-sm hover:bg-[#5b4f47] transition"
+                  >
+                    <span>לקביעת תור</span>
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => onOpenContact && onOpenContact()}
-                  className="mt-4 inline-flex items-center justify-center w-full py-3 rounded-xl bg-[#5b4f47]/90 text-[#fffcf0] font-semibold text-sm hover:bg-[#5b4f47] transition"
-                >
-                  <span>לקביעת תור</span>
-                </button>
               </div>
             </motion.article>
           ))}

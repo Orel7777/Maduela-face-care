@@ -9,8 +9,8 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
   return (
     <section id="contact-cta" className="relative w-full py-20 sm:py-28 lg:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#5b4f47] via-[#4a3f39] to-[#695125]" />
-      <div className="absolute inset-0 bg-[url('/תמונות/טיפולי פנים/picture/13.jpeg')] bg-cover bg-center opacity-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#f9f0dd] via-[#fffcf0] to-[#f9f0dd]" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ddc1a7] to-transparent" />
       
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#fffcf0] to-transparent" />
@@ -27,19 +27,19 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
             viewport={{ once: true, amount: 0.3 }}
             className="text-center lg:text-right"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium text-white/90 mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#5b4f47]/10 border border-[#ddc1a7]/50 text-sm font-medium text-[#5b4f47] mb-6">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               זמינה לתורים
             </span>
             
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#5b4f47] leading-tight mb-6">
               מוכנה לשינוי?
-              <span className="block text-[#ddc1a7]">בואי נדבר</span>
+              <span className="block text-[#a06c3b]">בואי נדבר</span>
             </h2>
             
-            <p className="text-base sm:text-lg text-white/80 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 lg:mr-0">
+            <p className="text-base sm:text-lg text-[#5b4f47]/80 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 lg:mr-0">
               הצעד הראשון לעור זוהר מתחיל בשיחה קצרה. השאירי פרטים ואחזור אלייך תוך כמה שעות לתיאום ייעוץ או תור – 
-              <span className="font-semibold text-white"> בלי לחץ, רק הקשבה ומקצועיות.</span>
+              <span className="font-semibold text-[#5b4f47]"> בלי לחץ, רק הקשבה ומקצועיות.</span>
             </p>
 
             {/* Benefits */}
@@ -50,8 +50,8 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
                 { icon: '✓', text: 'ללא התחייבות' },
                 { icon: '✓', text: 'תיאום גמיש' },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-2 text-white/80">
-                  <span className="w-5 h-5 rounded-full bg-[#ddc1a7]/30 flex items-center justify-center text-[#ddc1a7] text-xs font-bold">
+                <div key={index} className="flex items-center gap-2 text-[#5b4f47]/80">
+                  <span className="w-5 h-5 rounded-full bg-[#ddc1a7]/40 flex items-center justify-center text-[#a06c3b] text-xs font-bold">
                     {item.icon}
                   </span>
                   <span className="text-sm">{item.text}</span>
@@ -94,8 +94,8 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
           >
             <div className="relative">
               {/* Main card */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
-                <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/20">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white/70 backdrop-blur-sm border border-[#ddc1a7]/30 shadow-2xl">
+                <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#ddc1a7]/30">
                   <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#ddc1a7]">
                     <img
                       src="/תמונות/טיפולי פנים/picture/14.jpeg"
@@ -104,48 +104,48 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
                     />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">דקלה מדואלה</h3>
-                    <p className="text-sm text-white/70">קוסמטיקאית רפואית</p>
+                    <h3 className="text-xl font-bold text-[#5b4f47]">דקלה מדואלה</h3>
+                    <p className="text-sm text-[#5b4f47]/70">קוסמטיקאית רפואית</p>
                   </div>
                 </div>
 
                 {/* Contact info */}
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/10 border border-white/10">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/70 border border-[#ddc1a7]/30">
+                    <div className="w-10 h-10 rounded-full bg-[#ddc1a7]/25 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
                         <circle cx="12" cy="10" r="3"/>
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-white/60">מיקום</p>
-                      <p className="text-sm font-medium text-white">נס ציונה</p>
+                      <p className="text-xs text-[#5b4f47]/60">מיקום</p>
+                      <p className="text-sm font-medium text-[#5b4f47]">נס ציונה</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/10 border border-white/10">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/70 border border-[#ddc1a7]/30">
+                    <div className="w-10 h-10 rounded-full bg-[#ddc1a7]/25 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="10"/>
                         <polyline points="12 6 12 12 16 14"/>
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-white/60">שעות פעילות</p>
-                      <p className="text-sm font-medium text-white">א׳-ה׳ | 9:00-19:00</p>
+                      <p className="text-xs text-[#5b4f47]/60">שעות פעילות</p>
+                      <p className="text-sm font-medium text-[#5b4f47]">א׳-ה׳ | 10:00-20:00</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/10 border border-white/10">
-                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/70 border border-[#ddc1a7]/30">
+                    <div className="w-10 h-10 rounded-full bg-[#ddc1a7]/25 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-white/60">זמינות</p>
-                      <p className="text-sm font-medium text-white">תגובה תוך כמה שעות</p>
+                      <p className="text-xs text-[#5b4f47]/60">זמינות</p>
+                      <p className="text-sm font-medium text-[#5b4f47]">תגובה תוך כמה שעות</p>
                     </div>
                   </div>
                 </div>

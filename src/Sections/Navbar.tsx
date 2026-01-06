@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { FaWaze, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import { RiMenuUnfoldFill } from "react-icons/ri";
@@ -175,8 +175,54 @@ const LogoImage = styled(motion.img)`
 
 const Header: FC<HeaderProps> = ({ onOpenContact }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [now, setNow] = useState(() => new Date());
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+
+  useEffect(() => {
+    const intervalId = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const israelWeekday = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Jerusalem',
+    weekday: 'short',
+  }).format(now);
+
+  const israelHour = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Jerusalem',
+      hour: '2-digit',
+      hour12: false,
+    }).format(now),
+  );
+
+  const israelMinute = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Jerusalem',
+      minute: '2-digit',
+      hour12: false,
+    }).format(now),
+  );
+
+  const israelTimeLabel = new Intl.DateTimeFormat('he-IL', {
+    timeZone: 'Asia/Jerusalem',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(now);
+
+  const israelMinutesSinceMidnight = israelHour * 60 + israelMinute;
+  const isOpenNow =
+    ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'].includes(israelWeekday) &&
+    israelMinutesSinceMidnight >= 10 * 60 &&
+    israelMinutesSinceMidnight < 20 * 60;
+
+  const statusLabel = isOpenNow ? 'פתוח' : 'סגור';
+  const statusPillClass = isOpenNow
+    ? 'bg-emerald-500/15 text-emerald-700 border-emerald-500/30'
+    : 'bg-red-500/15 text-red-700 border-red-500/30';
+  const statusDotClass = isOpenNow ? 'bg-emerald-500' : 'bg-red-500';
 
   const handleOpenForm = () => {
     if (onOpenContact) onOpenContact();
@@ -440,6 +486,14 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                   <RiMenuUnfoldFill className="w-7 h-7 text-[#ffffff]" />
                 </motion.button>
 
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="pointer-events-none inline-flex items-center gap-2 rounded-full bg-[#fffcf0]/85 border border-[#ddc1a7]/60 px-3 py-1 text-xs font-bold text-[#5b4f47] shadow-sm">
+                    <span className={`h-2 w-2 rounded-full ${statusDotClass}`} />
+                    {statusLabel}
+                    <span className="text-[#5b4f47]/70 font-semibold">({israelTimeLabel})</span>
+                  </div>
+                </div>
+
                 <div className="absolute inset-0 flex items-center justify-end pr-0 pointer-events-none">
                   <div className="flex flex-col items-center pointer-events-auto" style={{ transform: 'translateX(10px)' }}>
                     <Link to="/">
@@ -540,6 +594,14 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                     <span className="mt-3 text-lg font-semibold text-[#5b4f47]">
                       נעים מאוד - מדואלה דקלה שליט
                     </span>
+                  </div>
+
+                  <div className="flex justify-center">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-white/80 border border-[#ddc1a7]/60 px-3 py-1 text-sm font-bold text-[#5b4f47] shadow-sm">
+                      <span className={`h-2.5 w-2.5 rounded-full ${statusDotClass}`} />
+                      {statusLabel}
+                      <span className="text-[#5b4f47]/70 font-semibold">({israelTimeLabel})</span>
+                    </div>
                   </div>
 
                   <div className="flex gap-3 justify-center items-center mb-8">

@@ -1,9 +1,139 @@
 import { motion } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { FaWaze, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
+import { CiMail, CiPhone } from "react-icons/ci"; // האייקונים החדשים
+import styled from 'styled-components';
+
+const StyledSocialIcon = styled(motion.a)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(255, 252, 240, 0.9);
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  box-shadow: 0 4px 10px rgba(91, 79, 71, 0.18);
+  margin: 0 5px;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, rgba(255, 252, 240, 0.9), rgba(221, 193, 167, 0.7));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  &.waze {
+    color: #33CCFF;
+    svg { fill: #33CCFF; }
+  }
+  
+  &.whatsapp {
+    color: #25D366;
+    svg { fill: #25D366; }
+  }
+  
+  &.instagram {
+    color: #E1306C;
+    svg { fill: #E1306C; }
+  }
+  
+  &.facebook {
+    color: #4267B2;
+    svg { fill: #4267B2; }
+  }
+  
+  svg {
+    width: 22px;
+    height: 22px;
+    transition: all 0.3s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-8px) scale(1.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    svg {
+      transform: scale(1.2);
+    }
+  }
+  
+  &.waze:hover {
+    background-color: rgba(51, 204, 255, 0.1);
+    box-shadow: 0 10px 25px rgba(51, 204, 255, 0.5), 0 0 20px rgba(51, 204, 255, 0.3);
+  }
+  
+  &.whatsapp:hover {
+    background-color: rgba(37, 211, 102, 0.1);
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5), 0 0 20px rgba(37, 211, 102, 0.3);
+  }
+  
+  &.instagram:hover {
+    background-color: rgba(225, 48, 108, 0.1);
+    box-shadow: 0 10px 25px rgba(225, 48, 108, 0.5), 0 0 20px rgba(225, 48, 108, 0.3);
+  }
+  
+  &.facebook:hover {
+    background-color: rgba(66, 103, 178, 0.1);
+    box-shadow: 0 10px 25px rgba(66, 103, 178, 0.5), 0 0 20px rgba(66, 103, 178, 0.3);
+  }
+`;
 
 const FooterSection: React.FC = () => {
   const year = new Date().getFullYear();
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const israelWeekday = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Jerusalem',
+    weekday: 'short',
+  }).format(now);
+
+  const israelHour = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Jerusalem',
+      hour: '2-digit',
+      hour12: false,
+    }).format(now),
+  );
+
+  const israelMinute = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Jerusalem',
+      minute: '2-digit',
+      hour12: false,
+    }).format(now),
+  );
+
+  const israelTimeLabel = new Intl.DateTimeFormat('he-IL', {
+    timeZone: 'Asia/Jerusalem',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(now);
+
+  const israelMinutesSinceMidnight = israelHour * 60 + israelMinute;
+  const isOpenNow =
+    ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'].includes(israelWeekday) &&
+    israelMinutesSinceMidnight >= 10 * 60 &&
+    israelMinutesSinceMidnight < 20 * 60;
 
   return (
     <footer className="relative w-full bg-[#5b4f47] overflow-hidden">
@@ -30,35 +160,52 @@ const FooterSection: React.FC = () => {
               
               {/* Social links */}
               <div className="flex items-center gap-3">
-                <a
+                <StyledSocialIcon 
                   href="https://wa.me/972533353203"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#25D366] flex items-center justify-center text-white transition-colors"
+                  className="whatsapp"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.3 }}
                   aria-label="WhatsApp"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  </svg>
-                </a>
-                <a
-                  href="https://instagram.com"
+                  <FaWhatsapp className="w-5 h-5" />
+                </StyledSocialIcon>
+                <StyledSocialIcon 
+                  href="https://www.instagram.com/dikla_maduel?utm_source=qr&igsh=MWRiM2JkcWowbGxh"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 flex items-center justify-center text-white transition-all"
+                  className="instagram"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.4 }}
                   aria-label="Instagram"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                </a>
-                <a
-                  href="tel:0503080018"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#ddc1a7] hover:text-[#5b4f47] flex items-center justify-center text-white transition-colors"
-                  aria-label="Phone"
+                  <FaInstagram className="w-5 h-5" />
+                </StyledSocialIcon>
+                <StyledSocialIcon 
+                  href="https://www.facebook.com/profile.php?id=100058313266229"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="facebook"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.5 }}
+                  aria-label="Facebook"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                </a>
+                  <FaFacebook className="w-5 h-5" />
+                </StyledSocialIcon>
+                <StyledSocialIcon 
+                  href="https://waze.com/ul?q=נס ציונה, ישראל"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="waze"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.6 }}
+                  aria-label="Waze"
+                >
+                  <FaWaze className="w-5 h-5" />
+                </StyledSocialIcon>
               </div>
             </motion.div>
           </div>
@@ -71,7 +218,7 @@ const FooterSection: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <h4 className="text-white font-semibold mb-4">קישורים מהירים</h4>
+              <h4 className="text-white font-semibold mb-4">ניווט מהיר</h4>
               <ul className="space-y-2">
                 {[
                   { label: 'טיפולים', href: '#services' },
@@ -101,9 +248,10 @@ const FooterSection: React.FC = () => {
               viewport={{ once: true }}
             >
               <h4 className="text-white font-semibold mb-4">יצירת קשר</h4>
-              <ul className="space-y-3">
+              <ul className="space-y-4">
+                {/* Location */}
                 <li className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ddc1a7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
                       <circle cx="12" cy="10" r="3"/>
@@ -111,23 +259,51 @@ const FooterSection: React.FC = () => {
                   </div>
                   <span className="text-white/70">נס ציונה</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+
+                {/* Hours & Status */}
+                <li className="flex items-start gap-3 text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ddc1a7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10"/>
                       <polyline points="12 6 12 12 16 14"/>
                     </svg>
                   </div>
-                  <span className="text-white/70">א׳-ה׳ | 9:00-19:00</span>
-                </li>
-                <li className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ddc1a7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/>
-                    </svg>
+                  <div className="flex flex-col">
+                    <span className="text-white/70">שעות פעילות</span>
+                    <span className="text-white/50 text-xs">א׳-ה׳ | 10:00-20:00</span>
+                    <div className="mt-1 inline-flex items-center gap-2">
+                      <span
+                        className={`inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-semibold border ${
+                          isOpenNow
+                            ? 'bg-emerald-500/15 text-emerald-200 border-emerald-500/30'
+                            : 'bg-red-500/15 text-red-200 border-red-500/30'
+                        }`}
+                      >
+                        <span className={`h-2 w-2 rounded-full ${isOpenNow ? 'bg-emerald-400' : 'bg-red-400'}`} />
+                        {isOpenNow ? 'פתוח' : 'סגור'}
+                      </span>
+                      <span className="text-white/50 text-xs">({israelTimeLabel})</span>
+                    </div>
                   </div>
-                  <a href="tel:0503080018" className="text-white/70 hover:text-[#ddc1a7] transition-colors">
-                    050-3080018
+                </li>
+
+                {/* Email - NEW */}
+                <li className="flex items-center gap-3 text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                    <CiMail className="text-[#ddc1a7] text-lg" />
+                  </div>
+                  <a href="mailto:dikla.spa@gmail.com" className="text-white/70 hover:text-[#ddc1a7] transition-colors">
+                    dikla.spa@gmail.com
+                  </a>
+                </li>
+
+                {/* Phone - NEW */}
+                <li className="flex items-center gap-3 text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                    <CiPhone className="text-[#ddc1a7] text-lg" />
+                  </div>
+                  <a href="tel:0533353203" className="text-white/70 hover:text-[#ddc1a7] transition-colors">
+                    053-3353203
                   </a>
                 </li>
               </ul>
