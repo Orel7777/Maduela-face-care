@@ -136,14 +136,7 @@ const IPhoneModal: React.FC<{
                 </div>
                 
                 {/* Image content */}
-                <div className="relative aspect-[9/19.5] overflow-hidden">
-                  <img
-                    src={imageSrc}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 w-full h-full object-cover blur-2xl scale-125 opacity-70"
-                  />
-                  <div className="absolute inset-0 bg-black/15" />
+                <div className="relative aspect-[9/19.5] overflow-hidden bg-black">
                   <img
                     src={imageSrc}
                     alt="המלצה"

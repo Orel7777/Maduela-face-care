@@ -331,5 +331,4 @@ const FooterSection: React.FC = () => {
   );
   // 
 };
-
 export default FooterSection;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
 import { SiYoutubeshorts } from 'react-icons/si';
@@ -57,20 +57,15 @@ const shortVideos = [
 ];
 
 const MethodologySection: React.FC = () => {
-  const [isPaused, setIsPaused] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [scrollKey, setScrollKey] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const baseVideos = shortVideos.slice(0, 5);
-  const duplicatedVideos = [
-    ...baseVideos,
-    ...baseVideos,
-    ...baseVideos,
-    ...baseVideos,
-    ...baseVideos,
-    ...baseVideos,
-    ...baseVideos,
-    ...baseVideos,
-  ];
+  // Duplicate twice for seamless loop
+  const duplicatedVideos = [...baseVideos, ...baseVideos];
 
   const handleCardClick = (baseIndex: number) => {
     setSelectedIndex(baseIndex);
@@ -164,29 +159,42 @@ const MethodologySection: React.FC = () => {
             </h3>
           </motion.div>
 
-          <div 
+          <motion.div 
             className="relative w-full overflow-hidden"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
+            viewport={{ once: false, amount: 0.1 }}
+            onViewportEnter={() => {
+              setHasStarted(true);
+              setIsPaused(false);
+              setScrollKey((k) => k + 1);
+            }}
+            onPointerEnter={(e) => {
+              if (e.pointerType === 'mouse') setIsPaused(true);
+            }}
+            onPointerLeave={(e) => {
+              if (e.pointerType === 'mouse') setIsPaused(false);
+            }}
           >
             <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-[#f9f0dd] to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-[#f9f0dd] to-transparent z-10 pointer-events-none" />
 
-            <motion.div 
-              className="flex gap-5 sm:gap-6 py-4"
-              animate={{
-                x: isPaused ? undefined : ['0%', '-12.5%'],
+            <div
+              key={scrollKey}
+              ref={carouselRef}
+              className="flex gap-5 sm:gap-6 py-4 animate-scroll"
+              style={{
+                width: 'max-content',
+                animationPlayState: !hasStarted || isPaused ? 'paused' : 'running',
               }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: 'loop',
-                  duration: 25,
-                  ease: 'linear',
-                },
-              }}
-              style={{ width: 'max-content' }}
             >
+              <style>{`
+                @keyframes scroll {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .animate-scroll {
+                  animation: scroll 20s linear infinite;
+                }
+              `}</style>
               {duplicatedVideos.map((video, index) => (
                 <div
                   key={`${video.title}-${index}`}
@@ -216,8 +224,8 @@ const MethodologySection: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -225,33 +233,34 @@ const MethodologySection: React.FC = () => {
       <AnimatePresence>
         {selectedVideo && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
 
-            {/* MacBook Frame */}
+            {/* Modal Container */}
             <motion.div
-              className="relative z-10 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
-              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              className="relative z-10 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] flex flex-col items-center gap-4"
+              initial={{ scale: 0.9, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 50 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              exit={{ scale: 0.9, opacity: 0, y: 30 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 350 }}
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Desktop Navigation Buttons (hidden on mobile) */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handlePrev();
                 }}
-                className="absolute -left-10 sm:-left-12 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors"
+                className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
                 aria-label="Previous"
               >
-                <IoChevronBack className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                <IoChevronBack className="w-7 h-7 text-white" />
               </button>
 
               <button
@@ -259,51 +268,72 @@ const MethodologySection: React.FC = () => {
                   e.stopPropagation();
                   handleNext();
                 }}
-                className="absolute -right-10 sm:-right-12 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors"
+                className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
                 aria-label="Next"
               >
-                <IoChevronForward className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                <IoChevronForward className="w-7 h-7 text-white" />
               </button>
 
-              {/* Phone/Device Frame */}
-              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2.5rem] sm:rounded-[3rem] p-2 sm:p-3 shadow-2xl">
+              {/* Phone Frame */}
+              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2rem] sm:rounded-[2.5rem] p-2 shadow-2xl">
                 {/* Notch */}
-                <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-5 sm:h-6 bg-black rounded-full z-20" />
+                <div className="absolute top-3 sm:top-4 left-1/2 -translate-x-1/2 w-16 sm:w-20 h-4 sm:h-5 bg-black rounded-full z-20" />
                 
                 {/* Screen */}
-                <div className="relative bg-black rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden aspect-[9/16]">
+                <div className="relative bg-black rounded-[1.75rem] sm:rounded-[2.25rem] overflow-hidden aspect-[9/16]">
                   {/* Close Button */}
                   <button
                     onClick={closeModal}
-                    className="absolute top-3 right-3 z-30 w-8 h-8 sm:w-10 sm:h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors"
+                    className="absolute top-2 right-2 z-30 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
                   >
-                    <IoClose className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    <IoClose className="w-5 h-5 text-white" />
                   </button>
 
                   {/* Video/Image Content */}
                   <img
                     src={selectedVideo.thumbnailSrc}
                     alt={selectedVideo.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
 
                   {/* Overlay with info */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
                   {/* Video Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-center" dir="rtl">
-                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight drop-shadow-lg">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-center" dir="rtl">
+                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight drop-shadow-lg">
                       {selectedVideo.title}
                     </h3>
-                    <p className="text-white/80 text-base sm:text-lg mt-1 font-medium">
+                    <p className="text-white/80 text-sm sm:text-base mt-1 font-medium">
                       {selectedVideo.subtitle}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Device Bottom Bar */}
-              <div className="mx-auto mt-2 w-24 sm:w-32 h-1 sm:h-1.5 bg-gray-600 rounded-full" />
+              {/* Mobile Navigation Buttons (below video) */}
+              <div className="flex md:hidden items-center justify-center gap-4 mt-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrev();
+                  }}
+                  className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                  aria-label="Previous"
+                >
+                  <IoChevronBack className="w-6 h-6 text-white" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                  className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                  aria-label="Next"
+                >
+                  <IoChevronForward className="w-6 h-6 text-white" />
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
