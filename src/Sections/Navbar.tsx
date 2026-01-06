@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import type { FC } from 'react';
 import { FaWaze, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import { RiMenuUnfoldFill } from "react-icons/ri";
-import Form from '../components/Form';
 import Button from '../components/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { useLocation, Link } from 'react-router-dom';
+
+interface HeaderProps {
+  onOpenContact?: () => void;
+}
 
 const StyledMenuItem = styled(motion.a)`
   border: 2px solid #ddc1a7;
@@ -169,14 +173,13 @@ const LogoImage = styled(motion.img)`
   object-fit: cover;
 `;
 
-const Header = () => {
+const Header: FC<HeaderProps> = ({ onOpenContact }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
   const handleOpenForm = () => {
-    setIsFormOpen(true);
+    if (onOpenContact) onOpenContact();
     setIsMenuOpen(false);
   };
 
@@ -673,7 +676,6 @@ const Header = () => {
           )}
         </AnimatePresence>
       </motion.header>
-      <Form isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     </>
   );
 };

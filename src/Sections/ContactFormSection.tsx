@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 interface ContactFormSectionProps {
   isOpen: boolean;
@@ -6,22 +7,32 @@ interface ContactFormSectionProps {
 }
 
 const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6"
+          className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6 pointer-events-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/35 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
           />
 
           {/* Modal */}
@@ -30,127 +41,169 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="relative w-full max-w-lg"
+            className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto pointer-events-auto"
           >
-            <div className="relative overflow-hidden rounded-3xl bg-white shadow-2xl" dir="rtl">
-              {/* Header with gradient */}
-              <div className="relative bg-gradient-to-br from-[#5b4f47] to-[#695125] px-6 sm:px-8 pt-8 pb-16">
-                <div className="absolute inset-0 bg-[url('/תמונות/טיפולי פנים/picture/13.jpeg')] bg-cover bg-center opacity-20" />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#5b4f47]/90 to-[#695125]/90" />
-                
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold text-white">השאירי פרטים</h2>
-                      <p className="text-white/80 text-sm">ואחזור אלייך בהקדם</p>
-                    </div>
-                  </div>
-                  
-                  <p className="text-white/70 text-sm">
-                    מלאי את הפרטים ואחזור אלייך תוך כמה שעות לתיאום ייעוץ או קביעת תור.
-                  </p>
-                </div>
+            <section className="relative overflow-hidden ring-1 ring-black/10 bg-neutral-900 rounded-3xl" dir="rtl">
+              <div className="absolute inset-0">
+                <img
+                  src="/תמונות/טיפולי פנים/picture/13.jpeg"
+                  alt=""
+                  className="h-full w-full object-cover opacity-40"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/50 to-transparent" />
+              </div>
 
-                {/* Close button */}
+              <div className="relative z-10 sm:p-8 md:p-12 pt-5 pr-5 pb-5 pl-5">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-colors"
+                  className="absolute top-4 left-4 h-10 w-10 rounded-xl bg-white/10 text-white flex items-center justify-center ring-1 ring-white/15 hover:bg-white/15 transition-colors"
+                  aria-label="סגירה"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 6 6 18"/>
-                    <path d="m6 6 12 12"/>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
                   </svg>
                 </button>
-              </div>
 
-              {/* Form */}
-              <div className="relative px-6 sm:px-8 pb-8 -mt-8">
-                <div className="bg-white rounded-2xl shadow-xl border border-[#ddc1a7]/30 p-6">
-                  <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                    {/* Name field */}
-                    <div>
-                      <label htmlFor="contact-name" className="block text-sm font-medium text-[#5b4f47] mb-2">
-                        שם מלא <span className="text-[#a06c3b]">*</span>
-                      </label>
-                      <input
-                        id="contact-name"
-                        name="name"
-                        type="text"
-                        required
-                        placeholder="השם שלך"
-                        className="w-full px-4 py-3 rounded-xl border border-[#ddc1a7]/50 bg-[#f9f0dd]/30 text-[#5b4f47] placeholder:text-[#5b4f47]/40 focus:outline-none focus:ring-2 focus:ring-[#a06c3b] focus:border-transparent transition-all text-right"
-                      />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-5">
+                    <div className="rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/10 shadow-lg p-4 sm:p-5">
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="text-[11px] text-neutral-500">דקלה מדואלה</p>
+                          <h3 className="mt-1 text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
+                            קביעת תור
+                          </h3>
+                        </div>
+                        <div className="h-9 w-9 rounded-lg bg-neutral-900 text-white flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <form className="mt-4 space-y-3" onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                          <label htmlFor="ct-name" className="block text-xs text-neutral-600">
+                            שם מלא<span className="text-neutral-400"> *</span>
+                          </label>
+                          <input
+                            id="ct-name"
+                            name="name"
+                            type="text"
+                            required
+                            placeholder="השם שלך"
+                            className="mt-1 w-full pl-3 pr-3 py-2.5 text-sm rounded-xl ring-1 ring-black/10 focus:ring-2 focus:ring-neutral-900 outline-none bg-white placeholder:text-neutral-400 text-right"
+                          />
+                        </div>
+
+                        <div>
+                          <label htmlFor="ct-phone" className="block text-xs text-neutral-600">
+                            טלפון<span className="text-neutral-400"> *</span>
+                          </label>
+                          <input
+                            id="ct-phone"
+                            name="phone"
+                            type="tel"
+                            required
+                            placeholder="050-0000000"
+                            className="mt-1 w-full pl-3 pr-3 py-2.5 text-sm rounded-xl ring-1 ring-black/10 focus:ring-2 focus:ring-neutral-900 outline-none bg-white placeholder:text-neutral-400 text-right"
+                          />
+                        </div>
+
+                        <div>
+                          <label htmlFor="ct-msg" className="block text-xs text-neutral-600">
+                            הודעה (לא חובה)
+                          </label>
+                          <textarea
+                            id="ct-msg"
+                            name="message"
+                            rows={4}
+                            placeholder="ספרי לי בקצרה מה מטריד אותך בעור / איזה טיפול תרצי..."
+                            className="mt-1 w-full resize-y pl-3 pr-3 py-2.5 text-sm rounded-xl ring-1 ring-black/10 focus:ring-2 focus:ring-neutral-900 outline-none bg-white placeholder:text-neutral-400 text-right"
+                          />
+                        </div>
+
+                        <button
+                          type="submit"
+                          className="w-full inline-flex items-center justify-center rounded-xl bg-neutral-900 text-white px-4 py-3 text-sm font-medium hover:bg-neutral-800 transition-colors"
+                        >
+                          שליחה
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2">
+                            <path d="M19 12H5" />
+                            <path d="m12 19-7-7 7-7" />
+                          </svg>
+                        </button>
+
+                        <p className="text-[11px] text-neutral-500">בלחיצה על שליחה את מאשרת יצירת קשר לצורך תיאום תור.</p>
+                      </form>
                     </div>
+                  </div>
 
-                    {/* Phone field */}
-                    <div>
-                      <label htmlFor="contact-phone" className="block text-sm font-medium text-[#5b4f47] mb-2">
-                        טלפון <span className="text-[#a06c3b]">*</span>
-                      </label>
-                      <input
-                        id="contact-phone"
-                        name="phone"
-                        type="tel"
-                        required
-                        placeholder="050-0000000"
-                        className="w-full px-4 py-3 rounded-xl border border-[#ddc1a7]/50 bg-[#f9f0dd]/30 text-[#5b4f47] placeholder:text-[#5b4f47]/40 focus:outline-none focus:ring-2 focus:ring-[#a06c3b] focus:border-transparent transition-all text-right"
-                      />
-                    </div>
-
-                    {/* Message field */}
-                    <div>
-                      <label htmlFor="contact-message" className="block text-sm font-medium text-[#5b4f47] mb-2">
-                        במה אוכל לעזור?
-                      </label>
-                      <textarea
-                        id="contact-message"
-                        name="message"
-                        rows={3}
-                        placeholder="ספרי לי בקצרה על העור שלך או מה היית רוצה להשיג..."
-                        className="w-full px-4 py-3 rounded-xl border border-[#ddc1a7]/50 bg-[#f9f0dd]/30 text-[#5b4f47] placeholder:text-[#5b4f47]/40 focus:outline-none focus:ring-2 focus:ring-[#a06c3b] focus:border-transparent transition-all resize-none text-right"
-                      />
-                    </div>
-
-                    {/* Submit button */}
-                    <button
-                      type="submit"
-                      className="w-full py-4 rounded-xl bg-gradient-to-r from-[#5b4f47] to-[#695125] text-white font-semibold text-base hover:from-[#695125] hover:to-[#5b4f47] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                    >
-                      <span>שלחי ואחזור אלייך</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14"/>
-                        <path d="m12 5 7 7-7 7"/>
-                      </svg>
-                    </button>
-
-                    {/* Privacy note */}
-                    <p className="text-xs text-[#5b4f47]/60 text-center">
-                      הפרטים שלך נשמרים בפרטיות מלאה ומשמשים רק ליצירת קשר
+                  <div className="lg:col-span-7">
+                    <h2 className="text-white tracking-tight text-4xl sm:text-5xl font-semibold leading-[1.05]">
+                      בואי נתאם טיפול.
+                    </h2>
+                    <p className="sm:text-lg max-w-2xl text-base text-neutral-200 mt-4">
+                      השאירי פרטים ואני חוזרת אלייך תוך כמה שעות כדי לקבוע יום ושעה שנוחים לך.
                     </p>
-                  </form>
-                </div>
 
-                {/* Quick contact alternatives */}
-                <div className="mt-6 flex items-center justify-center gap-4">
-                  <span className="text-sm text-[#5b4f47]/60">או פני אליי ישירות:</span>
-                  <a
-                    href="https://wa.me/972533353203"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white text-sm font-medium hover:bg-[#20bd5a] transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                    </svg>
-                    וואטסאפ
-                  </a>
+                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div className="flex items-start gap-3">
+                        <div className="h-9 w-9 rounded-lg bg-white/10 backdrop-blur ring-1 ring-white/15 flex items-center justify-center text-emerald-300">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 6v6h4" />
+                            <circle cx="12" cy="12" r="10" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="text-white font-medium text-sm">מענה מהיר</p>
+                          <p className="text-neutral-300 text-xs">בדרך כלל חוזרת תוך כמה שעות.</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <div className="h-9 w-9 rounded-lg bg-white/10 backdrop-blur ring-1 ring-white/15 flex items-center justify-center text-emerald-300">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="text-white font-medium text-sm">תיאום קל</p>
+                          <p className="text-neutral-300 text-xs">שיחה קצרה וקובעים תור.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-7">
+                      <div className="inline-flex items-center gap-3 rounded-2xl bg-white/95 backdrop-blur ring-1 ring-black/10 shadow-lg p-3">
+                        <img
+                          src="/לוגו/לוגו_גדול.jpeg"
+                          alt="דקלה מדואלה"
+                          className="h-12 w-12 rounded-xl object-cover"
+                        />
+                        <div className="min-w-0">
+                          <p className="text-[11px] text-neutral-500 leading-none">קוסמטיקאית רפואית</p>
+                          <p className="text-neutral-900 font-medium tracking-tight truncate">דקלה מדואלה</p>
+                        </div>
+                        <a
+                          href="https://wa.me/972533353203"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mr-1 inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-3 py-2 text-xs font-medium hover:bg-neutral-800 transition-colors"
+                        >
+                          וואטסאפ
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </section>
           </motion.div>
         </motion.div>
       )}

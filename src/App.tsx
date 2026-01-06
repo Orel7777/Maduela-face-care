@@ -23,7 +23,7 @@ function App() {
       {isLoading && <Loading onDone={() => setIsLoading(false)} />}
       {!isLoading && (
         <>
-          <Header />
+          <Header onOpenContact={() => setIsContactOpen(true)} />
           <main className="min-h-screen pt-24 text-brand-inkMuted">
             <HeroSection onOpenContact={() => setIsContactOpen(true)} />
             <ServicesSection onOpenContact={() => setIsContactOpen(true)} />
