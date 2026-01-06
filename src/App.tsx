@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './Sections/Navbar'
 import HeroSection from './Sections/HeroSection'
@@ -17,8 +17,19 @@ import FloatingActionButtons from './components/FloatingActionButtons'
 import PrivacyPolicy from './Pages/PrivacyPolicy'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if user has already seen loading screen in this session
+    const hasSeenLoading = sessionStorage.getItem('hasSeenLoading')
+    return !hasSeenLoading
+  })
   const [isContactOpen, setIsContactOpen] = useState(false)
+
+  useEffect(() => {
+    // Mark that user has seen loading screen in this session
+    if (isLoading) {
+      sessionStorage.setItem('hasSeenLoading', 'true')
+    }
+  }, [isLoading])
 
   return (
     <>
