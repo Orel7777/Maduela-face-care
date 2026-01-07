@@ -28,30 +28,42 @@ const shortVideos = [
     title: 'טיפול מדויק ונעים',
     subtitle: 'תוצאה שמרגישים',
     thumbnailSrc: '/תמונות/המלצות/1.1.jpeg',
+    videoSrc: '/תמונות/דקלה/סרטונים/5.mp4',
     href: '',
   },
   {
     title: 'חוויה רגועה',
     subtitle: 'וליווי אישי',
     thumbnailSrc: '/תמונות/המלצות/1.2.jpeg',
+    videoSrc: '/תמונות/דקלה/סרטונים/6.mp4',
     href: '',
   },
   {
     title: 'המלצה קצרה',
     subtitle: 'מהלב',
     thumbnailSrc: '/תמונות/המלצות/1.3.jpeg',
+    videoSrc: '/תמונות/דקלה/סרטונים/7.mp4',
     href: '',
   },
   {
     title: 'שירות ומקצועיות',
     subtitle: 'ברמה אחרת',
     thumbnailSrc: '/תמונות/המלצות/1.4.jpeg',
+    videoSrc: '/תמונות/דקלה/סרטונים/8.mp4',
     href: '',
   },
   {
     title: 'עור מאוזן',
     subtitle: 'וזוהר טבעי',
     thumbnailSrc: '/תמונות/המלצות/1.5.jpeg',
+    videoSrc: '/תמונות/דקלה/סרטונים/9.mp4',
+    href: '',
+  },
+  {
+    title: 'תוצאות מדהימות',
+    subtitle: 'עור בריא וזוהר',
+    thumbnailSrc: '/תמונות/המלצות/1.1.jpeg',
+    videoSrc: '/תמונות/דקלה/סרטונים/10.mp4',
     href: '',
   },
 ];
@@ -181,10 +193,14 @@ const MethodologySection: React.FC = () => {
                   onClick={() => handleCardClick(index)}
                   className="snap-center group/card relative shrink-0 w-[78%] max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
                 >
-                  <img
-                    src={video.thumbnailSrc}
-                    alt={video.title}
+                  <video
+                    src={`${video.videoSrc}#t=0.1`}
+                    poster={video.thumbnailSrc}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                    muted
+                    playsInline
+                    preload="metadata"
+                    disablePictureInPicture
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
 
@@ -277,10 +293,14 @@ const MethodologySection: React.FC = () => {
                   onClick={() => handleCardClick(index % baseVideos.length)}
                   className="group/card relative shrink-0 w-56 sm:w-64 md:w-72 aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
                 >
-                  <img
-                    src={video.thumbnailSrc}
-                    alt={video.title}
+                  <video
+                    src={`${video.videoSrc}#t=0.1`}
+                    poster={video.thumbnailSrc}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                    muted
+                    playsInline
+                    preload="metadata"
+                    disablePictureInPicture
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
 
@@ -320,7 +340,7 @@ const MethodologySection: React.FC = () => {
 
             {/* Modal Container */}
             <motion.div
-              className="relative z-10 w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] flex flex-col items-center gap-4"
+              className="relative z-10 w-full max-w-[340px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[520px] flex flex-col items-center gap-4"
               initial={{ scale: 0.9, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -333,7 +353,7 @@ const MethodologySection: React.FC = () => {
                   e.stopPropagation();
                   handlePrev();
                 }}
-                className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
+                className="hidden md:flex absolute -left-20 top-1/2 -translate-y-1/2 z-30 w-14 h-14 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
                 aria-label="Previous"
               >
                 <IoChevronBack className="w-7 h-7 text-white" />
@@ -344,43 +364,50 @@ const MethodologySection: React.FC = () => {
                   e.stopPropagation();
                   handleNext();
                 }}
-                className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
+                className="hidden md:flex absolute -right-20 top-1/2 -translate-y-1/2 z-30 w-14 h-14 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
                 aria-label="Next"
               >
                 <IoChevronForward className="w-7 h-7 text-white" />
               </button>
 
               {/* Phone Frame */}
-              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2rem] sm:rounded-[2.5rem] p-2 shadow-2xl">
+              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2.5rem] sm:rounded-[3rem] p-2.5 sm:p-3 shadow-2xl">
                 {/* Notch */}
-                <div className="absolute top-3 sm:top-4 left-1/2 -translate-x-1/2 w-16 sm:w-20 h-4 sm:h-5 bg-black rounded-full z-20" />
+                <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-5 sm:h-6 bg-black rounded-full z-20" />
                 
                 {/* Screen */}
-                <div className="relative bg-black rounded-[1.75rem] sm:rounded-[2.25rem] overflow-hidden aspect-[9/16]">
+                <div className="relative bg-black rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden aspect-[9/16]">
                   {/* Close Button */}
                   <button
                     onClick={closeModal}
-                    className="absolute top-2 right-2 z-30 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                    className="absolute top-3 right-3 z-30 w-9 h-9 sm:w-10 sm:h-10 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
                   >
-                    <IoClose className="w-5 h-5 text-white" />
+                    <IoClose className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </button>
 
-                  {/* Video/Image Content */}
-                  <img
-                    src={selectedVideo.thumbnailSrc}
-                    alt={selectedVideo.title}
-                    className="w-full h-full object-contain"
+                  {/* Video Content */}
+                  <video
+                    key={selectedVideo.videoSrc}
+                    src={selectedVideo.videoSrc}
+                    poster={selectedVideo.thumbnailSrc}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    disablePictureInPicture
                   />
 
                   {/* Overlay with info */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
 
                   {/* Video Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-center" dir="rtl">
-                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight drop-shadow-lg">
+                  <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-center pointer-events-none" dir="rtl">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight drop-shadow-lg">
                       {selectedVideo.title}
                     </h3>
-                    <p className="text-white/80 text-sm sm:text-base mt-1 font-medium">
+                    <p className="text-white/80 text-base sm:text-lg mt-1 font-medium">
                       {selectedVideo.subtitle}
                     </p>
                   </div>

@@ -4,15 +4,22 @@ import { useState, useEffect } from 'react';
 
 // Testimonial images from the folder
 const testimonialImagesFallback = [
-  '/תמונות/המלצות/images/parallax-bg-1.jpg',
-  '/תמונות/המלצות/images/parallax-bg-2.jpg',
-  '/תמונות/המלצות/images/parallax-bg-3.jpg',
-  '/תמונות/המלצות/images/parallax-bg-4.jpg',
-  '/תמונות/המלצות/images/parallax-bg-5.jpg',
+  '/תמונות/דקלה/ביקורות/1.10.jpeg',
+  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.35.jpeg',
+  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36 (1).jpeg',
+  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36 (2).jpeg',
+  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36.jpeg',
+  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.37.jpeg',
+  '/תמונות/דקלה/ביקורות/parallax-bg-1.jpg',
+  '/תמונות/דקלה/ביקורות/parallax-bg-2.jpg',
+  '/תמונות/דקלה/ביקורות/parallax-bg-3.jpg',
+  '/תמונות/דקלה/ביקורות/parallax-bg-4.jpg',
+  '/תמונות/דקלה/ביקורות/parallax-bg-5.jpg',
+  '/תמונות/דקלה/ביקורות/תמונה של WhatsApp_ 2025-06-17 בשעה 21.28.20_70cf6a36.jpg',
 ];
 
 const testimonialImagesFromFolder = Object.values(
-  import.meta.glob('../../public/תמונות/המלצות/images/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', {
+  import.meta.glob('../../public/תמונות/דקלה/ביקורות/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', {
     eager: true,
     as: 'url',
   })
@@ -118,7 +125,7 @@ const IPhoneModal: React.FC<{
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-20" />
               
               {/* iPhone screen */}
-              <div className="relative bg-black rounded-[2.5rem] overflow-hidden">
+              <div className="relative bg-transparent rounded-[2.5rem] overflow-hidden">
                 {/* Status bar */}
                 <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/50 to-transparent z-10 flex items-center justify-between px-8 pt-2">
                   <span className="text-white text-xs font-medium">9:41</span>
@@ -136,11 +143,11 @@ const IPhoneModal: React.FC<{
                 </div>
                 
                 {/* Image content */}
-                <div className="relative aspect-[9/19.5] overflow-hidden bg-black">
+                <div className="relative aspect-[9/19.5] overflow-hidden bg-transparent">
                   <img
                     src={imageSrc}
                     alt="המלצה"
-                    className="relative z-[1] w-full h-full object-contain"
+                    className="relative z-[1] w-full h-full object-contain object-center"
                   />
                 </div>
                 
