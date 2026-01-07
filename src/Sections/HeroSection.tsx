@@ -9,28 +9,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const stories = useMemo(
     () => [
       {
-        thumbSrc: '/תמונות/דקלה/סרטונים/1.mp4',
+        thumbSrc: '/תמונות/Dikla/video/1.mp4',
         label: 'תוצאות',
         active: true,
-        videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
+        videoSrc: '/תמונות/Dikla/video/1.mp4',
       },
       {
-        thumbSrc: '/תמונות/דקלה/סרטונים/2.mp4',
+        thumbSrc: '/תמונות/Dikla/video/2.mp4',
         label: 'טיפים',
         active: true,
-        videoSrc: '/תמונות/דקלה/סרטונים/2.mp4',
+        videoSrc: '/תמונות/Dikla/video/2.mp4',
       },
       {
-        thumbSrc: '/תמונות/דקלה/סרטונים/3.mp4',
+        thumbSrc: '/תמונות/Dikla/video/3.mp4',
         label: 'שגרה',
         active: true,
-        videoSrc: '/תמונות/דקלה/סרטונים/3.mp4',
+        videoSrc: '/תמונות/Dikla/video/3.mp4',
       },
       {
-        thumbSrc: '/תמונות/דקלה/סרטונים/4.mp4',
+        thumbSrc: '/תמונות/Dikla/video/4.mp4',
         label: 'שאלות',
         active: true,
-        videoSrc: '/תמונות/דקלה/סרטונים/4.mp4',
+        videoSrc: '/תמונות/Dikla/video/4.mp4',
       },
     ],
     []
@@ -40,6 +40,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [isStoryPaused, setIsStoryPaused] = useState(false);
   const storyVideoRef = useRef<HTMLVideoElement | null>(null);
+  const [thumbnailsLoaded, setThumbnailsLoaded] = useState<Record<number, boolean>>({});
+  const [storyVideoLoaded, setStoryVideoLoaded] = useState(false);
 
   const trustGridDesktopRef = useRef<HTMLDivElement | null>(null);
   const trustGridMobileRef = useRef<HTMLDivElement | null>(null);
@@ -53,6 +55,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
       setActiveStoryIndex(index);
       setIsStoryPaused(false);
       setIsStoryOpen(true);
+      setStoryVideoLoaded(false);
     },
     [setActiveStoryIndex, setIsStoryPaused, setIsStoryOpen]
   );
@@ -65,11 +68,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const goPrevStory = useCallback(() => {
     setActiveStoryIndex((prev) => (prev - 1 + stories.length) % stories.length);
     setIsStoryPaused(false);
+    setStoryVideoLoaded(false);
   }, [stories.length]);
 
   const goNextStory = useCallback(() => {
     setActiveStoryIndex((prev) => (prev + 1) % stories.length);
     setIsStoryPaused(false);
+    setStoryVideoLoaded(false);
   }, [stories.length]);
 
   useEffect(() => {
@@ -195,6 +200,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
             </button>
 
             <div className="relative w-full aspect-[9/16] bg-black">
+              {!storyVideoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/90">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                    <span className="text-white/70 text-sm">טוען...</span>
+                  </div>
+                </div>
+              )}
               <video
                 key={stories[activeStoryIndex]?.videoSrc}
                 ref={storyVideoRef}
@@ -205,6 +218,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 playsInline
                 controls={false}
                 disablePictureInPicture
+                onLoadedData={() => setStoryVideoLoaded(true)}
                 onEnded={goNextStory}
               />
 
@@ -213,14 +227,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                   <div className="flex items-center gap-3">
                     <div className="p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500">
                       <div className="p-0.5 bg-black rounded-full">
-                        <video
-                          src={`${stories[activeStoryIndex]?.videoSrc}#t=0.1`}
-                          className="w-10 h-10 rounded-full object-cover"
-                          muted
-                          playsInline
-                          preload="metadata"
-                          disablePictureInPicture
-                        />
+                        <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                          <video
+                            src={`${stories[activeStoryIndex]?.videoSrc}#t=0.1`}
+                            className="w-10 h-10 rounded-full object-cover"
+                            muted
+                            playsInline
+                            preload="metadata"
+                            disablePictureInPicture
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">
@@ -484,20 +500,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                           }
                         >
                           <div className="p-0.5 bg-white rounded-full ring-0 ring-[#a06c3b]/0 group-hover:ring-2 group-hover:ring-[#a06c3b]/35 group-focus-visible:ring-2 group-focus-visible:ring-[#a06c3b]/45 transition-all">
-                            <video
-                              src={`${story.videoSrc}#t=0.1`}
-                              className={
-                                story.active
-                                  ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
-                                  : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
-                              }
-                              muted
-                              playsInline
-                              preload="metadata"
-                              controls={false}
-                              disablePictureInPicture
-                              aria-label={story.label}
-                            />
+                            <div className="relative w-14 h-14 rounded-full overflow-hidden">
+                              {!thumbnailsLoaded[index] && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-[#5b4f47]/20">
+                                  <div className="w-5 h-5 border-2 border-[#a06c3b]/30 border-t-[#a06c3b] rounded-full animate-spin" />
+                                </div>
+                              )}
+                              <video
+                                src={`${story.videoSrc}#t=0.1`}
+                                className={
+                                  story.active
+                                    ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
+                                    : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
+                                }
+                                muted
+                                playsInline
+                                preload="metadata"
+                                controls={false}
+                                disablePictureInPicture
+                                onLoadedData={() => setThumbnailsLoaded(prev => ({ ...prev, [index]: true }))}
+                                aria-label={story.label}
+                              />
+                            </div>
                           </div>
                         </div>
                         <span
