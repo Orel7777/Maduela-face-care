@@ -7,7 +7,6 @@ import MethodologySection from './Sections/MethodologySection'
 import TestimonialsSection from './Sections/TestimonialsSection'
 import CertificatesSection from './Sections/CertificatesSection'
 import VideoGallerySection from './Sections/VideoGallerySection'
-import StatsSection from './Sections/StatsSection'
 import FaqSection from './Sections/FaqSection'
 import ContactCtaSection from './Sections/ContactCtaSection'
 import ContactFormSection from './Sections/ContactFormSection'
@@ -49,7 +48,6 @@ function App() {
                   <TestimonialsSection />
                   <CertificatesSection />
                   <VideoGallerySection />
-                  <StatsSection />
                   <FaqSection />
                   <ContactCtaSection onOpenContact={() => setIsContactOpen(true)} />
                   <MassagePromo className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 pb-10" />

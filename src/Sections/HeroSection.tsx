@@ -382,25 +382,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               </a>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.46 }}
-              className="flex items-center justify-end mt-2 sm:mt-3 mb-6"
-            >
-              <a
-                href="https://dikla-massage.co.il/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-5 py-3 rounded-xl text-sm font-semibold text-[#5b4f47] bg-white/80 backdrop-blur-sm border-2 border-[#ddc1a7] hover:bg-white hover:border-[#a06c3b] shadow-md hover:shadow-lg transition-all duration-300"
-              >
-                <span className="rounded-full bg-[#a06c3b]/10 text-[#a06c3b] px-2 py-0.5 text-[10px] font-bold">
-                  מעבר לאתר
-                </span>
-                <span>דקלה מדואלה - מסאג'ים</span>
-              </a>
-            </motion.div>
-
             {/* Trust indicators */}
             <div className="hidden sm:block">
               <motion.div
@@ -645,11 +626,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <span className="text-xs text-[#5b4f47]/60">גלי למטה</span>
           <motion.div
             className="w-6 h-10 rounded-full border-2 border-[#5b4f47]/30 flex justify-center pt-2"
             animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
             <div className="w-1.5 h-3 rounded-full bg-[#5b4f47]/40" />
           </motion.div>

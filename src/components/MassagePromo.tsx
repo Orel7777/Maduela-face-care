@@ -27,7 +27,7 @@ const MassagePromo: React.FC<MassagePromoProps> = ({ className }) => {
                 href="https://dikla-massage.co.il/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-[#5b4f47] text-[#fffcf0] px-6 py-3 text-sm font-semibold shadow-md hover:shadow-lg transition-shadow"
+                className="inline-flex items-center justify-center rounded-full bg-[#5b4f47] text-white px-6 py-3 text-sm font-semibold shadow-md hover:shadow-lg transition-shadow"
               >
                 לדף המסאז׳ים
               </a>
