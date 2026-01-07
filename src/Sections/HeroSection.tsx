@@ -300,7 +300,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
       {/* Background with gradient overlay */}
       <div className="absolute inset-0">
         <img
-          src="/תמונות/דקלה/ראשית%20דקלה.jpeg"
+          src="/תמונות/Dikla/ראשית%20דקלה.jpeg"
           alt="טיפול פנים מקצועי"
           className="w-full h-full object-contain object-center sm:object-cover"
         />
@@ -540,7 +540,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
 
                 <div className="relative w-full aspect-[3/4] ring-1 ring-inset ring-[#ddc1a7]/60">
                   <img
-                    src="/תמונות/דקלה/ראשית%20דקלה.jpeg"
+                    src="/תמונות/Dikla/ראשית%20דקלה.jpeg"
                     alt="תוצאה אחרי טיפול פנים"
                     className="w-full h-full object-cover object-center"
                   />

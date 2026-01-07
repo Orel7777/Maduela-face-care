@@ -4,22 +4,22 @@ import { useState, useEffect } from 'react';
 
 // Testimonial images from the folder
 const testimonialImagesFallback = [
-  '/תמונות/דקלה/ביקורות/1.10.jpeg',
-  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.35.jpeg',
-  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36 (1).jpeg',
-  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36 (2).jpeg',
-  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36.jpeg',
-  '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.37.jpeg',
-  '/תמונות/דקלה/ביקורות/parallax-bg-1.jpg',
-  '/תמונות/דקלה/ביקורות/parallax-bg-2.jpg',
-  '/תמונות/דקלה/ביקורות/parallax-bg-3.jpg',
-  '/תמונות/דקלה/ביקורות/parallax-bg-4.jpg',
-  '/תמונות/דקלה/ביקורות/parallax-bg-5.jpg',
-  '/תמונות/דקלה/ביקורות/תמונה של WhatsApp_ 2025-06-17 בשעה 21.28.20_70cf6a36.jpg',
+  '/תמונות/Dikla/Recommendations/1.10.jpeg',
+  '/תמונות/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.35.jpeg',
+  '/תמונות/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.36 (1).jpeg',
+  '/תמונות/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.36 (2).jpeg',
+  '/תמונות/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.36.jpeg',
+  '/תמונות/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.37.jpeg',
+  '/תמונות/Dikla/Recommendations/parallax-bg-1.jpg',
+  '/תמונות/Dikla/Recommendations/parallax-bg-2.jpg',
+  '/תמונות/Dikla/Recommendations/parallax-bg-3.jpg',
+  '/תמונות/Dikla/Recommendations/parallax-bg-4.jpg',
+  '/תמונות/Dikla/Recommendations/parallax-bg-5.jpg',
+  '/תמונות/Dikla/Recommendations/תמונה של WhatsApp_ 2025-06-17 בשעה 21.28.20_70cf6a36.jpg',
 ];
 
 const testimonialImagesFromFolder = Object.values(
-  import.meta.glob('../../public/תמונות/דקלה/ביקורות/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', {
+  import.meta.glob('../../public/תמונות/Dikla/Recommendations/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', {
     eager: true,
     as: 'url',
   })

@@ -100,7 +100,7 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
                 <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#ddc1a7]/30">
                   <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#ddc1a7]">
                     <img
-                      src="/תמונות/דקלה/picture/14.jpeg"
+                      src="/תמונות/Dikla/picture/14.jpeg"
                       alt="דקלה מדואלה"
                       className="w-full h-full object-cover"
                     />

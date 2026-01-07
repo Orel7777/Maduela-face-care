@@ -4,27 +4,27 @@ import { useState } from 'react';
 
 const certificates = [
   {
-    src: '/תמונות/דקלה/תעודות/WhatsApp Image 2025-04-14 at 19.44.28 (1).jpeg',
+    src: '/תמונות/Dikla/Certificates/WhatsApp Image 2025-04-14 at 19.44.28 (1).jpeg',
     title: 'תעודת קוסמטיקאית רפואית',
   },
   {
-    src: '/תמונות/דקלה/תעודות/WhatsApp Image 2025-04-14 at 19.44.28.jpeg',
+    src: '/תמונות/Dikla/Certificates/WhatsApp Image 2025-04-14 at 19.44.28.jpeg',
     title: 'הסמכה בטיפולי פנים מתקדמים',
   },
   {
-    src: '/תמונות/דקלה/תעודות/WhatsApp Image 2025-04-14 at 19.45.24.jpeg',
+    src: '/תמונות/Dikla/Certificates/WhatsApp Image 2025-04-14 at 19.45.24.jpeg',
     title: 'קורס טיפולי אנטי-אייג׳ינג',
   },
   {
-    src: '/תמונות/דקלה/תעודות/WhatsApp Image 2025-04-14 at 19.47.12.jpeg',
+    src: '/תמונות/Dikla/Certificates/WhatsApp Image 2025-04-14 at 19.47.12.jpeg',
     title: 'השתלמות טיפול בעור רגיש',
   },
   {
-    src: '/תמונות/דקלה/תעודות/WhatsApp Image 2025-04-14 at 19.55.01.jpeg',
+    src: '/תמונות/Dikla/Certificates/WhatsApp Image 2025-04-14 at 19.55.01.jpeg',
     title: 'הסמכה בפילינגים מתקדמים',
   },
   {
-    src: '/תמונות/דקלה/תעודות/WhatsApp Image 2025-04-14 at 19.56.19.jpeg',
+    src: '/תמונות/Dikla/Certificates/WhatsApp Image 2025-04-14 at 19.56.19.jpeg',
     title: 'תעודה מקצועית נוספת',
   },
 ];
