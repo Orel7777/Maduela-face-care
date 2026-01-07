@@ -9,28 +9,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const stories = useMemo(
     () => [
       {
-        thumbSrc: '/assets/videos/1.mp4',
+        thumbSrc: '/תמונות/דקלה/סרטונים/1.mp4',
         label: 'תוצאות',
         active: true,
-        videoSrc: '/assets/videos/1.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
       },
       {
-        thumbSrc: '/assets/videos/2.mp4',
+        thumbSrc: '/תמונות/דקלה/סרטונים/2.mp4',
         label: 'טיפים',
         active: true,
-        videoSrc: '/assets/videos/2.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/2.mp4',
       },
       {
-        thumbSrc: '/assets/videos/3.mp4',
+        thumbSrc: '/תמונות/דקלה/סרטונים/3.mp4',
         label: 'שגרה',
         active: true,
-        videoSrc: '/assets/videos/3.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/3.mp4',
       },
       {
-        thumbSrc: '/assets/videos/4.mp4',
+        thumbSrc: '/תמונות/דקלה/סרטונים/4.mp4',
         label: 'שאלות',
         active: true,
-        videoSrc: '/assets/videos/4.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/4.mp4',
       },
     ],
     []
