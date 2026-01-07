@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
 
 interface VideoItem {
@@ -14,48 +14,32 @@ interface VideoItem {
 const videos: VideoItem[] = [
   {
     id: 1,
-    src: '/תמונות/טיפולי פנים/video/5.mp4',
-    title: 'טיפול ניקוי עמוק',
-    description: 'הצצה לתהליך ניקוי עמוק ועדין – איך זה נראה, מה מרגישים, ואיזו תוצאה מקבלים.',
-    category: 'ניקוי',
-    duration: '00:41',
+    src: '/תמונות/דקלה/סרטונים/20251104_114135000_iOS (video-converter.com).mp4',
+    title: 'וידאו מהקליניקה',
+    description: 'רגעים אמיתיים מהקליניקה.',
+    category: 'קליניקה',
+    duration: '',
   },
   {
     id: 2,
-    src: '/תמונות/טיפולי פנים/video/1.mp4',
-    title: 'אווירת הקליניקה',
-    description: 'רגעים של שקט ורוגע בחדר הטיפולים – כך נראית החוויה שמחכה לך.',
-    category: 'אווירה',
-    duration: '00:32',
+    src: '/תמונות/דקלה/סרטונים/20251104_104431000_iOS_0 (video-converter.com).mp4',
+    title: 'וידאו מהקליניקה',
+    description: 'רגעים אמיתיים מהקליניקה.',
+    category: 'קליניקה',
+    duration: '',
   },
   {
     id: 3,
-    src: '/תמונות/טיפולי פנים/video/2.mp4',
-    title: 'תוצאות טיפול זוהר',
-    description: 'לפני ואחרי – איך העור נראה אחרי טיפול זוהר לפני אירוע מיוחד.',
-    category: 'תוצאות',
-    duration: '00:36',
-  },
-  {
-    id: 4,
-    src: '/תמונות/טיפולי פנים/video/3.mp4',
-    title: 'טיפול לעור רגיש',
-    description: 'טכניקות עדינות להרגעת עור מגורה ואדמומי – בלי כאב, רק תוצאות.',
-    category: 'עור רגיש',
-    duration: '00:28',
-  },
-  {
-    id: 5,
-    src: '/תמונות/טיפולי פנים/video/4.mp4',
-    title: 'שלבי הטיפול',
-    description: 'מבט מקרוב על כל שלב בתהליך – מההתחלה ועד הסיום המושלם.',
-    category: 'תהליך',
-    duration: '00:45',
+    src: '/תמונות/דקלה/סרטונים/20251104_104412000_iOS (video-converter.com).mp4',
+    title: 'וידאו מהקליניקה',
+    description: 'רגעים אמיתיים מהקליניקה.',
+    category: 'קליניקה',
+    duration: '',
   },
 ];
 
 const VideoGallerySection: React.FC = () => {
-  const [activeVideo, setActiveVideo] = useState(0);
+  const [openedVideo, setOpenedVideo] = useState<number | null>(null);
 
   return (
     <section id="video-gallery" className="relative w-full py-16 sm:py-20 lg:py-24 bg-[#fffcf0]">
@@ -78,104 +62,56 @@ const VideoGallerySection: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Video player section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-          {/* Video list */}
-          <motion.div
-            variants={SlidUpLeft(0.15)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="lg:col-span-4 order-2 lg:order-1"
-          >
-            <div className="space-y-4">
-              {videos.slice(0, 2).map((video, index) => (
-                <button
-                  key={video.id}
-                  type="button"
-                  onClick={() => setActiveVideo(index)}
-                  className="w-full text-right"
-                >
-                  <div
-                    className="rounded-3xl bg-[#fffcf0] border border-[#ddc1a7]/70 shadow-[0_10px_26px_rgba(91,79,71,0.12)] overflow-hidden transition-transform duration-300 hover:-translate-y-0.5"
-                  >
-                    <div className="relative aspect-video bg-black">
-                      <video
-                        src={video.src}
-                        className="w-full h-full object-cover"
-                        muted
-                        playsInline
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                      <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-black/55 text-white text-[11px] px-2.5 py-1">
-                        <span>{video.duration}</span>
-                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                      </div>
+        {/* Video Grid - 3 videos only */}
+        <motion.div
+          variants={SlidUpLeft(0.15)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+        >
+          {videos.map((video, index) => (
+            <button
+              key={video.id}
+              type="button"
+              onClick={() => setOpenedVideo(index)}
+              className="w-full text-right group"
+            >
+              <div className="rounded-3xl bg-[#fffcf0] border border-[#ddc1a7]/70 shadow-[0_10px_26px_rgba(91,79,71,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="relative aspect-video bg-black">
+                  <video
+                    src={video.src}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
+                    disablePictureInPicture
+                    controlsList="nodownload noplaybackrate noremoteplayback"
+                    onContextMenu={(e) => e.preventDefault()}
+                    tabIndex={-1}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  {video.duration && (
+                    <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-black/55 text-white text-[11px] px-2.5 py-1">
+                      <span>{video.duration}</span>
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
                     </div>
-                    <div className="px-5 py-4">
-                      <p className="text-sm font-semibold text-[#5b4f47] mb-1">
-                        {video.title}
-                      </p>
-                      <p className="text-xs text-[#5b4f47]/70 line-clamp-2">
-                        {video.description}
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Main video */}
-          <motion.div
-            variants={SlidUpRight(0.2)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="lg:col-span-8 order-1 lg:order-2"
-          >
-            <div className="rounded-3xl overflow-hidden border border-[#ddc1a7]/70 bg-black shadow-[0_16px_40px_rgba(91,79,71,0.22)]">
-              <div className="relative aspect-[4/3] sm:aspect-video">
-                <video
-                  key={videos[activeVideo].src}
-                  src={videos[activeVideo].src}
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-black/55 text-white text-[11px] px-3 py-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  וידאו אמיתי מהקליניקה
+                  )}
+                </div>
+                <div className="px-5 py-4">
+                  <p className="text-sm font-semibold text-[#5b4f47] mb-1">
+                    {video.title}
+                  </p>
+                  <p className="text-xs text-[#5b4f47]/70 line-clamp-2">
+                    {video.description}
+                  </p>
                 </div>
               </div>
-
-              <div className="bg-[#fffcf0] px-6 sm:px-8 py-6 text-right">
-                <h3 className="text-lg sm:text-2xl font-semibold text-[#5b4f47] mb-2">
-                  {videos[activeVideo].title}
-                </h3>
-                <p className="text-sm text-[#5b4f47]/80 leading-relaxed mb-4">
-                  {videos[activeVideo].description}
-                </p>
-                <div className="flex items-center justify-end gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white border border-[#ddc1a7]/50 px-3 py-1 text-xs text-[#5b4f47]">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    {videos[activeVideo].category}
-                  </span>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white border border-[#ddc1a7]/50 px-3 py-1 text-xs text-[#5b4f47]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                    אורך הסרטון: {videos[activeVideo].duration}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+            </button>
+          ))}
+        </motion.div>
 
         {/* Bottom CTA */}
         <motion.div
@@ -203,6 +139,52 @@ const VideoGallerySection: React.FC = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Video Modal/Lightbox */}
+      <AnimatePresence>
+        {openedVideo !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+            onClick={() => setOpenedVideo(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl bg-black"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <video
+                key={videos[openedVideo].src}
+                src={videos[openedVideo].src}
+                className="w-full h-full object-contain"
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls
+              />
+              <button
+                onClick={() => setOpenedVideo(null)}
+                className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/90 hover:bg-white text-[#5b4f47] flex items-center justify-center transition-colors shadow-lg z-10"
+                aria-label="סגור"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6 6 18"/>
+                  <path d="m6 6 12 12"/>
+                </svg>
+              </button>
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 to-transparent">
+                <p className="text-white font-semibold text-center text-sm sm:text-base">{videos[openedVideo].title}</p>
+                <p className="text-white/80 text-center text-xs sm:text-sm mt-1">{videos[openedVideo].description}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
