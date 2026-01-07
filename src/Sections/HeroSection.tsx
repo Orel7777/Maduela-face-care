@@ -9,28 +9,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const stories = useMemo(
     () => [
       {
-        thumbSrc: '/תמונות/טיפולי פנים/picture/1.jpeg',
+        thumbSrc: '/תמונות/דקלה/picture/13.jpeg',
         label: 'תוצאות',
         active: true,
-        videoSrc: '/תמונות/דקלה/סרטונים/20251104_114135000_iOS (video-converter.com).mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
       },
       {
-        thumbSrc: '/תמונות/טיפולי פנים/picture/6.jpeg',
+        thumbSrc: '/תמונות/דקלה/picture/14.jpeg',
         label: 'טיפים',
         active: true,
-        videoSrc: '/תמונות/דקלה/סרטונים/20251104_104431000_iOS_0 (video-converter.com).mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/2.mp4',
       },
       {
-        thumbSrc: '/תמונות/טיפולי פנים/picture/10.jpeg',
+        thumbSrc: '/תמונות/דקלה/picture/15.jpeg',
         label: 'שגרה',
         active: false,
-        videoSrc: '/תמונות/דקלה/סרטונים/20251104_104412000_iOS (video-converter.com).mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/3.mp4',
       },
       {
-        thumbSrc: '/תמונות/טיפולי פנים/picture/14.jpeg',
+        thumbSrc: '/תמונות/דקלה/picture/16.jpeg',
         label: 'שאלות',
         active: false,
-        videoSrc: '/תמונות/דקלה/סרטונים/20251104_114135000_iOS (video-converter.com).mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
       },
     ],
     []

@@ -14,7 +14,7 @@ interface VideoItem {
 const videos: VideoItem[] = [
   {
     id: 1,
-    src: '/תמונות/דקלה/סרטונים/20251104_114135000_iOS (video-converter.com).mp4',
+    src: '/תמונות/דקלה/סרטונים/1.mp4',
     title: 'וידאו מהקליניקה',
     description: 'רגעים אמיתיים מהקליניקה.',
     category: 'קליניקה',
@@ -22,7 +22,7 @@ const videos: VideoItem[] = [
   },
   {
     id: 2,
-    src: '/תמונות/דקלה/סרטונים/20251104_104431000_iOS_0 (video-converter.com).mp4',
+    src: '/תמונות/דקלה/סרטונים/2.mp4',
     title: 'וידאו מהקליניקה',
     description: 'רגעים אמיתיים מהקליניקה.',
     category: 'קליניקה',
@@ -30,7 +30,7 @@ const videos: VideoItem[] = [
   },
   {
     id: 3,
-    src: '/תמונות/דקלה/סרטונים/20251104_104412000_iOS (video-converter.com).mp4',
+    src: '/תמונות/דקלה/סרטונים/3.mp4',
     title: 'וידאו מהקליניקה',
     description: 'רגעים אמיתיים מהקליניקה.',
     category: 'קליניקה',
