@@ -28,42 +28,42 @@ const shortVideos = [
     title: 'טיפול מדויק ונעים',
     subtitle: 'תוצאה שמרגישים',
     thumbnailSrc: '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.35.jpeg',
-    videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
+    videoSrc: '',
     href: '',
   },
   {
     title: 'חוויה רגועה',
     subtitle: 'וליווי אישי',
     thumbnailSrc: '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36.jpeg',
-    videoSrc: '/תמונות/דקלה/סרטונים/2.mp4',
+    videoSrc: '',
     href: '',
   },
   {
     title: 'המלצה קצרה',
     subtitle: 'מהלב',
     thumbnailSrc: '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36 (1).jpeg',
-    videoSrc: '/תמונות/דקלה/סרטונים/3.mp4',
+    videoSrc: '',
     href: '',
   },
   {
     title: 'שירות ומקצועיות',
     subtitle: 'ברמה אחרת',
     thumbnailSrc: '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.36 (2).jpeg',
-    videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
+    videoSrc: '',
     href: '',
   },
   {
     title: 'עור מאוזן',
     subtitle: 'וזוהר טבעי',
     thumbnailSrc: '/תמונות/דקלה/ביקורות/WhatsApp Image 2025-12-30 at 13.18.37.jpeg',
-    videoSrc: '/תמונות/דקלה/סרטונים/2.mp4',
+    videoSrc: '',
     href: '',
   },
   {
     title: 'תוצאות מדהימות',
     subtitle: 'עור בריא וזוהר',
     thumbnailSrc: '/תמונות/דקלה/ביקורות/1.10.jpeg',
-    videoSrc: '/תמונות/דקלה/סרטונים/3.mp4',
+    videoSrc: '',
     href: '',
   },
 ];
@@ -193,15 +193,23 @@ const MethodologySection: React.FC = () => {
                   onClick={() => handleCardClick(index)}
                   className="snap-center group/card relative shrink-0 w-[78%] max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
                 >
-                  <video
-                    src={`${video.videoSrc}#t=0.1`}
-                    poster={video.thumbnailSrc}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                    muted
-                    playsInline
-                    preload="metadata"
-                    disablePictureInPicture
-                  />
+                  {video.videoSrc ? (
+                    <video
+                      src={`${video.videoSrc}#t=0.1`}
+                      poster={video.thumbnailSrc}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                      muted
+                      playsInline
+                      preload="metadata"
+                      disablePictureInPicture
+                    />
+                  ) : (
+                    <img
+                      src={video.thumbnailSrc}
+                      alt={video.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
 
                   <div className="absolute inset-0 flex items-center justify-center z-10">
@@ -293,15 +301,23 @@ const MethodologySection: React.FC = () => {
                   onClick={() => handleCardClick(index % baseVideos.length)}
                   className="group/card relative shrink-0 w-56 sm:w-64 md:w-72 aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
                 >
-                  <video
-                    src={`${video.videoSrc}#t=0.1`}
-                    poster={video.thumbnailSrc}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                    muted
-                    playsInline
-                    preload="metadata"
-                    disablePictureInPicture
-                  />
+                  {video.videoSrc ? (
+                    <video
+                      src={`${video.videoSrc}#t=0.1`}
+                      poster={video.thumbnailSrc}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                      muted
+                      playsInline
+                      preload="metadata"
+                      disablePictureInPicture
+                    />
+                  ) : (
+                    <img
+                      src={video.thumbnailSrc}
+                      alt={video.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
 
                   <div className="absolute inset-0 flex items-center justify-center z-10">
@@ -386,18 +402,26 @@ const MethodologySection: React.FC = () => {
                   </button>
 
                   {/* Video Content */}
-                  <video
-                    key={selectedVideo.videoSrc}
-                    src={selectedVideo.videoSrc}
-                    poster={selectedVideo.thumbnailSrc}
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls={false}
-                    disablePictureInPicture
-                  />
+                  {selectedVideo.videoSrc ? (
+                    <video
+                      key={selectedVideo.videoSrc}
+                      src={selectedVideo.videoSrc}
+                      poster={selectedVideo.thumbnailSrc}
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      controls={false}
+                      disablePictureInPicture
+                    />
+                  ) : (
+                    <img
+                      src={selectedVideo.thumbnailSrc}
+                      alt={selectedVideo.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
 
                   {/* Overlay with info */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />

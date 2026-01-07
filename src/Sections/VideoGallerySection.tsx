@@ -11,32 +11,7 @@ interface VideoItem {
   duration: string;
 }
 // 
-const videos: VideoItem[] = [
-  {
-    id: 1,
-    src: '/תמונות/דקלה/סרטונים/1.mp4',
-    title: 'וידאו מהקליניקה',
-    description: 'רגעים אמיתיים מהקליניקה.',
-    category: 'קליניקה',
-    duration: '',
-  },
-  {
-    id: 2,
-    src: '/תמונות/דקלה/סרטונים/2.mp4',
-    title: 'וידאו מהקליניקה',
-    description: 'רגעים אמיתיים מהקליניקה.',
-    category: 'קליניקה',
-    duration: '',
-  },
-  {
-    id: 3,
-    src: '/תמונות/דקלה/סרטונים/3.mp4',
-    title: 'וידאו מהקליניקה',
-    description: 'רגעים אמיתיים מהקליניקה.',
-    category: 'קליניקה',
-    duration: '',
-  },
-];
+const videos: VideoItem[] = [];
 
 const VideoGallerySection: React.FC = () => {
   const [openedVideo, setOpenedVideo] = useState<number | null>(null);
@@ -154,13 +129,13 @@ const VideoGallerySection: React.FC = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl bg-black"
+              className="relative w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl bg-black aspect-video"
               onClick={(e) => e.stopPropagation()}
             >
               <video
                 key={videos[openedVideo].src}
                 src={videos[openedVideo].src}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
                 autoPlay
                 loop
                 muted
