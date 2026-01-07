@@ -18,6 +18,7 @@ const Form: React.FC<FormProps> = ({ isOpen, onClose }) => {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 50,
+        cursor: 'pointer',
       }}
       onClick={onClose}
     >
@@ -28,6 +29,7 @@ const Form: React.FC<FormProps> = ({ isOpen, onClose }) => {
           borderRadius: '1rem',
           border: '2px solid #ddc1a7',
           minWidth: '300px',
+          cursor: 'default',
         }}
         onClick={(e) => e.stopPropagation()}
       >
