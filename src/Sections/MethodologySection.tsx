@@ -356,7 +356,7 @@ const MethodologySection: React.FC = () => {
 
             {/* Modal Container */}
             <motion.div
-              className="relative z-10 w-full max-w-[340px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[520px] flex flex-col items-center gap-4"
+              className="relative z-10 w-full max-w-[240px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[480px] flex flex-col items-center gap-4"
               initial={{ scale: 0.9, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -387,12 +387,12 @@ const MethodologySection: React.FC = () => {
               </button>
 
               {/* Phone Frame */}
-              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2.5rem] sm:rounded-[3rem] p-2.5 sm:p-3 shadow-2xl">
+              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2.25rem] sm:rounded-[3rem] p-2 sm:p-3 shadow-2xl">
                 {/* Notch */}
-                <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-5 sm:h-6 bg-black rounded-full z-20" />
+                <div className="absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-5 sm:h-6 bg-black rounded-full z-20" />
                 
                 {/* Screen */}
-                <div className="relative bg-black rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden aspect-[9/16]">
+                <div className="relative bg-black rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden aspect-[9/16] w-auto h-[45vh] sm:h-[70vh] max-h-[420px] sm:max-h-[560px]">
                   {/* Close Button */}
                   <button
                     onClick={closeModal}
