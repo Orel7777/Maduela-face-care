@@ -12,25 +12,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
         thumbSrc: '/תמונות/טיפולי פנים/picture/1.jpeg',
         label: 'תוצאות',
         active: true,
-        videoSrc: '/תמונות/דקלה/video_2.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/1.mp4',
       },
       {
         thumbSrc: '/תמונות/טיפולי פנים/picture/6.jpeg',
         label: 'טיפים',
         active: true,
-        videoSrc: '/תמונות/דקלה/video_9.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/2.mp4',
       },
       {
         thumbSrc: '/תמונות/טיפולי פנים/picture/10.jpeg',
         label: 'שגרה',
         active: false,
-        videoSrc: '/תמונות/דקלה/video_24.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/3.mp4',
       },
       {
         thumbSrc: '/תמונות/טיפולי פנים/picture/14.jpeg',
         label: 'שאלות',
         active: false,
-        videoSrc: '/תמונות/דקלה/WhatsApp%20Video%202025-04-11%20at%2021.20.32.mp4',
+        videoSrc: '/תמונות/דקלה/סרטונים/4.mp4',
       },
     ],
     []
@@ -204,6 +204,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 muted
                 playsInline
                 controls={false}
+                disablePictureInPicture
                 onEnded={goNextStory}
               />
 
@@ -212,10 +213,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                   <div className="flex items-center gap-3">
                     <div className="p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500">
                       <div className="p-0.5 bg-black rounded-full">
-                        <img
-                          src={stories[activeStoryIndex]?.thumbSrc}
-                          alt={stories[activeStoryIndex]?.label}
+                        <video
+                          src={`${stories[activeStoryIndex]?.videoSrc}#t=0.1`}
+                          poster={stories[activeStoryIndex]?.thumbSrc}
                           className="w-10 h-10 rounded-full object-cover"
+                          muted
+                          playsInline
+                          preload="metadata"
+                          disablePictureInPicture
                         />
                       </div>
                     </div>
@@ -480,14 +485,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                           }
                         >
                           <div className="p-0.5 bg-white rounded-full ring-0 ring-[#a06c3b]/0 group-hover:ring-2 group-hover:ring-[#a06c3b]/35 group-focus-visible:ring-2 group-focus-visible:ring-[#a06c3b]/45 transition-all">
-                            <img
-                              src={story.thumbSrc}
-                              alt={story.label}
+                            <video
+                              src={`${story.videoSrc}#t=0.1`}
+                              poster={story.thumbSrc}
                               className={
                                 story.active
                                   ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
                                   : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
                               }
+                              muted
+                              playsInline
+                              preload="metadata"
+                              controls={false}
+                              disablePictureInPicture
+                              aria-label={story.label}
                             />
                           </div>
                         </div>
