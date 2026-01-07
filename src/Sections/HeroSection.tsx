@@ -9,28 +9,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const stories = useMemo(
     () => [
       {
-        thumbSrc: '/תמונות/Dikla/video/1.mp4',
+        thumbSrc: '/images/Dikla/video/1.mp4',
         label: 'תוצאות',
         active: true,
-        videoSrc: '/תמונות/Dikla/video/1.mp4',
+        videoSrc: '/images/Dikla/video/1.mp4',
       },
       {
-        thumbSrc: '/תמונות/Dikla/video/2.mp4',
+        thumbSrc: '/images/Dikla/video/2.mp4',
         label: 'טיפים',
         active: true,
-        videoSrc: '/תמונות/Dikla/video/2.mp4',
+        videoSrc: '/images/Dikla/video/2.mp4',
       },
       {
-        thumbSrc: '/תמונות/Dikla/video/3.mp4',
+        thumbSrc: '/images/Dikla/video/3.mp4',
         label: 'שגרה',
         active: true,
-        videoSrc: '/תמונות/Dikla/video/3.mp4',
+        videoSrc: '/images/Dikla/video/3.mp4',
       },
       {
-        thumbSrc: '/תמונות/Dikla/video/4.mp4',
+        thumbSrc: '/images/Dikla/video/4.mp4',
         label: 'שאלות',
         active: true,
-        videoSrc: '/תמונות/Dikla/video/4.mp4',
+        videoSrc: '/images/Dikla/video/4.mp4',
       },
     ],
     []
@@ -300,7 +300,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
       {/* Background with gradient overlay */}
       <div className="absolute inset-0">
         <img
-          src="/תמונות/Dikla/ראשית%20דקלה.jpeg"
+          src="/images/Dikla/main.jpeg"
           alt="טיפול פנים מקצועי"
           className="w-full h-full object-contain object-center sm:object-cover"
         />
@@ -540,7 +540,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
 
                 <div className="relative w-full aspect-[3/4] ring-1 ring-inset ring-[#ddc1a7]/60">
                   <img
-                    src="/תמונות/Dikla/ראשית%20דקלה.jpeg"
+                    src="/images/Dikla/main.jpeg"
                     alt="תוצאה אחרי טיפול פנים"
                     className="w-full h-full object-cover object-center"
                   />
