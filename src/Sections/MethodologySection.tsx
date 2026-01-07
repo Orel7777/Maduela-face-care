@@ -191,7 +191,7 @@ const MethodologySection: React.FC = () => {
                     mobileItemRefs.current[index] = el;
                   }}
                   onClick={() => handleCardClick(index)}
-                  className="snap-center group/card relative shrink-0 w-[78%] max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
+                  className="snap-center group/card relative shrink-0 w-[70%] max-w-[260px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
                 >
                   {video.videoSrc ? (
                     <video
@@ -213,8 +213,8 @@ const MethodologySection: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
 
                   <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="w-14 h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
-                      <SiYoutubeshorts className="w-8 h-8 text-[#fe0034]" />
+                    <div className="w-11 h-11 sm:w-14 sm:h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
+                      <SiYoutubeshorts className="w-6 h-6 sm:w-8 sm:h-8 text-[#fe0034]" />
                     </div>
                   </div>
 
@@ -299,7 +299,7 @@ const MethodologySection: React.FC = () => {
                 <div
                   key={`${video.title}-${index}`}
                   onClick={() => handleCardClick(index % baseVideos.length)}
-                  className="group/card relative shrink-0 w-56 sm:w-64 md:w-72 aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
+                  className="group/card relative shrink-0 w-44 sm:w-52 md:w-56 aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
                 >
                   {video.videoSrc ? (
                     <video
@@ -321,8 +321,8 @@ const MethodologySection: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
 
                   <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="w-14 h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
-                      <SiYoutubeshorts className="w-8 h-8 text-[#fe0034]" />
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
+                      <SiYoutubeshorts className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#fe0034]" />
                     </div>
                   </div>
 
