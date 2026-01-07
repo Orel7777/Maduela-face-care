@@ -10,11 +10,19 @@ interface ContactFormSectionProps {
 
 const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose }) => {
   const [isPrivacyAccepted, setIsPrivacyAccepted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'privacy'>('idle');
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; phone?: string }>({});
+  const [isToastOpen, setIsToastOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
 
     setIsPrivacyAccepted(false);
+    setIsSubmitting(false);
+    setSubmitStatus('idle');
+    setFieldErrors({});
+    setIsToastOpen(false);
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -23,6 +31,80 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (!isToastOpen) return;
+
+    const t = window.setTimeout(() => setIsToastOpen(false), 3500);
+    return () => window.clearTimeout(t);
+  }, [isToastOpen]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (isSubmitting) return;
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get('name') ?? '').trim();
+    const rawPhone = String(formData.get('phone') ?? '').trim();
+    const phone = rawPhone.replace(/\D/g, '');
+
+    const nextErrors: { name?: string; phone?: string } = {};
+    const isNameValid = /^[\p{L}][\p{L} '\-]*$/u.test(name);
+    if (!name) nextErrors.name = 'נא להזין שם מלא.';
+    else if (!isNameValid) nextErrors.name = 'השם חייב להכיל אותיות בלבד.';
+
+    if (!phone) nextErrors.phone = 'נא להזין מספר טלפון.';
+    else if (!/^[0-9]{9,15}$/.test(phone)) nextErrors.phone = 'נא להזין מספר טלפון תקין.';
+
+    setFieldErrors(nextErrors);
+
+    if (Object.keys(nextErrors).length > 0) {
+      setSubmitStatus('idle');
+      return;
+    }
+
+    if (!isPrivacyAccepted) {
+      setSubmitStatus('privacy');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    formData.set('phone', phone);
+
+    formData.append('_subject', 'פנייה חדשה מהאתר - דקלה מדואלה');
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+    formData.append('source', 'טופס יצירת קשר באתר');
+
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/orelbukris7777@gmail.com', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        setSubmitStatus('error');
+        return;
+      }
+
+      setSubmitStatus('success');
+      setIsToastOpen(true);
+      form.reset();
+      setIsPrivacyAccepted(false);
+      setFieldErrors({});
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -122,7 +204,7 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                         </div>
                       </div>
 
-                      <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
+                      <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -137,8 +219,16 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                             type="text"
                             required
                             placeholder="השם שלך"
-                            className="w-full px-4 py-3 text-sm rounded-xl border border-[#ddc1a7]/30 bg-[#fffcf0] focus:border-[#a06c3b] focus:ring-1 focus:ring-[#a06c3b] outline-none placeholder:text-[#5b4f47]/30 text-[#5b4f47] transition-all"
+                            onInput={(e) => {
+                              const input = e.currentTarget;
+                              const next = input.value.replace(/[^\p{L} '\-]/gu, '');
+                              if (next !== input.value) input.value = next;
+                            }}
+                            className={`w-full px-4 py-3 text-sm rounded-xl border bg-[#fffcf0] focus:border-[#a06c3b] focus:ring-1 focus:ring-[#a06c3b] outline-none placeholder:text-[#5b4f47]/30 text-[#5b4f47] transition-all ${
+                              fieldErrors.name ? 'border-red-400' : 'border-[#ddc1a7]/30'
+                            }`}
                           />
+                          {fieldErrors.name && <p className="mt-1.5 text-xs text-red-600">{fieldErrors.name}</p>}
                         </motion.div>
 
                         <motion.div
@@ -155,8 +245,18 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                             type="tel"
                             required
                             placeholder="050-0000000"
-                            className="w-full px-4 py-3 text-sm rounded-xl border border-[#ddc1a7]/30 bg-[#fffcf0] focus:border-[#a06c3b] focus:ring-1 focus:ring-[#a06c3b] outline-none placeholder:text-[#5b4f47]/30 text-[#5b4f47] transition-all"
+                            inputMode="numeric"
+                            autoComplete="tel"
+                            onInput={(e) => {
+                              const input = e.currentTarget;
+                              const next = input.value.replace(/\D/g, '');
+                              if (next !== input.value) input.value = next;
+                            }}
+                            className={`w-full px-4 py-3 text-sm rounded-xl border bg-[#fffcf0] focus:border-[#a06c3b] focus:ring-1 focus:ring-[#a06c3b] outline-none placeholder:text-[#5b4f47]/30 text-[#5b4f47] transition-all ${
+                              fieldErrors.phone ? 'border-red-400' : 'border-[#ddc1a7]/30'
+                            }`}
                           />
+                          {fieldErrors.phone && <p className="mt-1.5 text-xs text-red-600">{fieldErrors.phone}</p>}
                         </motion.div>
 
                         <motion.div
@@ -181,15 +281,27 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.5 }}
                           type="submit"
-                          disabled={!isPrivacyAccepted}
+                          disabled={isSubmitting}
                           className="w-full inline-flex flex-row-reverse items-center justify-center rounded-xl bg-[#5b4f47] text-[#fffcf0] px-4 py-3.5 text-sm font-semibold hover:bg-[#4a423e] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#5b4f47]/20 disabled:opacity-60 disabled:hover:scale-100 disabled:cursor-not-allowed"
                         >
-                          שליחה וקביעת תור
+                          {isSubmitting ? 'שולחת...' : 'שליחה וקביעת תור'}
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2">
                             <path d="M19 12H5" />
                             <path d="m12 19-7-7 7-7" />
                           </svg>
                         </motion.button>
+
+                        {submitStatus === 'privacy' && (
+                          <p className="text-xs text-center text-[#a06c3b]">כדי לשלוח את הטופס יש לאשר את מדיניות הפרטיות.</p>
+                        )}
+
+                        {submitStatus === 'success' && (
+                          <p className="text-xs text-center text-[#5b4f47]">נשלח בהצלחה! אחזור אלייך בהקדם.</p>
+                        )}
+
+                        {submitStatus === 'error' && (
+                          <p className="text-xs text-center text-red-600">משהו השתבש בשליחה. נסי שוב בעוד רגע.</p>
+                        )}
 
                         <div className="flex items-start gap-3 rounded-2xl bg-white/60 border border-[#ddc1a7]/30 p-3">
                           <button
@@ -314,6 +426,30 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
               </div>
             </section>
           </motion.div>
+
+          <AnimatePresence>
+            {isToastOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.25 }}
+                className="pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 z-[60]"
+              >
+                <div className="pointer-events-auto flex items-center gap-3 rounded-2xl bg-white shadow-2xl ring-1 ring-[#ddc1a7]/40 px-4 py-3">
+                  <div className="h-9 w-9 rounded-xl bg-[#25d366]/15 text-[#25d366] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-[#5b4f47]">הטופס נשלח בהצלחה</p>
+                    <p className="text-xs text-[#5b4f47]/70">אחזור אלייך בהקדם האפשרי.</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
