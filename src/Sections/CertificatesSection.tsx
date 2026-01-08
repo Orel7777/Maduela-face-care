@@ -137,12 +137,12 @@ const CertificatesSection: React.FC = () => {
 
         {/* Certificates - Desktop: fixed grid, no navigation */}
         <div className="relative w-full hidden md:block" dir="rtl">
-          <div className="grid grid-cols-3 gap-4 sm:gap-6 py-6">
+          <div className="grid grid-cols-3 gap-4 py-6 max-w-5xl mx-auto justify-items-center">
             {certificates.map((cert, index) => (
               <div
                 key={`cert-desktop-${index}`}
                 onClick={() => handleCertClick(index)}
-                className="group/card relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#ddc1a7]/40 bg-white"
+                className="group/card relative w-full max-w-[240px] lg:max-w-[260px] aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#ddc1a7]/40 bg-white"
               >
                 {!imagesLoaded[index] && (
                   <div className="absolute inset-0 flex items-center justify-center bg-[#5b4f47]/20">
@@ -152,7 +152,7 @@ const CertificatesSection: React.FC = () => {
                 <img
                   src={cert.src}
                   alt={cert.title}
-                  className="w-full h-full object-contain p-3"
+                  className="w-full h-full object-contain p-2"
                   onLoad={() => setImagesLoaded(prev => ({ ...prev, [index]: true }))}
                 />
 
@@ -179,7 +179,7 @@ const CertificatesSection: React.FC = () => {
           <div className="py-6">
             <div
               onClick={() => handleCertClick(currentGalleryIndex)}
-              className="group/card relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-[#ddc1a7]/40 bg-white"
+              className="group/card relative w-full max-w-[280px] mx-auto aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-[#ddc1a7]/40 bg-white"
             >
               {!imagesLoaded[currentGalleryIndex] && (
                 <div className="absolute inset-0 flex items-center justify-center bg-[#5b4f47]/20">
@@ -189,7 +189,7 @@ const CertificatesSection: React.FC = () => {
               <img
                 src={certificates[currentGalleryIndex].src}
                 alt={certificates[currentGalleryIndex].title}
-                className="w-full h-full object-contain p-3"
+                className="w-full h-full object-contain p-2"
                 onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentGalleryIndex]: true }))}
               />
 

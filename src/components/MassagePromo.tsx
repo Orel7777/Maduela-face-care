@@ -40,7 +40,7 @@ const MassagePromo: React.FC<MassagePromoProps> = ({ className }) => {
           <div className="relative">
             <div className="relative aspect-[4/3] md:aspect-[16/12] rounded-3xl overflow-hidden shadow-[0_18px_45px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
               <img
-                src="/images/Dikla/Recommendations/parallax-bg-4.jpg"
+                src="/images/Dikla/website.png"
                 alt="מסאז׳ים - תמונת אווירה"
                 className="w-full h-full object-cover"
                 loading="lazy"

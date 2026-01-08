@@ -9,11 +9,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const stories = useMemo(
     () => [
       {
-        thumbSrc: '/images/Dikla/picture/4.jpeg',
+        thumbSrc: '/images/Dikla/picture/20251104_121431061_iOS.jpg',
         label: 'לפני ואחרי',
         active: true,
         type: 'image' as const,
-        src: '/images/Dikla/picture/4.jpeg',
+        src: '/images/Dikla/picture/20251104_121431061_iOS.jpg',
       },
       {
         thumbSrc: '/images/Dikla/picture/20251104_120631956_iOS (1).jpg',

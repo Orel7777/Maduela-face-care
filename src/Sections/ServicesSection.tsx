@@ -12,7 +12,7 @@ const services = [
     subtitle: 'הבסיס לעור בריא',
     description: 'טיפול יסודי ומקיף שמנקה את העור לעומק, מאזן את הפרשת השומן, מטפל בראשים שחורים ומחזיר לעור את הנשימה והרעננות. מושלם לעור שמן, מעורב או עור עם נטייה לפצעונים.',
     benefits: ['ניקוי נקבוביות יסודי', 'איזון הפרשת שומן', 'מראה נקי ורענן'],
-    image: '/images/Dikla/picture/13.jpeg',
+    image: '/images/Dikla/picture/4.jpeg',
     duration: '75 דקות',
     price: '350',
     popular: false,
@@ -47,7 +47,7 @@ const services = [
     subtitle: 'מענה לעור שדורש עדינות',
     description: 'טיפול מותאם במיוחד לעור רגיש, מגורה או עם נטייה לאדמומיות. משלב מוצרים מרגיעים, טכניקות עדינות וחומרים טבעיים שמחזקים את מחסום העור ומשאירים תחושת נוחות ורוגע.',
     benefits: ['הרגעת אדמומיות', 'חיזוק מחסום העור', 'תחושת נוחות מתמשכת'],
-    image: '/images/Dikla/picture/8.jpeg',
+    image: '/images/Dikla/picture/1000271293.jpg',
     duration: '70 דקות',
     price: '380',
     popular: false,
@@ -119,7 +119,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
 
               {/* Image */}
               <div className="aspect-[16/9]">
-                <img src={service.image} alt={service.title} className="h-full w-full object-cover" loading="lazy" />
+                <img src={service.image} alt={service.title} className="h-full w-full object-contain" loading="lazy" />
               </div>
 
               {/* Content */}
