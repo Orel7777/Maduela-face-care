@@ -270,7 +270,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                     aria-label="סטורי קודם"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                      <path d="m15 18-6-6 6-6" />
+                      <path d="m9 18 6-6-6-6" />
                     </svg>
                   </button>
 
@@ -299,7 +299,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                     aria-label="סטורי הבא"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                      <path d="m9 18 6-6-6-6" />
+                      <path d="m15 18-6-6 6-6" />
                     </svg>
                   </button>
                 </div>
@@ -503,13 +503,39 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                         className="group flex flex-col items-center gap-1 min-w-[64px] focus:outline-none cursor-pointer"
                         aria-label={`פתיחת סטורי: ${story.label}`}
                       >
-                        <div
-                          className={
-                            story.active
-                              ? 'p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500 transition-transform duration-300 group-hover:scale-[1.06] group-active:scale-[0.98] group-focus-visible:scale-[1.06]'
-                              : 'p-[2px] rounded-full bg-[#5b4f47]/25 transition-transform duration-300 group-hover:scale-[1.06] group-active:scale-[0.98] group-focus-visible:scale-[1.06]'
-                          }
-                        >
+                        <div className="relative">
+                          {story.active && (
+                            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                              <circle
+                                cx="50"
+                                cy="50"
+                                r="48"
+                                fill="none"
+                                stroke="url(#gradient)"
+                                strokeWidth="3"
+                                strokeDasharray="301.59"
+                                strokeDashoffset="0"
+                                strokeLinecap="round"
+                                style={{
+                                  animation: 'story-progress 5s linear infinite'
+                                }}
+                              />
+                              <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                  <stop offset="0%" stopColor="#fbbf24" />
+                                  <stop offset="50%" stopColor="#f97316" />
+                                  <stop offset="100%" stopColor="#ef4444" />
+                                </linearGradient>
+                              </defs>
+                            </svg>
+                          )}
+                          <div
+                            className={
+                              story.active
+                                ? 'p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500 transition-transform duration-300 group-hover:scale-[1.06] group-active:scale-[0.98] group-focus-visible:scale-[1.06]'
+                                : 'p-[2px] rounded-full bg-[#5b4f47]/25 transition-transform duration-300 group-hover:scale-[1.06] group-active:scale-[0.98] group-focus-visible:scale-[1.06]'
+                            }
+                          >
                           <div className="p-0.5 bg-white rounded-full ring-0 ring-[#a06c3b]/0 group-hover:ring-2 group-hover:ring-[#a06c3b]/35 group-focus-visible:ring-2 group-focus-visible:ring-[#a06c3b]/45 transition-all">
                             <div className="relative w-14 h-14 rounded-full overflow-hidden">
                               {!thumbnailsLoaded[index] && (
@@ -529,6 +555,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                               />
                             </div>
                           </div>
+                        </div>
                         </div>
                         <span
                           className={

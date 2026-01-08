@@ -62,3 +62,12 @@ input[type="reset"]:disabled,
 [aria-disabled="true"] {
   cursor: not-allowed;
 }
+
+@keyframes story-progress {
+  0% {
+    stroke-dashoffset: 301.59;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
