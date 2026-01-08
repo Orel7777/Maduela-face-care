@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 
 const certificates = [
   {
@@ -30,26 +31,51 @@ const certificates = [
 ];
 
 const CertificatesSection: React.FC = () => {
-  const [selectedCert, setSelectedCert] = useState<number | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
+  const [isMobile, setIsMobile] = useState(false);
 
-  const slidesPerView = {
-    mobile: 1,
-    desktop: 3,
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleCertClick = (index: number) => {
+    setSelectedIndex(index);
   };
 
-  const totalSlides = certificates.length;
-  const maxIndexMobile = totalSlides - slidesPerView.mobile;
-  const maxIndexDesktop = Math.max(0, totalSlides - slidesPerView.desktop);
+  const closeModal = () => {
+    setSelectedIndex(null);
+  };
+
+  const handleNext = () => {
+    setSelectedIndex((prev) => {
+      if (prev === null) return 0;
+      return (prev + 1) % certificates.length;
+    });
+  };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
+    setSelectedIndex((prev) => {
+      if (prev === null) return 0;
+      return (prev - 1 + certificates.length) % certificates.length;
+    });
   };
 
-  const handleNext = (isMobile: boolean) => {
-    const maxIndex = isMobile ? maxIndexMobile : maxIndexDesktop;
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+  const handleGalleryNext = () => {
+    setCurrentGalleryIndex((prev) => (prev + 1) % certificates.length);
   };
+
+  const handleGalleryPrev = () => {
+    setCurrentGalleryIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
+  };
+
+  const selectedCert = selectedIndex === null ? null : certificates[selectedIndex];
 
   return (
     <section className="relative w-full py-20 sm:py-28 lg:py-32 overflow-hidden">
@@ -109,162 +135,92 @@ const CertificatesSection: React.FC = () => {
           ))}
         </motion.div>
 
-        {/* Certificates Carousel - Desktop (3 slides) */}
-        <div className="hidden md:block relative">
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex"
-              style={{ width: `${(totalSlides / slidesPerView.desktop) * 100}%` }}
-              animate={{ x: `${-currentIndex * (100 / totalSlides)}%` }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-            >
-              {certificates.map((cert, index) => (
-                <div
-                  key={cert.src}
-                  className="flex-shrink-0 group relative"
-                  style={{ width: `${100 / totalSlides}%` }}
-                >
-                  <div className="px-3">
-                    <div 
-                      className="relative h-[500px] rounded-2xl overflow-hidden bg-white shadow-lg border border-[#ddc1a7]/40 cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                      onClick={() => setSelectedCert(index)}
-                    >
-                      <img
-                        src={cert.src}
-                        alt={cert.title}
-                        className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      
-                      {/* Hover overlay */}
-                      <div className="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="text-white">
-                          <p className="text-sm font-semibold">{cert.title}</p>
-                          <p className="text-xs text-white/80 mt-1">לחצי להגדלה</p>
-                        </div>
-                      </div>
-
-                      {/* Corner badge */}
-                      <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-                          <path d="m9 12 2 2 4-4"/>
-                        </svg>
-                      </div>
-                    </div>
+        {/* Certificates - Desktop: fixed grid, no navigation */}
+        <div className="relative w-full hidden md:block" dir="rtl">
+          <div className="grid grid-cols-3 gap-4 sm:gap-6 py-6">
+            {certificates.map((cert, index) => (
+              <div
+                key={`cert-desktop-${index}`}
+                onClick={() => handleCertClick(index)}
+                className="group/card relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#ddc1a7]/40 bg-white"
+              >
+                {!imagesLoaded[index] && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#5b4f47]/20">
+                    <div className="w-8 h-8 border-4 border-[#a06c3b]/30 border-t-[#a06c3b] rounded-full animate-spin" />
                   </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+                )}
+                <img
+                  src={cert.src}
+                  alt={cert.title}
+                  className="w-full h-full object-contain p-3"
+                  onLoad={() => setImagesLoaded(prev => ({ ...prev, [index]: true }))}
+                />
 
-          {/* Navigation buttons - Desktop (sides) */}
-          {currentIndex < maxIndexDesktop && (
-            <button
-              onClick={() => handleNext(false)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 -right-16 w-12 h-12 rounded-full bg-white shadow-lg border border-[#ddc1a7]/40 flex items-center justify-center text-[#5b4f47] hover:bg-[#ddc1a7] hover:text-white transition-all duration-300 z-10"
-              aria-label="תעודה הבאה"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m9 18 6-6-6-6"/>
-              </svg>
-            </button>
-          )}
-          {currentIndex > 0 && (
-            <button
-              onClick={handlePrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -left-16 w-12 h-12 rounded-full bg-white shadow-lg border border-[#ddc1a7]/40 flex items-center justify-center text-[#5b4f47] hover:bg-[#ddc1a7] hover:text-white transition-all duration-300 z-10"
-              aria-label="תעודה קודמת"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m15 18-6-6 6-6"/>
-              </svg>
-            </button>
-          )}
+                {/* Corner badge */}
+                <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                </div>
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#5b4f47]/90 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 flex items-end p-3 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-xs sm:text-sm font-semibold">{cert.title}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Certificates Carousel - Mobile (1 slide) */}
-        <div className="md:hidden">
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex"
-              animate={{ x: `${-currentIndex * 100}%` }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
+        {/* Certificates - Mobile: one at a time + bottom navigation */}
+        <div className="relative w-full md:hidden" dir="rtl">
+          <div className="py-6">
+            <div
+              onClick={() => handleCertClick(currentGalleryIndex)}
+              className="group/card relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-[#ddc1a7]/40 bg-white"
             >
-              {certificates.map((cert, index) => (
-                <div
-                  key={cert.src}
-                  className="min-w-full px-2"
-                >
-                  <div 
-                    className="relative h-[500px] rounded-2xl overflow-hidden bg-white shadow-lg border border-[#ddc1a7]/40 cursor-pointer"
-                    onClick={() => setSelectedCert(index)}
-                  >
-                    <img
-                      src={cert.src}
-                      alt={cert.title}
-                      className="w-full h-full object-contain p-4"
-                      loading="lazy"
-                    />
-                    
-                    {/* Title overlay for mobile */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#5b4f47]/90 to-transparent">
-                      <p className="text-white text-sm font-semibold text-center">{cert.title}</p>
-                      <p className="text-white/80 text-xs text-center mt-1">לחצי להגדלה</p>
-                    </div>
-
-                    {/* Corner badge */}
-                    <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-md">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-                        <path d="m9 12 2 2 4-4"/>
-                      </svg>
-                    </div>
-                  </div>
+              {!imagesLoaded[currentGalleryIndex] && (
+                <div className="absolute inset-0 flex items-center justify-center bg-[#5b4f47]/20">
+                  <div className="w-8 h-8 border-4 border-[#a06c3b]/30 border-t-[#a06c3b] rounded-full animate-spin" />
                 </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Navigation buttons - Mobile (bottom) */}
-          <div className="flex justify-center gap-4 mt-6">
-            <button
-              onClick={() => handleNext(true)}
-              disabled={currentIndex >= maxIndexMobile}
-              className="w-12 h-12 rounded-full bg-white shadow-lg border border-[#ddc1a7]/40 flex items-center justify-center text-[#5b4f47] hover:bg-[#ddc1a7] hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#5b4f47]"
-              aria-label="תעודה הבאה"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m9 18 6-6-6-6"/>
-              </svg>
-            </button>
-            <button
-              onClick={handlePrev}
-              disabled={currentIndex === 0}
-              className="w-12 h-12 rounded-full bg-white shadow-lg border border-[#ddc1a7]/40 flex items-center justify-center text-[#5b4f47] hover:bg-[#ddc1a7] hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#5b4f47]"
-              aria-label="תעודה קודמת"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m15 18-6-6 6-6"/>
-              </svg>
-            </button>
-          </div>
-
-          {/* Dots indicator */}
-          <div className="flex justify-center gap-2 mt-4">
-            {certificates.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? 'bg-[#a06c3b] w-6'
-                    : 'bg-[#ddc1a7]/40'
-                }`}
-                aria-label={`עבור לתעודה ${index + 1}`}
+              )}
+              <img
+                src={certificates[currentGalleryIndex].src}
+                alt={certificates[currentGalleryIndex].title}
+                className="w-full h-full object-contain p-3"
+                onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentGalleryIndex]: true }))}
               />
-            ))}
+
+              {/* Corner badge */}
+              <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a06c3b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                type="button"
+                onClick={handleGalleryPrev}
+                className="w-12 h-12 bg-white/90 hover:bg-[#ddc1a7] hover:text-white shadow-lg border border-[#ddc1a7]/40 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 text-[#5b4f47]"
+                aria-label="תעודה קודמת"
+              >
+                <IoChevronForward className="w-6 h-6" />
+              </button>
+
+              <button
+                type="button"
+                onClick={handleGalleryNext}
+                className="w-12 h-12 bg-white/90 hover:bg-[#ddc1a7] hover:text-white shadow-lg border border-[#ddc1a7]/40 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 text-[#5b4f47]"
+                aria-label="תעודה הבאה"
+              >
+                <IoChevronBack className="w-6 h-6" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -290,41 +246,158 @@ const CertificatesSection: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Lightbox modal */}
-      {selectedCert !== null && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          onClick={() => setSelectedCert(null)}
-        >
+      {/* Device-Specific Viewer */}
+      <AnimatePresence>
+        {selectedCert && (
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative max-w-4xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
           >
-            <img
-              src={certificates[selectedCert].src}
-              alt={certificates[selectedCert].title}
-              className="w-full h-full object-contain bg-white"
-            />
-            <button
-              onClick={() => setSelectedCert(null)}
-              className="absolute top-4 left-4 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 6 6 18"/>
-                <path d="m6 6 12 12"/>
-              </svg>
-            </button>
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-              <p className="text-white font-semibold text-center">{certificates[selectedCert].title}</p>
-            </div>
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+
+            {/* Mobile: iPhone-style Story Viewer */}
+            {isMobile ? (
+              <motion.div
+                className="relative w-[92vw] max-w-[420px] rounded-[3rem] bg-[#2a2421]/90 border-[3px] border-white/10 shadow-[0_30px_120px_rgba(0,0,0,0.65)] overflow-hidden"
+                initial={{ scale: 0.96, y: 18 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black/60 rounded-b-2xl z-40" />
+
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="absolute top-6 right-6 z-50 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                  aria-label="סגירה"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+
+                <div className="relative w-full aspect-[9/16] bg-transparent">
+                  <img
+                    key={selectedCert.src}
+                    src={selectedCert.src}
+                    alt={selectedCert.title}
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
+                    <div className="flex items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={handlePrev}
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                        aria-label="תעודה קודמת"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleNext}
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                        aria-label="תעודה הבאה"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/45 via-transparent to-black/25" />
+                </div>
+              </motion.div>
+            ) : (
+              /* Desktop: MacBook Pro-style Viewer */
+              <motion.div
+                className="relative w-[90vw] max-w-[1100px]"
+                initial={{ scale: 0.94, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* MacBook Pro Window */}
+                <div className="relative bg-gradient-to-b from-[#3a3a3c] to-[#2c2c2e] rounded-[12px] shadow-[0_40px_140px_rgba(0,0,0,0.7)] overflow-hidden border border-white/10">
+                  {/* Window Title Bar */}
+                  <div className="relative h-12 bg-[#2a2a2c] border-b border-white/5 flex items-center justify-between px-4">
+                    {/* macOS Window Controls */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={closeModal}
+                        className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff6b63] transition-colors"
+                        aria-label="סגירה"
+                      />
+                      <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#fec444] transition-colors" />
+                      <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#30d158] transition-colors" />
+                    </div>
+                    <div className="absolute left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium">
+                      תעודות מקצועיות
+                    </div>
+                    {/* X Close Button */}
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="inline-flex items-center justify-center w-8 h-8 rounded-md hover:bg-white/10 transition-colors"
+                      aria-label="סגירה"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Image Container */}
+                  <div className="relative" style={{ height: '70vh', maxHeight: '800px', background: 'transparent' }}>
+                    <img
+                      key={selectedCert.src}
+                      src={selectedCert.src}
+                      alt={selectedCert.title}
+                      className="w-full h-full object-contain"
+                    />
+
+                    {/* Navigation Buttons */}
+                    <button
+                      type="button"
+                      onClick={handlePrev}
+                      className="absolute left-6 top-1/2 -translate-y-1/2 z-30 inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                      aria-label="תעודה קודמת"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                        <path d="m9 18 6-6-6-6" />
+                      </svg>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="absolute right-6 top-1/2 -translate-y-1/2 z-30 inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                      aria-label="תעודה הבאה"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                        <path d="m15 18-6-6 6-6" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </section>
   );
 };

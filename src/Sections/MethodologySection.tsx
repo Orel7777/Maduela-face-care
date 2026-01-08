@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
-import { SiYoutubeshorts } from 'react-icons/si';
 import { IoChevronBack, IoChevronForward, IoClose } from 'react-icons/io5';
 
 const steps = [
@@ -23,66 +22,46 @@ const steps = [
   },
 ];
 
-const shortVideos = [
-  {
-    title: 'טיפול מדויק ונעים',
-    subtitle: 'תוצאה שמרגישים',
-    thumbnailSrc: '/images/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.35.jpeg',
-    videoSrc: '',
-    href: '',
-  },
-  {
-    title: 'חוויה רגועה',
-    subtitle: 'וליווי אישי',
-    thumbnailSrc: '/images/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.36.jpeg',
-    videoSrc: '',
-    href: '',
-  },
-  {
-    title: 'המלצה קצרה',
-    subtitle: 'מהלב',
-    thumbnailSrc: '/images/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.36 (1).jpeg',
-    videoSrc: '',
-    href: '',
-  },
-  {
-    title: 'שירות ומקצועיות',
-    subtitle: 'ברמה אחרת',
-    thumbnailSrc: '/images/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.36 (2).jpeg',
-    videoSrc: '',
-    href: '',
-  },
-  {
-    title: 'עור מאוזן',
-    subtitle: 'וזוהר טבעי',
-    thumbnailSrc: '/images/Dikla/Recommendations/WhatsApp Image 2025-12-30 at 13.18.37.jpeg',
-    videoSrc: '',
-    href: '',
-  },
-  {
-    title: 'תוצאות מדהימות',
-    subtitle: 'עור בריא וזוהר',
-    thumbnailSrc: '/images/Dikla/Recommendations/1.10.jpeg',
-    videoSrc: '',
-    href: '',
-  },
+const galleryImages = [
+  '/images/Dikla/picture/1000271293.jpg',
+  '/images/Dikla/picture/13.jpeg',
+  '/images/Dikla/picture/14.jpeg',
+  '/images/Dikla/picture/16.jpeg',
+  '/images/Dikla/picture/20251104_110804060_iOS_0.jpg',
+  '/images/Dikla/picture/20251104_110817430_iOS_1.jpg',
+  '/images/Dikla/picture/20251104_111627268_iOS.jpg',
+  '/images/Dikla/picture/20251104_113545286_iOS.jpg',
+  '/images/Dikla/picture/20251104_113601055_iOS.jpg',
+  '/images/Dikla/picture/20251104_113841058_iOS.jpg',
+  '/images/Dikla/picture/20251104_113846723_iOS.jpg',
+  '/images/Dikla/picture/20251104_115911194_iOS_0.jpg',
+  '/images/Dikla/picture/20251104_120036817_iOS.jpg',
+  '/images/Dikla/picture/20251104_120404059_iOS.jpg',
+  '/images/Dikla/picture/20251104_120631956_iOS (1).jpg',
+  '/images/Dikla/picture/20251104_121037668_iOS.jpg',
+  '/images/Dikla/picture/20251104_121416837_iOS_0.jpg',
+  '/images/Dikla/picture/20251104_121431061_iOS.jpg',
+  '/images/Dikla/picture/4.jpeg',
+  '/images/Dikla/picture/8.jpeg',
 ];
 
 const MethodologySection: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [mobileIndex, setMobileIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-  const [scrollKey, setScrollKey] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const mobileItemRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
+  const [isMobile, setIsMobile] = useState(false);
 
-  const baseVideos = shortVideos.slice(0, 5);
-  // Duplicate twice for seamless loop
-  const duplicatedVideos = [...baseVideos, ...baseVideos];
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-  const handleCardClick = (baseIndex: number) => {
-    setSelectedIndex(baseIndex);
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
   };
 
   const closeModal = () => {
@@ -92,24 +71,28 @@ const MethodologySection: React.FC = () => {
   const handleNext = () => {
     setSelectedIndex((prev) => {
       if (prev === null) return 0;
-      return (prev + 1) % baseVideos.length;
+      return (prev + 1) % galleryImages.length;
     });
   };
 
   const handlePrev = () => {
     setSelectedIndex((prev) => {
       if (prev === null) return 0;
-      return (prev - 1 + baseVideos.length) % baseVideos.length;
+      return (prev - 1 + galleryImages.length) % galleryImages.length;
     });
   };
 
-  const scrollToMobileIndex = (index: number) => {
-    const el = mobileItemRefs.current[index];
-    if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  const handleGalleryNext = () => {
+    setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length);
   };
 
-  const selectedVideo = selectedIndex === null ? null : baseVideos[selectedIndex];
+  const handleGalleryPrev = () => {
+    setCurrentGalleryIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  const itemsToShow = isMobile ? 1 : 4;
+
+  const selectedImage = selectedIndex === null ? null : galleryImages[selectedIndex];
 
   return (
     <section
@@ -158,192 +141,64 @@ const MethodologySection: React.FC = () => {
         </div>
 
         <div className="mt-12 sm:mt-16" dir="rtl">
-          <motion.div
-            variants={SlidUpRight(0.12)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="text-right mb-6 sm:mb-8"
-          >
-            <div className="flex items-center gap-2 justify-end mb-2">
-              <p className="text-xs tracking-[0.2em] uppercase text-[#b59b86]">
-                סרטונים קצרים
-              </p>
-              <SiYoutubeshorts className="w-4 h-4 text-[#fe0034]" />
-              <span className="text-xs tracking-[0.2em] uppercase text-[#b59b86]">
-                shorts
-              </span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#5b4f47]">
-              הצצה קצרה לחוויה
-            </h3>
-          </motion.div>
-
-          <div className="sm:hidden">
-            <div
-              className="relative overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-5 py-4 px-1"
-              style={{ WebkitOverflowScrolling: 'touch' }}
-            >
-              {baseVideos.map((video, index) => (
-                <div
-                  key={video.title}
-                  ref={(el) => {
-                    mobileItemRefs.current[index] = el;
-                  }}
-                  onClick={() => handleCardClick(index)}
-                  className="snap-center group/card relative shrink-0 w-[70%] max-w-[260px] aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
-                >
-                  {video.videoSrc ? (
-                    <video
-                      src={`${video.videoSrc}#t=0.1`}
-                      poster={video.thumbnailSrc}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                      muted
-                      playsInline
-                      preload="metadata"
-                      disablePictureInPicture
-                    />
-                  ) : (
+          {/* Static Full-Width Gallery */}
+          <div className="relative w-full">
+            <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 py-6">
+              {galleryImages.slice(currentGalleryIndex, currentGalleryIndex + itemsToShow).concat(
+                currentGalleryIndex + itemsToShow > galleryImages.length 
+                  ? galleryImages.slice(0, (currentGalleryIndex + itemsToShow) - galleryImages.length)
+                  : []
+              ).map((imageSrc, displayIndex) => {
+                const actualIndex = (currentGalleryIndex + displayIndex) % galleryImages.length;
+                return (
+                  <div
+                    key={`gallery-${actualIndex}`}
+                    onClick={() => handleImageClick(actualIndex)}
+                    className="group/card relative w-full max-w-[92vw] sm:max-w-[320px] md:max-w-[360px] aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
+                  >
+                    {!imagesLoaded[actualIndex] && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#5b4f47]/20">
+                        <div className="w-8 h-8 border-4 border-[#a06c3b]/30 border-t-[#a06c3b] rounded-full animate-spin" />
+                      </div>
+                    )}
                     <img
-                      src={video.thumbnailSrc}
-                      alt={video.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                      src={imageSrc}
+                      alt={`גלריה ${actualIndex + 1}`}
+                      className="w-full h-full object-cover"
+                      onLoad={() => setImagesLoaded(prev => ({ ...prev, [actualIndex]: true }))}
                     />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
-
-                  <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="w-11 h-11 sm:w-14 sm:h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
-                      <SiYoutubeshorts className="w-6 h-6 sm:w-8 sm:h-8 text-[#fe0034]" />
-                    </div>
                   </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-center z-20" dir="rtl">
-                    <h4 className="text-lg font-bold text-white tracking-tight drop-shadow-md">
-                      {video.title}
-                    </h4>
-                    <p className="text-white/80 text-sm mt-1 font-medium">
-                      {video.subtitle}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            <div className="flex items-center justify-center gap-4 mt-2">
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-center gap-4 mt-4">
               <button
                 type="button"
-                onClick={() => {
-                  const next = (mobileIndex - 1 + baseVideos.length) % baseVideos.length;
-                  setMobileIndex(next);
-                  scrollToMobileIndex(next);
-                }}
+                onClick={handleGalleryPrev}
                 className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 active:scale-95"
-                aria-label="הבא"
+                aria-label="הקודם"
               >
                 <IoChevronForward className="w-6 h-6 text-[#5b4f47]" />
               </button>
 
               <button
                 type="button"
-                onClick={() => {
-                  const prev = (mobileIndex + 1) % baseVideos.length;
-                  setMobileIndex(prev);
-                  scrollToMobileIndex(prev);
-                }}
+                onClick={handleGalleryNext}
                 className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 active:scale-95"
-                aria-label="הקודם"
+                aria-label="הבא"
               >
                 <IoChevronBack className="w-6 h-6 text-[#5b4f47]" />
               </button>
             </div>
           </div>
-
-          <motion.div 
-            className="relative w-full overflow-hidden hidden sm:block"
-            viewport={{ once: false, amount: 0.1 }}
-            onViewportEnter={() => {
-              setHasStarted(true);
-              setIsPaused(false);
-              setScrollKey((k) => k + 1);
-            }}
-            onPointerEnter={(e) => {
-              if (e.pointerType === 'mouse') setIsPaused(true);
-            }}
-            onPointerLeave={(e) => {
-              if (e.pointerType === 'mouse') setIsPaused(false);
-            }}
-          >
-            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-[#f9f0dd] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-[#f9f0dd] to-transparent z-10 pointer-events-none" />
-
-            <div
-              key={scrollKey}
-              ref={carouselRef}
-              className="flex gap-5 sm:gap-6 py-4 animate-scroll"
-              style={{
-                width: 'max-content',
-                animationPlayState: !hasStarted || isPaused ? 'paused' : 'running',
-              }}
-            >
-              <style>{`
-                @keyframes scroll {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
-                }
-                .animate-scroll {
-                  animation: scroll 20s linear infinite;
-                }
-              `}</style>
-              {duplicatedVideos.map((video, index) => (
-                <div
-                  key={`${video.title}-${index}`}
-                  onClick={() => handleCardClick(index % baseVideos.length)}
-                  className="group/card relative shrink-0 w-44 sm:w-52 md:w-56 aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 border border-white/40 ring-1 ring-black/5 bg-[#fffcf0]"
-                >
-                  {video.videoSrc ? (
-                    <video
-                      src={`${video.videoSrc}#t=0.1`}
-                      poster={video.thumbnailSrc}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                      muted
-                      playsInline
-                      preload="metadata"
-                      disablePictureInPicture
-                    />
-                  ) : (
-                    <img
-                      src={video.thumbnailSrc}
-                      alt={video.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
-
-                  <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-white/90 rounded-2xl flex items-center justify-center shadow-lg ring-1 ring-black/10 group-hover/card:scale-110 transition-transform duration-300">
-                      <SiYoutubeshorts className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#fe0034]" />
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-center z-20" dir="rtl">
-                    <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight drop-shadow-md">
-                      {video.title}
-                    </h4>
-                    <p className="text-white/80 text-sm sm:text-base mt-1 font-medium">
-                      {video.subtitle}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </div>
 
-      {/* MacBook-style Video Modal */}
+      {/* Device-Specific Viewer */}
       <AnimatePresence>
-        {selectedVideo && (
+        {selectedImage && (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
@@ -354,114 +209,142 @@ const MethodologySection: React.FC = () => {
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
 
-            {/* Modal Container */}
-            <motion.div
-              className="relative z-10 w-full max-w-[240px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[480px] flex flex-col items-center gap-4"
-              initial={{ scale: 0.9, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 30 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 350 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Desktop Navigation Buttons (hidden on mobile) */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePrev();
-                }}
-                className="hidden md:flex absolute -left-20 top-1/2 -translate-y-1/2 z-30 w-14 h-14 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
-                aria-label="Previous"
+            {/* Mobile: iPhone-style Story Viewer */}
+            {isMobile ? (
+              <motion.div
+                className="relative w-[92vw] max-w-[420px] rounded-[3rem] bg-[#2a2421]/90 border-[3px] border-white/10 shadow-[0_30px_120px_rgba(0,0,0,0.65)] overflow-hidden"
+                initial={{ scale: 0.96, y: 18 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={(e) => e.stopPropagation()}
               >
-                <IoChevronBack className="w-7 h-7 text-white" />
-              </button>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black/60 rounded-b-2xl z-40" />
 
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNext();
-                }}
-                className="hidden md:flex absolute -right-20 top-1/2 -translate-y-1/2 z-30 w-14 h-14 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full items-center justify-center transition-all duration-300 hover:scale-110"
-                aria-label="Next"
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="absolute top-6 right-6 z-50 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                  aria-label="סגירה"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+
+                <div className="relative w-full aspect-[9/16] bg-transparent">
+                  <img
+                    key={selectedImage}
+                    src={selectedImage}
+                    alt="גלריה"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
+                    <div className="flex items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={handlePrev}
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                        aria-label="תמונה קודמת"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleNext}
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                        aria-label="תמונה הבאה"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/45 via-transparent to-black/25" />
+                </div>
+              </motion.div>
+            ) : (
+              /* Desktop: MacBook Pro-style Viewer */
+              <motion.div
+                className="relative w-[90vw] max-w-[1100px]"
+                initial={{ scale: 0.94, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={(e) => e.stopPropagation()}
               >
-                <IoChevronForward className="w-7 h-7 text-white" />
-              </button>
+                {/* MacBook Pro Window */}
+                <div className="relative bg-gradient-to-b from-[#3a3a3c] to-[#2c2c2e] rounded-[12px] shadow-[0_40px_140px_rgba(0,0,0,0.7)] overflow-hidden border border-white/10">
+                  {/* Window Title Bar */}
+                  <div className="relative h-12 bg-[#2a2a2c] border-b border-white/5 flex items-center justify-between px-4">
+                    {/* macOS Window Controls */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={closeModal}
+                        className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff6b63] transition-colors"
+                        aria-label="סגירה"
+                      />
+                      <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#fec444] transition-colors" />
+                      <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#30d158] transition-colors" />
+                    </div>
+                    <div className="absolute left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium">
+                      גלריה
+                    </div>
+                    {/* X Close Button */}
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="inline-flex items-center justify-center w-8 h-8 rounded-md hover:bg-white/10 transition-colors"
+                      aria-label="סגירה"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                    </button>
+                  </div>
 
-              {/* Phone Frame */}
-              <div className="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-[2.25rem] sm:rounded-[3rem] p-2 sm:p-3 shadow-2xl">
-                {/* Notch */}
-                <div className="absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-5 sm:h-6 bg-black rounded-full z-20" />
-                
-                {/* Screen */}
-                <div className="relative bg-black rounded-[1.75rem] sm:rounded-[2.5rem] overflow-hidden aspect-[9/16] w-auto h-[45vh] sm:h-[70vh] max-h-[420px] sm:max-h-[560px]">
-                  {/* Close Button */}
-                  <button
-                    onClick={closeModal}
-                    className="absolute top-3 right-3 z-30 w-9 h-9 sm:w-10 sm:h-10 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                  >
-                    <IoClose className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                  </button>
-
-                  {/* Video Content */}
-                  {selectedVideo.videoSrc ? (
-                    <video
-                      key={selectedVideo.videoSrc}
-                      src={selectedVideo.videoSrc}
-                      poster={selectedVideo.thumbnailSrc}
-                      className="w-full h-full object-cover"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      controls={false}
-                      disablePictureInPicture
-                    />
-                  ) : (
+                  {/* Image Container */}
+                  <div className="relative" style={{ height: '70vh', maxHeight: '800px', background: 'transparent' }}>
                     <img
-                      src={selectedVideo.thumbnailSrc}
-                      alt={selectedVideo.title}
-                      className="w-full h-full object-cover"
+                      key={selectedImage}
+                      src={selectedImage}
+                      alt="גלריה"
+                      className="w-full h-full object-contain"
                     />
-                  )}
 
-                  {/* Overlay with info */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+                    {/* Navigation Buttons */}
+                    <button
+                      type="button"
+                      onClick={handlePrev}
+                      className="absolute left-6 top-1/2 -translate-y-1/2 z-30 inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                      aria-label="תמונה קודמת"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                        <path d="m15 18-6-6 6-6" />
+                      </svg>
+                    </button>
 
-                  {/* Video Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-center pointer-events-none" dir="rtl">
-                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight drop-shadow-lg">
-                      {selectedVideo.title}
-                    </h3>
-                    <p className="text-white/80 text-base sm:text-lg mt-1 font-medium">
-                      {selectedVideo.subtitle}
-                    </p>
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="absolute right-6 top-1/2 -translate-y-1/2 z-30 inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                      aria-label="תמונה הבאה"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                        <path d="m9 18 6-6-6-6" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
-              </div>
-
-              {/* Mobile Navigation Buttons (below video) */}
-              <div className="flex md:hidden items-center justify-center gap-4 mt-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePrev();
-                  }}
-                  className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                  aria-label="Previous"
-                >
-                  <IoChevronBack className="w-6 h-6 text-white" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNext();
-                  }}
-                  className="w-12 h-12 bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                  aria-label="Next"
-                >
-                  <IoChevronForward className="w-6 h-6 text-white" />
-                </button>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
