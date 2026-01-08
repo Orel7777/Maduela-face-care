@@ -8,13 +8,29 @@ interface ServicesSectionProps {
 const services = [
   {
     id: 1,
-    title: 'טיפול ניקוי עמוק',
-    subtitle: 'הבסיס לעור בריא',
-    description: 'טיפול יסודי ומקיף שמנקה את העור לעומק, מאזן את הפרשת השומן, מטפל בראשים שחורים ומחזיר לעור את הנשימה והרעננות. מושלם לעור שמן, מעורב או עור עם נטייה לפצעונים.',
-    benefits: ['ניקוי נקבוביות יסודי', 'איזון הפרשת שומן', 'מראה נקי ורענן'],
+    title: 'פיסול פנים טבעי',
+    subtitle: 'מיניליפט טבעי ללא ניתוחים',
+    description: 'עיסוי פנים מתקדם ויוגה פייס לחיטוב הפנים, הפחתת קמטים, הרמת עור וטיפוח עמוק. טכניקה ייחודית המשלבת עיסוי מקצועי עם תרגילי שרירים לפנים, לתוצאות דרמטיות וטבעיות לחלוטין.',
+    benefits: ['הרמת פנים טבעית', 'הפחתת קמטים וקווי הבעה', 'חיטוב קו הלסת', 'שיפור מרקם העור'],
     image: '/images/Dikla/picture/4.jpeg',
     duration: '75 דקות',
-    price: '350',
+    price: '450',
+    popular: true,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 3l1.912 5.813a2 2 0 001.272 1.272L21 12l-5.813 1.912a2 2 0 00-1.272 1.272L12 21l-1.912-5.813a2 2 0 00-1.272-1.272L3 12l5.813-1.912a2 2 0 001.272-1.272L12 3z"/>
+      </svg>
+    ),
+  },
+  {
+    id: 2,
+    title: 'טיפולי פנים בהתאמה אישית',
+    subtitle: 'כל עור הוא עולם ומלואו',
+    description: 'טיפול פנים מקיף הכולל ניקוי עמוק, פילינג, חילוץ זיהומים, מסכה מותאמת אישית ועיסוי פנים מרגיע. מותאם במדויק לסוג העור, למצבו ולצרכים שלך - בין אם לטיפוח שוטף או לטיפול מעמיק בבעיות עור ספציפיות.',
+    benefits: ['ניקוי עמוק ויסודי', 'התאמה מלאה לסוג העור', 'עור זוהר ובריא', 'מתאים לכל סוגי העור'],
+    image: '/images/Dikla/picture/14.jpeg',
+    duration: '60-90 דקות',
+    price: '350-450',
     popular: false,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -26,34 +42,18 @@ const services = [
     ),
   },
   {
-    id: 2,
-    title: 'טיפול זוהר לאירוע',
-    subtitle: 'להיראות מושלמת ביום הגדול',
-    description: 'טיפול פרימיום שמכין את העור לאירוע חשוב – חתונה, צילומים, מפגש מיוחד. משלב הזנה עמוקה, הבהרה עדינה ומתיחה קלה לעור זוהר, רענן ומוכן לכל תקריב.',
-    benefits: ['זוהר מיידי', 'עור מוכן לאיפור', 'תוצאה שנשארת'],
-    image: '/images/Dikla/picture/14.jpeg',
-    duration: '60 דקות',
-    price: '400',
-    popular: true,
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 3l1.912 5.813a2 2 0 001.272 1.272L21 12l-5.813 1.912a2 2 0 00-1.272 1.272L12 21l-1.912-5.813a2 2 0 00-1.272-1.272L3 12l5.813-1.912a2 2 0 001.272-1.272L12 3z"/>
-      </svg>
-    ),
-  },
-  {
     id: 3,
-    title: 'טיפול הרגעה לעור רגיש',
-    subtitle: 'מענה לעור שדורש עדינות',
-    description: 'טיפול מותאם במיוחד לעור רגיש, מגורה או עם נטייה לאדמומיות. משלב מוצרים מרגיעים, טכניקות עדינות וחומרים טבעיים שמחזקים את מחסום העור ומשאירים תחושת נוחות ורוגע.',
-    benefits: ['הרגעת אדמומיות', 'חיזוק מחסום העור', 'תחושת נוחות מתמשכת'],
+    title: 'טיפולי פלזמה מתקדמים',
+    subtitle: 'טכנולוגיה מהפכנית להרמת עור',
+    description: 'הסרת נגעים, הרמת עור והידוק טבעי ללא ניתוחים! טיפולי הפלזמה מאפשרים תוצאות מדהימות ללא זמן החלמה ממושך. מתאים לפנים, צוואר, גוף - לטיפול בקמטים עמוקים, הרמת עפעפיים וחיטוב.',
+    benefits: ['ללא ניתוח פולשני', 'החלמה מהירה', 'תוצאות טבעיות ולאורך זמן', 'מינימום אי-נוחות'],
     image: '/images/Dikla/picture/1000271293.jpg',
-    duration: '70 דקות',
-    price: '380',
+    duration: '45-90 דקות',
+    price: '500-800',
     popular: false,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
       </svg>
     ),
   },
@@ -83,17 +83,17 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 3l1.912 5.813a2 2 0 001.272 1.272L21 12l-5.813 1.912a2 2 0 00-1.272 1.272L12 21l-1.912-5.813a2 2 0 00-1.272-1.272L3 12l5.813-1.912a2 2 0 001.272-1.272L12 3z"/>
             </svg>
-            טיפולי פנים מקצועיים
+            <span>טיפולים מקצועיים</span>
           </span>
           
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#5b4f47] leading-tight mb-6">
-            הטיפול המושלם
-            <span className="block text-[#a06c3b]">לכל סוג עור</span>
+            השירותים שלנו
+            <span className="block text-[#a06c3b]">מגוון טיפולים מקצועיים למראה זוהר ורענן</span>
           </h2>
           
           <p className="text-base sm:text-lg text-[#5b4f47]/80 leading-relaxed">
-            כל טיפול נבנה במיוחד עבורך – לפי מצב העור, הצרכים האישיים והמטרות שלך.
-            <span className="font-medium text-[#5b4f47]"> בואי נמצא יחד את הטיפול שיעשה לך את השינוי.</span>
+            במרכז שלנו את תמצאי מגוון רחב של טיפולי פנים מתקדמים, פיסול פנים טבעי וטיפולים ייחודיים המותאמים אישית לצרכי העור שלך.
+            <span className="font-medium text-[#5b4f47]"> אנחנו משלבים טכניקות מסורתיות עם שיטות חדשניות לתוצאות מרשימות.</span>
           </p>
         </motion.div>
 
@@ -156,7 +156,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact }) => {
           <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-8 rounded-3xl bg-white/80 backdrop-blur-sm border border-[#ddc1a7]/50 shadow-xl">
             <div className="text-right sm:text-right">
               <h3 className="text-lg sm:text-xl font-bold text-[#5b4f47] mb-1">לא בטוחה מה מתאים לך?</h3>
-              <p className="text-sm text-[#5b4f47]/70">נשמח לעזור לך לבחור את הטיפול המושלם – ללא התחייבות</p>
+              <p className="text-sm text-[#5b4f47]/70">אנחנו כאן כדי לענות על כל שאלה ולמצוא את הטיפול המושלם בשבילך</p>
             </div>
             <button
               type="button"

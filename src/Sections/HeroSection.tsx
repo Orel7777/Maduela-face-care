@@ -338,7 +338,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
           
           {/* Text content - Right side for RTL - enters from right */}
           <motion.div
-            className="order-1 lg:order-2 text-right"
+            className="order-1 lg:order-1 text-right"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
@@ -362,10 +362,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               className="mb-6"
             >
               <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-bold text-[#5b4f47] leading-tight tracking-tight">
-                דקלה מדואלה
+                מדואלה - Face Care
               </span>
               <span className="block mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-medium text-[#a06c3b]">
-                קוסמטיקאית רפואית
+                טיפולי פנים ופיסול טבעי
               </span>
             </motion.h1>
 
@@ -376,9 +376,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-base sm:text-lg md:text-xl text-[#5b4f47]/85 leading-relaxed mb-8 max-w-xl mr-0 ml-auto"
             >
-              <strong className="text-[#5b4f47]">יותר מ-10 שנות ניסיון</strong> בטיפולי פנים מעמיקים ומדויקים.
-              כל טיפול נבנה במיוחד עבורך – להחזיר לעור את הזוהר הטבעי, האיזון והביטחון.
-              <span className="block mt-3 text-[#a06c3b] font-medium">הגיע הזמן שהעור שלך יקבל את הטיפול שמגיע לו.</span>
+              גלי את היופי הטבעי שבך עם טיפולי פנים מקצועיים ופיסול טבעי ללא ניתוחים
             </motion.p>
 
             {/* CTA Buttons */}
@@ -386,7 +384,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end justify-end mb-12 sm:mb-14"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start justify-start mb-12 sm:mb-14"
             >
               <button
                 type="button"
@@ -399,7 +397,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                     <path d="m12 19-7-7 7-7" />
                   </svg>
                 </span>
-                <span className="relative z-10">קביעת תור עכשיו</span>
+                <span className="relative z-10">קבעי פגישה עכשיו</span>
                 <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#695125] to-[#5b4f47] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </button>
 
@@ -443,10 +441,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.55 }}
-                className="mt-6 flex items-center justify-end gap-3"
+                className="mt-6 flex items-center justify-start gap-3"
               >
-                <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
-
                 <motion.a
                   href="https://www.google.com/search?kgmid=/g/11m6qsnxhr&hl=iw-IL&q=%D7%9E%D7%93%D7%95%D7%90%D7%9C%D7%94+%D7%A7%D7%9C%D7%99%D7%A0%D7%99%D7%A7+-+%D7%93%D7%A7%D7%9C%D7%94+%D7%A9%D7%9C%D7%99%D7%98&shndl=30&shem=lcuae,shrtsdl&source=sh/x/loc/osrp/m1/4&kgs=851252971ce84175&utm_source=lcuae,shrtsdl,sh/x/loc/osrp/m1/4"
                   target="_blank"
@@ -475,13 +471,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                     <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
                   </svg>
                 </motion.a>
+                <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
               </motion.div>
             </div>
           </motion.div>
 
           {/* Image card - Left side for RTL - enters from left */}
           <motion.div
-            className="order-2 lg:order-1 flex justify-center lg:justify-start mt-10 sm:mt-12 lg:mt-0"
+            className="order-2 lg:order-2 flex justify-center lg:justify-end mt-10 sm:mt-12 lg:mt-0"
             initial={{ opacity: 0, x: -100, scale: 0.95 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 1.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -625,10 +622,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.55 }}
-              className="mt-6 flex items-center justify-end gap-3"
+              className="mt-6 flex items-center justify-start gap-3"
             >
-              <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
-
               <motion.a
                 href="https://www.google.com/search?kgmid=/g/11m6qsnxhr&hl=iw-IL&q=%D7%9E%D7%93%D7%95%D7%90%D7%9C%D7%94+%D7%A7%D7%9C%D7%99%D7%A0%D7%99%D7%A7+-+%D7%93%D7%A7%D7%9C%D7%94+%D7%A9%D7%9C%D7%99%D7%98&shndl=30&shem=lcuae,shrtsdl&source=sh/x/loc/osrp/m1/4&kgs=851252971ce84175&utm_source=lcuae,shrtsdl,sh/x/loc/osrp/m1/4"
                 target="_blank"
@@ -657,6 +652,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                   <path d="M21 14v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
                 </svg>
               </motion.a>
+              <span className="text-xs text-[#5b4f47]/70 select-none">נפתח בגוגל (בטאב חדש)</span>
             </motion.div>
           </div>
         </div>

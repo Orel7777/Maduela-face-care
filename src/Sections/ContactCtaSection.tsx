@@ -33,13 +33,12 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
             </span>
             
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#5b4f47] leading-tight mb-6">
-              מוכנה לשינוי?
-              <span className="block text-[#a06c3b]">בואי נדבר</span>
+              בואי נדבר
             </h2>
             
             <p className="text-base sm:text-lg text-[#5b4f47]/80 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 lg:mr-0">
-              הצעד הראשון לעור זוהר מתחיל בשיחה קצרה. השאירי פרטים ואחזור אלייך תוך כמה שעות לתיאום ייעוץ או תור – 
-              <span className="font-semibold text-[#5b4f47]"> בלי לחץ, רק הקשבה ומקצועיות.</span>
+              מוזמנת ליצור קשר לתיאום פגישה, לשאלות או לכל דבר אחר. אנחנו כאן כדי לענות על כל שאלה ולמצוא את הטיפול המושלם בשבילך.
+              <span className="font-semibold text-[#5b4f47]"> צרי קשר עוד היום וקבעי את הטיפול הראשון שלך!</span>
             </p>
 
             {/* Benefits */}
@@ -106,8 +105,8 @@ const ContactCtaSection: React.FC<ContactCtaSectionProps> = ({ onOpenContact }) 
                     />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-[#5b4f47]">דקלה מדואלה</h3>
-                    <p className="text-sm text-[#5b4f47]/70">קוסמטיקאית רפואית</p>
+                    <h3 className="text-xl font-bold text-[#5b4f47]">מדואלה - Face Care</h3>
+                    <p className="text-sm text-[#5b4f47]/70">מרכז מקצועי לטיפולי פנים</p>
                   </div>
                 </div>
 

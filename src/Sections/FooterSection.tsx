@@ -151,11 +151,10 @@ const FooterSection: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold text-white mb-2">דקלה מדואלה</h3>
-              <p className="text-[#ddc1a7] font-medium mb-4">קוסמטיקאית רפואית</p>
+              <h3 className="text-2xl font-bold text-white mb-2">מדואלה - Face Care</h3>
+              <p className="text-[#ddc1a7] font-medium mb-4">מרכז מקצועי לטיפולי פנים ופיסול טבעי</p>
               <p className="text-white/70 text-sm leading-relaxed max-w-md mb-6">
-                יותר מ-10 שנות ניסיון בטיפולי פנים מקצועיים. כל טיפול נבנה במיוחד עבורך – 
-                להחזיר לעור את הזוהר הטבעי, האיזון והביטחון.
+                טיפולי פנים מקצועיים, פיסול פנים טבעי, טיפולי פלזמה ופיסול שפתיים. טיפולים מותאמים אישית לעור זוהר ומראה צעיר.
               </p>
               
               {/* Social links */}
@@ -316,7 +315,7 @@ const FooterSection: React.FC = () => {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/50">
-            <p>© {year} דקלה מדואלה. כל הזכויות שמורות.</p>
+<p>© {year} מדואלה Face Care | כל הזכויות שמורות</p>
             <div className="flex items-center gap-4">
               <Link
                 to="/privacy-policy"

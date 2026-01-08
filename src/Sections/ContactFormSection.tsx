@@ -173,7 +173,7 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                   <div className="relative overflow-hidden rounded-2xl ring-1 ring-[#ddc1a7]/30 bg-white/60">
                     <div className="aspect-[16/9]">
                       <img
-                        src="/images/Dikla/picture/14.jpeg"
+                        src="/images/Dikla/picture/4.jpeg"
                         alt=""
                         className="w-full h-full object-cover"
                       />
@@ -339,7 +339,7 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({ isOpen, onClose
                       <div className="relative overflow-hidden rounded-2xl ring-1 ring-[#ddc1a7]/30 bg-white/60">
                         <div className="aspect-[16/9]">
                           <img
-                            src="/תמונות/דקלה/picture/14.jpeg"
+                            src="/images/Dikla/picture/4.jpeg"
                             alt=""
                             className="w-full h-full object-cover"
                           />

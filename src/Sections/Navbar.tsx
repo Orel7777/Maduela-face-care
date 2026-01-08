@@ -229,12 +229,20 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
     setIsMenuOpen(false);
   };
 
-  const getNavigationPath = (anchor: string) => {
-    if (isHomePage) {
-      return `#${anchor}`;
-    } else {
-      return `/#${anchor}`;
+  const scrollToSection = (sectionId: string) => {
+    setIsMenuOpen(false);
+    if (!isHomePage) {
+      window.location.href = `/#${sectionId}`;
+      return;
     }
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -295,7 +303,76 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                       delay: 0.9
                     }}
                   >
-                    <Button onClick={handleOpenForm}>קביעת תור</Button>
+                    <LogoContainer 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.7, ease: "easeOut" }}
+                    >
+                      <button onClick={scrollToTop} className="bg-transparent border-none cursor-pointer p-0">
+                        <motion.div
+                          className="relative"
+                          whileHover={{ rotate: [0, -5, 5, -5, 0] }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <LogoImage 
+                            src="/לוגו/לוגו_גדול.jpeg" 
+                            alt="דקלה מדואלה" 
+                            className="logo-desktop"
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ 
+                              scale: 1, 
+                              opacity: 1,
+                              transition: { 
+                                type: "spring", 
+                                stiffness: 300, 
+                                damping: 15,
+                                delay: 0.2
+                              }
+                            }}
+                            whileHover={{ 
+                              scale: 1.15,
+                              boxShadow: "0 0 25px rgba(255, 255, 255, 0.5)"
+                            }}
+                            style={{
+                              boxShadow: '0 8px 25px rgba(91, 79, 71, 0.3)',
+                              border: '3px solid #fffcf0',
+                              background: 'linear-gradient(135deg, #ddc1a7, #efe3b8)'
+                            }}
+                          />
+                          <motion.div 
+                            className="absolute top-0 left-0 right-0 bottom-0 rounded-full -z-10"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ 
+                              opacity: [0.5, 0.8, 0.5], 
+                              scale: [0.9, 1.05, 0.9],
+                              transition: { 
+                                repeat: Infinity,
+                                duration: 3,
+                                ease: "easeInOut"
+                              }
+                            }}
+                            style={{
+                              background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
+                              transform: 'translate(-5%, -5%)',
+                              width: '110%',
+                              height: '110%'
+                            }}
+                          />
+                        </motion.div>
+                      </button>
+                      <motion.span 
+                        className="mt-1 text-sm font-semibold text-[#5b4f47]"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.5 }}
+                        style={{
+                          textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        נעים מאוד - מדואלה דקלה שליט
+                      </motion.span>
+                    </LogoContainer>
                   </motion.div>
 
                   <div
@@ -369,15 +446,15 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                   }}
                 >
                   {[ 
-                    { name: "שירותים", anchor: "services" },
+                    { name: "טיפולים", anchor: "services" },
                     { name: "המלצות", anchor: "testimonials" },
-                    { name: "שיטת\u00a0הטיפול", anchor: "methodology" },
-                    { name: "אודות", anchor: "stats" }
+                    { name: "גלריה", anchor: "methodology" },
+                    { name: "שאלות", anchor: "faq" }
                   ].map((item, index) => (
-                    <motion.a 
+                    <motion.button 
                       key={item.name}
-                      href={getNavigationPath(item.anchor)}
-                      className="relative text-lg font-medium text-[#5b4f47]"
+                      onClick={() => scrollToSection(item.anchor)}
+                      className="relative text-lg font-medium text-[#5b4f47] bg-transparent border-none cursor-pointer"
                       style={{ whiteSpace: 'nowrap' }}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -393,81 +470,23 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                         }}
                         transition={{ duration: 0.3 }}
                       />
-                    </motion.a>
+                    </motion.button>
                   ))}
                 </div>
 
-                {/* Right: Logo */}
-                <LogoContainer 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
+                {/* Right: CTA */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 500, 
+                    damping: 15,
+                    delay: 0.9
+                  }}
                 >
-                  <Link to="/">
-                    <motion.div
-                      className="relative"
-                      whileHover={{ rotate: [0, -5, 5, -5, 0] }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <LogoImage 
-                        src="/לוגו/לוגו_גדול.jpeg" 
-                        alt="דקלה מדואלה" 
-                        className="logo-desktop"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ 
-                          scale: 1, 
-                          opacity: 1,
-                          transition: { 
-                            type: "spring", 
-                            stiffness: 300, 
-                            damping: 15,
-                            delay: 0.2
-                          }
-                        }}
-                        whileHover={{ 
-                          scale: 1.15,
-                          boxShadow: "0 0 25px rgba(255, 255, 255, 0.5)"
-                        }}
-                        style={{
-                          boxShadow: '0 8px 25px rgba(91, 79, 71, 0.3)',
-                          border: '3px solid #fffcf0',
-                          background: 'linear-gradient(135deg, #ddc1a7, #efe3b8)'
-                        }}
-                      />
-                      <motion.div 
-                        className="absolute top-0 left-0 right-0 bottom-0 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ 
-                          opacity: [0.5, 0.8, 0.5], 
-                          scale: [0.9, 1.05, 0.9],
-                          transition: { 
-                            repeat: Infinity,
-                            duration: 3,
-                            ease: "easeInOut"
-                          }
-                        }}
-                        style={{
-                          background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
-                          transform: 'translate(-5%, -5%)',
-                          width: '110%',
-                          height: '110%'
-                        }}
-                      />
-                    </motion.div>
-                  </Link>
-                  <motion.span 
-                    className="mt-1 text-sm font-semibold text-[#5b4f47]"
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                    style={{
-                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    נעים מאוד - מדואלה דקלה שליט
-                  </motion.span>
-                </LogoContainer>
+                  <Button onClick={handleOpenForm}>קביעת תור</Button>
+                </motion.div>
               </div>
 
               {/* Mobile top bar */}
@@ -489,7 +508,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                 
                 <div className="absolute inset-0 flex items-center justify-end pr-0 pointer-events-none">
                   <div className="flex flex-col items-center pointer-events-auto" style={{ transform: 'translateX(10px)' }}>
-                    <Link to="/">
+                    <button onClick={scrollToTop} className="bg-transparent border-none cursor-pointer p-0">
                       <img
                         src="/לוגו/לוגו_גדול.jpeg"
                         alt="דקלה מדואלה"
@@ -500,7 +519,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                           background: 'linear-gradient(135deg, #fffcf0, #efe3b8)'
                         }}
                       />
-                    </Link>
+                    </button>
                     <span
                       className="mt-1 text-xs font-semibold text-[#5b4f47] text-center"
                       style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
@@ -571,7 +590,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                   </motion.button>
 
                   <div className="flex flex-col justify-center items-center mb-6">
-                    <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                    <button onClick={() => { scrollToTop(); setIsMenuOpen(false); }} className="bg-transparent border-none cursor-pointer p-0">
                       <motion.img 
                         src="/לוגו/לוגו_גדול.jpeg" 
                         alt="דקלה מדואלה" 
@@ -583,7 +602,7 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
                           background: 'linear-gradient(135deg, #fffcf0, #efe3b8)'
                         }}
                       />
-                    </Link>
+                    </button>
                     <span className="mt-3 text-lg font-semibold text-[#5b4f47]">
                       נעים מאוד - מדואלה דקלה שליט
                     </span>
@@ -629,22 +648,30 @@ const Header: FC<HeaderProps> = ({ onOpenContact }) => {
 
                   <StyledMenu className="mb-8 space-y-4">
                     {[
-                      { name: "שירותים", anchor: "services" },
+                      { name: "טיפולים", anchor: "services" },
                       { name: "המלצות", anchor: "testimonials" },
-                      { name: "שיטת\u00a0הטיפול", anchor: "methodology" },
-                      { name: "אודות", anchor: "stats" }
+                      { name: "גלריה", anchor: "methodology" },
+                      { name: "שאלות", anchor: "faq" }
                     ].map((item, index) => (
-                      <StyledMenuItem 
+                      <motion.button
                         key={item.name}
-                        href={getNavigationPath(item.anchor)} 
-                        className="block text-xl font-semibold transition-all text-[#5b4f47] py-2.5 px-4 rounded-xl menu-item"
-                        onClick={() => setIsMenuOpen(false)}
+                        onClick={() => scrollToSection(item.anchor)}
+                        className="block text-xl font-semibold transition-all text-[#5b4f47] py-2.5 px-4 rounded-xl menu-item w-full text-center bg-transparent cursor-pointer"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.1 * index, duration: 0.3 }}
+                        style={{
+                          border: '2px solid #ddc1a7',
+                          background: 'linear-gradient(135deg, #fffcf0, #efe3b8)',
+                          boxShadow: '0 5px 15px rgba(91, 79, 71, 0.12)'
+                        }}
+                        whileHover={{
+                          scale: 1.03,
+                          y: -5
+                        }}
                       >
                         {item.name}
-                      </StyledMenuItem>
+                      </motion.button>
                     ))}
                   </StyledMenu>
               
