@@ -18,14 +18,17 @@ import PrivacyPolicy from './Pages/PrivacyPolicy'
 
 function App() {
   const [isLoading, setIsLoading] = useState(() => {
-    // Check if user has already seen loading screen in this session
     const hasSeenLoading = sessionStorage.getItem('hasSeenLoading')
     return !hasSeenLoading
   })
   const [isContactOpen, setIsContactOpen] = useState(false)
 
+  const videosToPreload = [
+    '/images/Dikla/video/1.mp4',
+    '/images/Dikla/video/20251104_114301000_iOS_0 (video-converter.com).mp4'
+  ]
+
   useEffect(() => {
-    // Mark that user has seen loading screen in this session
     if (isLoading) {
       sessionStorage.setItem('hasSeenLoading', 'true')
     }
@@ -33,7 +36,7 @@ function App() {
 
   return (
     <>
-      {isLoading && <Loading onDone={() => setIsLoading(false)} />}
+      {isLoading && <Loading onDone={() => setIsLoading(false)} videosToPreload={videosToPreload} />}
       {!isLoading && (
         <Routes>
           <Route

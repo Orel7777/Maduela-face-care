@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { preloadVideos } from '../utils/videoPreloader';
 
 interface LoadingProps {
   onDone?: () => void;
+  videosToPreload?: string[];
 }
 
-const Loading: React.FC<LoadingProps> = ({ onDone }) => {
+const Loading: React.FC<LoadingProps> = ({ onDone, videosToPreload = [] }) => {
   const preloaderRef = useRef<HTMLDivElement | null>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
   const [isDone, setIsDone] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState('טוען את חוויית הטיפול שלך');
+  const [videoProgress, setVideoProgress] = useState(0);
 
   useEffect(() => {
     const preloader = preloaderRef.current;
@@ -16,42 +20,64 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
 
     if (!preloader || !progressBar) return;
 
-    // Reset initial state
     gsap.set(preloader, { opacity: 1, scale: 1, display: 'flex' });
     gsap.set(progressBar, { width: '0%' });
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        setIsDone(true);
-        if (onDone) {
-          onDone();
+    const loadContent = async () => {
+      if (videosToPreload.length > 0) {
+        setLoadingStatus('טוען וידאו...');
+        
+        try {
+          await preloadVideos(videosToPreload, (progress) => {
+            setVideoProgress(progress.percentage);
+            gsap.to(progressBar, {
+              width: `${progress.percentage * 0.7}%`,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+          });
+          
+          setLoadingStatus('מכין הכל בשבילך...');
+        } catch (error) {
+          console.error('Failed to preload videos:', error);
         }
-      },
-    });
+      }
 
-    tl.to(progressBar, {
-      width: '100%',
-      duration: 0.7,
-      ease: 'power2.out',
-    })
-      .to(
-        preloader,
-        {
-          opacity: 0,
-          scale: 0.9,
-          duration: 0.3,
-          ease: 'power3.inOut',
-          onComplete: () => {
-            (preloader as HTMLDivElement).style.display = 'none';
-          },
+      const tl = gsap.timeline({
+        onComplete: () => {
+          setIsDone(true);
+          if (onDone) {
+            onDone();
+          }
         },
-        '>-0.15'
-      );
+      });
+
+      tl.to(progressBar, {
+        width: '100%',
+        duration: 0.5,
+        ease: 'power2.out',
+      })
+        .to(
+          preloader,
+          {
+            opacity: 0,
+            scale: 0.9,
+            duration: 0.3,
+            ease: 'power3.inOut',
+            onComplete: () => {
+              (preloader as HTMLDivElement).style.display = 'none';
+            },
+          },
+          '>-0.15'
+        );
+    };
+
+    loadContent();
 
     return () => {
-      tl.kill();
+      gsap.killTweensOf([preloader, progressBar]);
     };
-  }, []);
+  }, [videosToPreload, onDone]);
 
   if (isDone) return null;
 
@@ -77,10 +103,12 @@ const Loading: React.FC<LoadingProps> = ({ onDone }) => {
           </div>
           <div className="text-center">
             <p className="text-sm sm:text-base font-semibold tracking-tight text-[#5b4f47]">
-              טוען את חוויית הטיפול שלך
+              {loadingStatus}
             </p>
             <p className="text-xs sm:text-sm text-[#5b4f47]/80 mt-1">
-              רגע קטן של קסם לפני שנכנסים לקליניקה
+              {videosToPreload.length > 0 && videoProgress > 0 && videoProgress < 100
+                ? `טוען ${videoProgress}%`
+                : 'רגע קטן של קסם לפני שנכנסים לקליניקה'}
             </p>
           </div>
         </div>
