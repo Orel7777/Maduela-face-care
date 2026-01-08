@@ -21,10 +21,10 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background-color: var(--brand-bg);
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='320'%20viewBox='0%200%20320%20320'%3E%3Cg%20fill='none'%20stroke='%235b4f47'%20stroke-opacity='0.22'%20stroke-width='2'%3E%3Cpath%20d='M60%20105c28-34%2068-30%2092%200%20-32%2015-64%2062-72%2090-20-32-26-60-20-90z'/%3E%3Cpath%20d='M230%2068c-18%2050-56%2062-92%2050%2024-28%2046-60%2064-92%2040%200%2062%2016%2028%2042z'/%3E%3Cpath%20d='M110%20240c40-16%2072%204%2080%2040-32%2018-58%2040-70%2070-20-28-24-58-10-110z'/%3E%3Cpath%20d='M255%20210c-26%2036-66%2046-92%2028%2028-22%2046-52%2058-84%2036%200%2058%2018%2034%2056z'/%3E%3Cpath%20d='M58%20105c18%2026%2040%2044%2058%2058'/%3E%3Cpath%20d='M232%2068c-24%2030-44%2054-56%2076'/%3E%3Cpath%20d='M112%20240c14%2030%2034%2052%2050%2068'/%3E%3Cpath%20d='M256%20210c-18%2026-34%2048-48%2068'/%3E%3C/g%3E%3Cg%20fill='none'%20stroke='%23a06c3b'%20stroke-opacity='0.14'%20stroke-width='2'%3E%3Cpath%20d='M150%20140c10-34%2040-52%2074-44-10%2034-40%2052-74%2044z'/%3E%3Cpath%20d='M170%20180c-8%2030-34%2048-66%2044%208-30%2034-48%2066-44z'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #fffcf0, #f9f0dd, #fffcf0);
-  background-repeat: repeat, no-repeat;
-  background-size: 260px 260px, cover;
-  background-position: top center, top center;
+  background-image: linear-gradient(to bottom, #fffcf0, #f9f0dd, #fffcf0);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
   background-attachment: fixed;
   color: var(--brand-ink-muted);
   overflow-x: hidden;
