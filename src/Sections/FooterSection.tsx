@@ -315,7 +315,26 @@ const FooterSection: React.FC = () => {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/50">
-<p>© {year} מדואלה Face Care | כל הזכויות שמורות</p>
+            <p>
+              &copy; {year} כל הזכויות שמורות ל{' '}
+              <a
+                href="https://wa.me/972548119221"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-[#ddc1a7] transition-colors underline underline-offset-4"
+              >
+                אוראל בוקריס
+              </a>
+              {' '}| מבית תוכנה{' '}
+              <a
+                href="https://www.codesculpt.co.il/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-[#ddc1a7] transition-colors underline underline-offset-4"
+              >
+                Code Sculpt
+              </a>
+            </p>
             <div className="flex items-center gap-4">
               <Link
                 to="/privacy-policy"
@@ -323,7 +342,6 @@ const FooterSection: React.FC = () => {
               >
                 מדיניות הפרטיות
               </Link>
-              <p className="text-xs">עוצב ופותח עם 💜</p>
             </div>
           </div>
         </div>
