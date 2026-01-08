@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlidUpLeft, SlidUpRight } from '../components/Motion';
-import { IoChevronBack, IoChevronForward, IoClose } from 'react-icons/io5';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 
 const steps = [
   {
@@ -141,7 +141,13 @@ const MethodologySection: React.FC = () => {
 
         <div className="mt-12 sm:mt-16" dir="rtl">
           {/* Static Full-Width Gallery */}
-          <div className="relative w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="relative w-full"
+          >
             <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 py-6">
               {galleryImages.slice(currentGalleryIndex, currentGalleryIndex + itemsToShow).concat(
                 currentGalleryIndex + itemsToShow > galleryImages.length 
@@ -191,7 +197,7 @@ const MethodologySection: React.FC = () => {
                 <IoChevronBack className="w-6 h-6 text-[#5b4f47]" />
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -281,20 +287,6 @@ const MethodologySection: React.FC = () => {
                 <div className="relative bg-gradient-to-b from-[#3a3a3c] to-[#2c2c2e] rounded-[12px] shadow-[0_40px_140px_rgba(0,0,0,0.7)] overflow-hidden border border-white/10">
                   {/* Window Title Bar */}
                   <div className="relative h-12 bg-[#2a2a2c] border-b border-white/5 flex items-center justify-between px-4">
-                    {/* macOS Window Controls */}
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={closeModal}
-                        className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff6b63] transition-colors"
-                        aria-label="סגירה"
-                      />
-                      <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#fec444] transition-colors" />
-                      <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#30d158] transition-colors" />
-                    </div>
-                    <div className="absolute left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium">
-                      גלריה
-                    </div>
                     {/* X Close Button */}
                     <button
                       type="button"
@@ -307,6 +299,20 @@ const MethodologySection: React.FC = () => {
                         <path d="m6 6 12 12" />
                       </svg>
                     </button>
+                    <div className="absolute left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium">
+                      גלריה
+                    </div>
+                    {/* macOS Window Controls */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={closeModal}
+                        className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff6b63] transition-colors"
+                        aria-label="סגירה"
+                      />
+                      <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#fec444] transition-colors" />
+                      <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#30d158] transition-colors" />
+                    </div>
                   </div>
 
                   {/* Image Container */}

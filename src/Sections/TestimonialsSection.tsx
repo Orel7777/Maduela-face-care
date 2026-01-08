@@ -398,9 +398,13 @@ const TestimonialsSection: React.FC = () => {
 
                   return (
                     <>
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setSelectedImage(leftIndex)}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
                         className={`relative w-[340px] min-h-[460px] ${mx} -rotate-[10deg] bg-gradient-to-b from-white/10 to-transparent border border-black/5 shadow-[0_25px_25px_rgba(0,0,0,0.10)] flex justify-center items-center rounded-2xl backdrop-blur-[10px] transition duration-200 hover:-translate-y-1 hover:scale-[1.02] sm:hover:-translate-y-2 sm:hover:scale-105 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a06c3b]/40`}
                       >
                         <div className="absolute inset-3 rounded-2xl shadow-xl ring-1 overflow-hidden bg-gradient-to-br from-[#fffcf0] via-[#faf6ed] to-[#f5ead8] text-[#5b4f47] ring-[#ddc1a7]/30">
@@ -444,11 +448,15 @@ const TestimonialsSection: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                      </button>
+                      </motion.button>
 
-                      <button
+                      <motion.button
                         type="button"
                         onClick={() => setSelectedImage(midIndex)}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
                         className={`relative w-[340px] min-h-[460px] ${mx} -rotate-[6deg] bg-gradient-to-b from-white/8 to-transparent border border-black/5 shadow-[0_25px_25px_rgba(0,0,0,0.10)] flex justify-center items-center rounded-2xl backdrop-blur-[10px] transition duration-200 hover:-translate-y-1 hover:scale-[1.02] sm:hover:-translate-y-2 sm:hover:scale-105 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a06c3b]/40`}
                       >
                         <div className="absolute inset-3 rounded-2xl shadow-xl ring-1 overflow-hidden bg-gradient-to-br from-[#fffcf0] via-[#faf6ed] to-[#f5ead8] text-[#5b4f47] ring-[#ddc1a7]/30">
@@ -492,7 +500,7 @@ const TestimonialsSection: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                      </button>
+                      </motion.button>
 
                       <AnimatePresence initial={false} mode="wait">
                         <motion.button

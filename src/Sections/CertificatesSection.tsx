@@ -136,7 +136,14 @@ const CertificatesSection: React.FC = () => {
         </motion.div>
 
         {/* Certificates - Desktop: fixed grid, no navigation */}
-        <div className="relative w-full hidden md:block" dir="rtl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="relative w-full hidden md:block"
+          dir="rtl"
+        >
           <div className="grid grid-cols-3 gap-4 py-6 max-w-5xl mx-auto justify-items-center">
             {certificates.map((cert, index) => (
               <div
@@ -172,7 +179,7 @@ const CertificatesSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Certificates - Mobile: one at a time + bottom navigation */}
         <div className="relative w-full md:hidden" dir="rtl">
@@ -332,20 +339,6 @@ const CertificatesSection: React.FC = () => {
                 <div className="relative bg-gradient-to-b from-[#3a3a3c] to-[#2c2c2e] rounded-[12px] shadow-[0_40px_140px_rgba(0,0,0,0.7)] overflow-hidden border border-white/10">
                   {/* Window Title Bar */}
                   <div className="relative h-12 bg-[#2a2a2c] border-b border-white/5 flex items-center justify-between px-4">
-                    {/* macOS Window Controls */}
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={closeModal}
-                        className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff6b63] transition-colors"
-                        aria-label="סגירה"
-                      />
-                      <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#fec444] transition-colors" />
-                      <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#30d158] transition-colors" />
-                    </div>
-                    <div className="absolute left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium">
-                      תעודות מקצועיות
-                    </div>
                     {/* X Close Button */}
                     <button
                       type="button"
@@ -358,6 +351,20 @@ const CertificatesSection: React.FC = () => {
                         <path d="m6 6 12 12" />
                       </svg>
                     </button>
+                    <div className="absolute left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium">
+                      תעודות מקצועיות
+                    </div>
+                    {/* macOS Window Controls */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={closeModal}
+                        className="w-3 h-3 rounded-full bg-[#ff5f57] hover:bg-[#ff6b63] transition-colors"
+                        aria-label="סגירה"
+                      />
+                      <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:bg-[#fec444] transition-colors" />
+                      <div className="w-3 h-3 rounded-full bg-[#28c840] hover:bg-[#30d158] transition-colors" />
+                    </div>
                   </div>
 
                   {/* Image Container */}
