@@ -23,11 +23,6 @@ function App() {
   })
   const [isContactOpen, setIsContactOpen] = useState(false)
 
-  const videosToPreload = [
-    '/images/Dikla/video/1.mp4',
-    '/images/Dikla/video/20251104_114301000_iOS_0 (video-converter.com).mp4'
-  ]
-
   useEffect(() => {
     if (isLoading) {
       sessionStorage.setItem('hasSeenLoading', 'true')
@@ -36,7 +31,7 @@ function App() {
 
   return (
     <>
-      {isLoading && <Loading onDone={() => setIsLoading(false)} videosToPreload={videosToPreload} />}
+      {isLoading && <Loading onDone={() => setIsLoading(false)} />}
       {!isLoading && (
         <Routes>
           <Route

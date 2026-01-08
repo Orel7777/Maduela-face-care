@@ -16,25 +16,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
         src: '/images/Dikla/picture/4.jpeg',
       },
       {
-        thumbSrc: '/images/Dikla/picture/16.jpeg',
+        thumbSrc: '/images/Dikla/picture/20251104_120631956_iOS (1).jpg',
         label: 'תוצאות',
         active: true,
         type: 'image' as const,
-        src: '/images/Dikla/picture/16.jpeg',
+        src: '/images/Dikla/picture/20251104_120631956_iOS (1).jpg',
       },
       {
-        thumbSrc: '/images/Dikla/video/1.mp4',
+        thumbSrc: '/images/Dikla/picture/20251104_121416837_iOS_0.jpg',
         label: 'טיפולים',
         active: true,
-        type: 'video' as const,
-        src: '/images/Dikla/video/1.mp4',
+        type: 'image' as const,
+        src: '/images/Dikla/picture/20251104_121416837_iOS_0.jpg',
       },
       {
-        thumbSrc: '/images/Dikla/video/20251104_114301000_iOS_0 (video-converter.com).mp4',
+        thumbSrc: '/images/Dikla/picture/20251104_121037668_iOS.jpg',
         label: 'סטורי',
         active: true,
-        type: 'video' as const,
-        src: '/images/Dikla/video/20251104_114301000_iOS_0 (video-converter.com).mp4',
+        type: 'image' as const,
+        src: '/images/Dikla/picture/20251104_121037668_iOS.jpg',
       },
     ],
     []
@@ -43,7 +43,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [isStoryPaused, setIsStoryPaused] = useState(false);
-  const storyVideoRef = useRef<HTMLVideoElement | null>(null);
   const [thumbnailsLoaded, setThumbnailsLoaded] = useState<Record<number, boolean>>({});
   const [storyMediaLoaded, setStoryMediaLoaded] = useState(false);
   const imageTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -174,20 +173,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
     const currentStory = stories[activeStoryIndex];
     if (!currentStory) return;
 
-    if (currentStory.type === 'video') {
-      const el = storyVideoRef.current;
-      if (!el) return;
-
-      if (isStoryPaused) {
-        el.pause();
-        return;
-      }
-
-      const p = el.play();
-      if (p && typeof (p as Promise<void>).catch === 'function') {
-        (p as Promise<void>).catch(() => undefined);
-      }
-    } else if (currentStory.type === 'image' && storyMediaLoaded && !isStoryPaused) {
+    if (storyMediaLoaded && !isStoryPaused) {
       if (imageTimerRef.current) {
         clearTimeout(imageTimerRef.current);
       }
@@ -245,29 +231,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                   </div>
                 </div>
               )}
-              {stories[activeStoryIndex]?.type === 'video' ? (
-                <video
-                  key={stories[activeStoryIndex]?.src}
-                  ref={storyVideoRef}
-                  src={stories[activeStoryIndex]?.src}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls={false}
-                  disablePictureInPicture
-                  onLoadedData={() => setStoryMediaLoaded(true)}
-                />
-              ) : (
-                <img
-                  key={stories[activeStoryIndex]?.src}
-                  src={stories[activeStoryIndex]?.src}
-                  alt={stories[activeStoryIndex]?.label}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  onLoad={() => setStoryMediaLoaded(true)}
-                />
-              )}
+              <img
+                key={stories[activeStoryIndex]?.src}
+                src={stories[activeStoryIndex]?.src}
+                alt={stories[activeStoryIndex]?.label}
+                className="absolute inset-0 w-full h-full object-cover"
+                onLoad={() => setStoryMediaLoaded(true)}
+              />
 
               <div className="absolute top-0 left-0 right-0 p-4 pt-10 z-20">
                 <div className="flex items-center justify-between gap-3">
@@ -275,28 +245,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                     <div className="p-[2px] rounded-full bg-gradient-to-tr from-yellow-400 via-orange-500 to-red-500">
                       <div className="p-0.5 bg-black rounded-full">
                         <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                          {stories[activeStoryIndex]?.type === 'video' ? (
-                            <video
-                              src={`${stories[activeStoryIndex]?.src}#t=0.1`}
-                              className="w-10 h-10 rounded-full object-cover"
-                              muted
-                              playsInline
-                              preload="metadata"
-                              disablePictureInPicture
-                            />
-                          ) : (
-                            <img
-                              src={stories[activeStoryIndex]?.src}
-                              alt={stories[activeStoryIndex]?.label}
-                              className="w-10 h-10 rounded-full object-cover"
-                            />
-                          )}
+                          <img
+                            src={stories[activeStoryIndex]?.src}
+                            alt={stories[activeStoryIndex]?.label}
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="text-sm font-semibold text-white">{stories[activeStoryIndex]?.label}</div>
-                      <div className="text-xs text-white/70">{stories[activeStoryIndex]?.type === 'video' ? 'סטורי וידאו' : 'סטורי תמונה'}</div>
+                      <div className="text-xs text-white/70">סטורי תמונה</div>
                     </div>
                   </div>
                 </div>
@@ -561,34 +520,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                                   <div className="w-5 h-5 border-2 border-[#a06c3b]/30 border-t-[#a06c3b] rounded-full animate-spin" />
                                 </div>
                               )}
-                              {story.type === 'video' ? (
-                                <video
-                                  src={`${story.src}#t=0.1`}
-                                  className={
-                                    story.active
-                                      ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
-                                      : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
-                                  }
-                                  muted
-                                  playsInline
-                                  preload="metadata"
-                                  controls={false}
-                                  disablePictureInPicture
-                                  onLoadedData={() => setThumbnailsLoaded(prev => ({ ...prev, [index]: true }))}
-                                  aria-label={story.label}
-                                />
-                              ) : (
-                                <img
-                                  src={story.src}
-                                  alt={story.label}
-                                  className={
-                                    story.active
-                                      ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
-                                      : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
-                                  }
-                                  onLoad={() => setThumbnailsLoaded(prev => ({ ...prev, [index]: true }))}
-                                />
-                              )}
+                              <img
+                                src={story.src}
+                                alt={story.label}
+                                className={
+                                  story.active
+                                    ? 'w-14 h-14 rounded-full object-cover transition duration-300 group-hover:brightness-[1.03]'
+                                    : 'w-14 h-14 rounded-full object-cover opacity-70 transition duration-300 group-hover:opacity-95'
+                                }
+                                onLoad={() => setThumbnailsLoaded(prev => ({ ...prev, [index]: true }))}
+                              />
                             </div>
                           </div>
                         </div>
